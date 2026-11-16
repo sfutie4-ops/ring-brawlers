@@ -188,3 +188,21 @@ h1 span{color:var(--gold)}
   .b{height:50px}.b.big{height:62px}
   .pad1 .b{height:56px}.pad1 .b.big{height:70px}.pad2 .b{height:62px}.pad2 .b.big{height:78px}
 }
+
+/* ===== phone controls v3: left thumb moves, right thumb acts ===== */
+.cl.left{grid-template-areas:"u u u u u u" "l l l r r r";align-self:flex-end}
+.cl.right{grid-template-areas:"h h w w s s" "d d d b b b" "k k k p p p"}
+.b[data-k=l],.b[data-k=r]{height:84px;font-size:30px;border-radius:20px}
+.b[data-k=u]{height:50px;letter-spacing:.14em}
+.b[data-k=h],.b[data-k=w],.b[data-k=s]{height:46px;font-size:10px}
+.b[data-k=d],.b[data-k=b]{height:52px}
+.b[data-k=p],.b[data-k=k]{height:74px;font-size:15px;border-radius:20px;border-width:2px}
+.b[data-k=p]{border-color:#f5be58;background:#3a2f1ed9}
+.pad1 .b[data-k=l],.pad1 .b[data-k=r]{height:96px}.pad1 .b[data-k=p],.pad1 .b[data-k=k]{height:86px}
+.pad2 .b[data-k=l],.pad2 .b[data-k=r]{height:108px}.pad2 .b[data-k=p],.pad2 .b[data-k=k]{height:98px}
+@media(orientation:landscape) and (max-height:600px){
+  .touch.playing #pad{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right));padding-bottom:max(14px,env(safe-area-inset-bottom))}
+  .b[data-k=l],.b[data-k=r]{height:76px}.b[data-k=u]{height:44px}
+  .b[data-k=h],.b[data-k=w],.b[data-k=s]{height:40px}.b[data-k=d],.b[data-k=b]{height:44px}.b[data-k=p],.b[data-k=k]{height:64px}
+  .touch #pad .b[data-k=p]{background:#3a2f1eb0}
+}
