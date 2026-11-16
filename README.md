@@ -16,6 +16,35 @@ Open `ring_brawlers.html` in a modern browser. Everything needed to play is embe
 - Fixed 120 Hz simulation with interpolated character positions, eased pose transforms, breathing, walk bob, recoil, and knockdown motion. Actual screen frame rate depends on device performance. No AI optical-flow frames are claimed.
 - Pause, rematch, three AI difficulties, training dummy, optional sound, reduced motion, and touch controls.
 
+## Feel & visuals update (November 2026)
+
+Fight rules, damage, timings and the nine kits are unchanged, except for a short freeze when a super starts and slightly longer impact freezes on kicks, uppercuts and supers. Everything below is presentation.
+
+- **High-refresh rendering.** Rules still run at a fixed 120 Hz; drawing, particles and the camera now update at the screen's own rate (60/120/144/240 Hz) with interpolated fighters and projectiles. The canvas renders at the display's real pixel density (up to 2×).
+- **Camera.** Zooms in as fighters close distance, follows the action, kicks in the direction of each hit, and shakes with a smooth trauma model (position + slight roll). KO: slow motion, zoom on the loser, flash.
+- **Particles.** Directional sparks, shards that bounce on the mat, embers, dust (steps, jumps, landings, dashes, knockdowns), shockwave rings, star flares, projectile trails, super charge-up, super-ready aura, speed lines, victory confetti.
+- **Animation.** Squash and stretch on jumps/landings/attacks, attack swooshes, white hit flashes, tinted afterimages, walk-in intros, win hop, knockdown bounce.
+- **Arena.** Crowd rows bob and jump with the hype, camera flashes pop on big hits, ropes wobble, parallax layers, vignette.
+- **HUD & menu.** Portraits, slanted health/energy bars, combo counter, animated ROUND / FIGHT / K.O. banners, super name banner, redesigned fighter select with live preview and stats.
+- **Phone.** Larger thumb-zone buttons (two clusters), floating over the arena corners in landscape; optional vibration; fullscreen button.
+- **Options** (menu and pause screen, remembered): Sound, Motion, Quality (auto/high/low), Vibration, FPS counter (also **F**), Fullscreen, Mesh.
+- **Sound.** Still synthesized and off by default; adds noise-based impacts, whooshes, KO rumble and a last-10-seconds tick.
+
+### Tested / not tested
+
+- Tested in headless Chromium: all nine fighters load and fire every move in training with no errors; a full KO round; phone-size layouts in portrait (360×740) and landscape (800×360); holding move + tapping attack with two touches leaves no stuck buttons.
+- **Not tested:** a real phone, real 144 Hz hardware, vibration, audio output, and real-device frame rate. Quality "auto" drops to low detail if frames stay slow.
+
+## Editing the game
+
+Source now lives in `src/` (`template.html`, `style.css`, `game.js`). The art stays embedded in `index.html`. After editing, rebuild the single file with:
+
+```bash
+python3 build.py
+```
+
+`build.py` lifts the three art lines out of the current `index.html` and wraps the new code around them.
+
 ## Controls
 
 | Action | Keyboard |
@@ -30,7 +59,8 @@ Open `ring_brawlers.html` in a modern browser. Everything needed to play is embe
 | Guard | Hold away, S, or down arrow |
 | Pause | Esc or P |
 | Sound | M |
-| Sprite boundary / mesh overlay | V or Mesh button |
+| FPS counter | F |
+| Sprite boundary / mesh overlay | V or Mesh option |
 
 Touch skill buttons use the selected fighter's move names. Selection and pause screens explain the selected kit. Sound starts off. Training refills player energy and restores the dummy's health.
 

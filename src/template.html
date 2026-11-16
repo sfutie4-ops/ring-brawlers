@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#07090f"><title>Ring Brawlers — Caricature Edition</title><style>
+/*__CSS__*/
+</style></head><body><div id="app"><div id="stage"><canvas id="g" width="960" height="540" aria-label="Ring Brawlers fighting arena"></canvas><div id="toolbar"><button id="sound">SOUND OFF</button><button id="pause">PAUSE</button></div>
+<div id="menu"><div class="panel"><div class="eyebrow">NINE EMCEES • ONE RING</div><h1>RING <span>BRAWLERS</span></h1><p class="sub">CARICATURE EDITION · Pick your fighter. Make every hit count.</p>
+<div class="select"><div id="cards"></div><div id="preview"><canvas id="pv" width="880" height="520"></canvas><div id="fighterInfo"></div></div></div>
+<div class="options"><label><select id="difficulty" aria-label="Difficulty"><option value="easy">Easy opponent</option><option value="normal" selected>Normal opponent</option><option value="hard">Hard opponent</option><option value="training">Training dummy</option></select></label><button id="go" class="go" disabled>LOADING ART…</button></div>
+<div class="opts"></div>
+<div id="keys">A / D Move · W Jump · J Punch · K Kick · U Uppercut · I Energy wave · Shift Dash · L Super<br>Hold back to block · Chain punch → kick → uppercut · Esc / P Pause · M Sound · F FPS · V Mesh</div>
+<div id="status">Preparing generated sprite sheets…</div><div class="fan">Fictional fan-game skills inspired by battle styles · Unofficial caricatures · Not affiliated with or endorsed by FlipTop or the emcees</div></div></div>
+<div id="pauseScreen"><div class="sheet"><h2>PAUSED</h2><div id="help">Move: A / D or arrows · Jump: W / Space<br>Punch: J · Kick: K · Uppercut: U · Wave: I<br>Dash: Shift · Super: L · Hold back to block</div><div class="opts"></div><button id="resume" class="go">RESUME</button><button id="exit" class="secondary">FIGHTER SELECT</button></div></div>
+<div id="result"><div class="sheet"><div class="eyebrow">MATCH COMPLETE</div><h2 id="resultTitle"></h2><p id="resultStats"></p><button id="rematch" class="go">REMATCH</button><button id="select" class="secondary">FIGHTER SELECT</button></div></div></div>
+<div id="pad"><div class="cl left"><button class="b" data-k="u" style="grid-area:u">JUMP</button><button class="b" data-k="b" style="grid-area:b">GUARD</button><button class="b" data-k="d" style="grid-area:d">DASH</button><button class="b big" data-k="l" style="grid-area:l">◀</button><button class="b big" data-k="r" style="grid-area:r">▶</button></div><div class="cl right"><button class="b" data-k="h" style="grid-area:h">UPPER<small>20</small></button><button class="b" data-k="w" style="grid-area:w">WAVE<small>30</small></button><button class="b" data-k="s" style="grid-area:s">SUPER<small>100</small></button><button class="b big" data-k="p" style="grid-area:p">PUNCH</button><button class="b big" data-k="k" style="grid-area:k">KICK</button></div></div></div><script>
+/*__DATA__*/
+/*__JS__*/
+</script></body></html>
