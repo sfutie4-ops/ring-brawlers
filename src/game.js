@@ -107,7 +107,7 @@ function crowdFlash(n){n=qn(n);for(let i=0;i<n;i++)flashes.push({x:rand()*W,y:72
 function setMsg(m){if(m!==msg){msg=m;msgT=0}}
 
 // ---------- input ----------
-function clearInput(){for(const k in held)held[k]=0;for(const k in buf)buf[k]=0;pointers.clear();document.querySelectorAll('.b.on').forEach(b=>b.classList.remove('on'))}
+function clearInput(){for(const k in held)held[k]=0;for(const k in buf)buf[k]=0;pointers.clear();if(typeof stickEnd==='function')stickEnd();document.querySelectorAll('.b.on').forEach(b=>b.classList.remove('on'))}
 function press(k){held[k]=1;if(!['l','r','b'].includes(k))buf[k]=.22}
 function pauseGame(v=!paused){if(!P1||phase==='menu'||phase==='end')return;paused=v;clearInput();$('pauseScreen').style.display=v?'flex':'none';$('pause').textContent=v?'RESUME':'PAUSE'}
 addEventListener('keydown',e=>{if(e.target.tagName==='SELECT')return;const key=e.key.toLowerCase();if(key==='escape'||key==='p'){e.preventDefault();if(!e.repeat)pauseGame();return}if(key==='v'){if(!e.repeat){meshMode=!meshMode;renderOpts()}return}if(key==='f'){if(!e.repeat){showFps=!showFps;store.set('fps',showFps);renderOpts()}return}if(key==='m'){if(!e.repeat)toggleSound();return}if(key==='enter'&&phase==='end'){newMatch(true);return}const k=KM[key];if(!k)return;e.preventDefault();if(!held[k]&&!paused)press(k)});
@@ -124,7 +124,21 @@ document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k;b.onpointe
 $('pause').onclick=()=>pauseGame();$('resume').onclick=()=>pauseGame(false);$('exit').onclick=toMenu;$('select').onclick=toMenu;$('rematch').onclick=()=>newMatch(true);$('go').onclick=()=>newMatch(false);$('sound').onclick=()=>toggleSound();
 
 let turnMode=store.get('turn',false),swapPad=store.get('swap',false),padSize=clamp(store.get('padsize',0)|0,0,2),padGhost=store.get('ghost',false);
-function padPrefs(){const c=document.body.classList;c.toggle('swap',swapPad);c.toggle('pad1',padSize===1);c.toggle('pad2',padSize===2);c.toggle('ghost',padGhost);fit()}
+function padPrefs(){const c=document.body.classList;c.toggle('swap',swapPad);c.toggle('ghost',padGhost);layoutPad();fit()}
+// ---------- touch gamepad: floating thumb stick + round action buttons in an arc ----------
+const stick={id:null,R:52,up:false,guard:false},stickZone=$('stickZone'),stickBase=$('stickBase'),stickKnob=$('stickKnob');
+function layoutPad(){const narrow=innerWidth<560,zw=narrow?150:210,U=Math.min([1,1.14,1.28][padSize]*clamp(Math.min(innerWidth,innerHeight)/390,.82,1.08),(innerWidth-30)/(zw+252)),side=swapPad?'left':'right',other=swapPad?'right':'left',az=$('actZone');
+  az.style.width=Math.round(252*U)+'px';az.style.height=Math.round(236*U)+'px';stickZone.style.width=Math.round(zw*U)+'px';stickZone.style.height=Math.round(200*U)+'px';
+  stick.R=50*U;stickBase.style.width=stickBase.style.height=Math.round(132*U)+'px';stickKnob.style.width=stickKnob.style.height=Math.round(58*U)+'px';stickHome();
+  // [key, size, distance from the PUNCH button, angle]
+  const c0=56*U;for(const[k,sz,r,an]of[['p',96,0,0],['k',64,112,180],['h',58,116,146],['w',58,116,113],['s',64,114,80],['d',50,184,166],['b',50,186,138],['u',50,186,110]]){const b=padBtn(k),w=sz*U,x=c0-Math.cos(an*Math.PI/180)*r*U,y=c0+Math.sin(an*Math.PI/180)*r*U;b.style.width=b.style.height=Math.round(w)+'px';b.style[side]=Math.round(x-w/2)+'px';b.style[other]='auto';b.style.bottom=Math.round(y-w/2)+'px';b.style.fontSize=Math.max(8,Math.round((sz>90?15:sz>60?11:9)*U))+'px'}}
+function stickHome(){stickBase.style.left=(stickZone.clientWidth-stickBase.offsetWidth)/2+'px';stickBase.style.top=(stickZone.clientHeight-stickBase.offsetHeight)/2+'px';stickKnob.style.transform='translate(-50%,-50%)';stickBase.classList.remove('on')}
+function stickEnd(){stick.id=null;stick.up=false;stick.guard=false;held.l=held.r=0;held.b=[...pointers.values()].includes('b')?1:0;stickHome()}
+function stickMove(e){const r=stickBase.getBoundingClientRect();let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);const m=Math.hypot(dx,dy),R=stick.R;if(m>R){dx*=R/m;dy*=R/m}stickKnob.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;const nx=dx/R,ny=dy/R;held.l=nx<-.32?1:0;held.r=nx>.32?1:0;const up=ny<-.6;if(up&&!stick.up&&!paused&&phase==='fight')press('u');stick.up=up;stick.guard=ny>.62&&Math.abs(nx)<.6;held.b=stick.guard||[...pointers.values()].includes('b')?1:0}
+stickZone.onpointerdown=e=>{e.preventDefault();if(stick.id!==null||paused||phase!=='fight')return;try{stickZone.setPointerCapture(e.pointerId)}catch(_){}stick.id=e.pointerId;const z=stickZone.getBoundingClientRect(),w=stickBase.offsetWidth;stickBase.style.left=clamp(e.clientX-z.left-w/2,-w*.2,z.width-w*.8)+'px';stickBase.style.top=clamp(e.clientY-z.top-w/2,-w*.2,z.height-w*.8)+'px';stickBase.classList.add('on');stickMove(e);buzz(5)};
+stickZone.onpointermove=e=>{if(e.pointerId===stick.id)stickMove(e)};
+for(const ev of['pointerup','pointercancel','lostpointercapture'])stickZone.addEventListener(ev,e=>{if(e.pointerId===stick.id)stickEnd()});
+stickZone.oncontextmenu=e=>e.preventDefault();addEventListener('resize',()=>layoutPad());
 // ---------- options ----------
 function toggleFull(){try{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().then(()=>{try{screen.orientation.lock('landscape').catch(()=>{})}catch(e){}}).catch(()=>{})}catch(e){}}
 const OPTS=[
@@ -279,7 +293,7 @@ function step(dt){if(hitstop>0){hitstop-=dt;return}pt+=dt;
 const rxOf=f=>f.prevX===undefined?f.x:f.prevX+(f.x-f.prevX)*renderAlpha,raOf=f=>f.prevAir===undefined?f.air:f.prevAir+(f.air-f.prevAir)*renderAlpha;
 let uiPlaying=null;const uiBtn={};
 function syncUI(){const playing=!!P1&&['intro','fight','ko'].includes(phase)&&!paused;if(playing!==uiPlaying){uiPlaying=playing;document.body.classList.toggle('playing',playing);fit()}
-  if(isTouch&&P1)for(const[k,cost]of[['h',20],['w',30],['s',100]]){const off=P1.mt<cost;if(uiBtn[k]!==off){uiBtn[k]=off;const b=document.querySelector('[data-k='+k+']');if(b){b.classList.toggle('off',off);if(k==='s')b.classList.toggle('ready',!off)}}}}
+  if(isTouch&&P1)for(const[k,cost]of[['h',20],['w',30],['s',100]]){const off=P1.mt<cost;if(uiBtn[k]!==off){uiBtn[k]=off;const b=document.querySelector('[data-k='+k+']');if(b){b.classList.toggle('off',off);if(k==='s')b.classList.toggle('ready',!off)}}const pr=Math.round(clamp(P1.mt/cost,0,1)*20)*5;if(uiBtn[k+'p']!==pr){uiBtn[k+'p']=pr;padBtn(k)?.style.setProperty('--p',pr+'%')}}const cd=P1?Math.round(clamp(1-P1.cd/.85,0,1)*20)*5:100;if(isTouch&&P1&&uiBtn.dp!==cd){uiBtn.dp=cd;padBtn('d')?.style.setProperty('--p',cd+'%')}}
 function fxUpdate(dt,real){environmentUpdate(dt);showtimeUpdate(dt,real);vclock+=dt;msgT+=real;
   for(const e of effects)e.t+=dt;effects=effects.filter(e=>e.t<e.dur);for(const g of ghosts)g.t+=dt;ghosts=ghosts.filter(g=>g.t<g.dur);
   for(const t of texts){t.t+=dt;t.y-=(t.pop?46*Math.max(0,1-t.t*1.4):25)*dt;t.x+=t.vx*dt}texts=texts.filter(t=>t.t<t.dur);
