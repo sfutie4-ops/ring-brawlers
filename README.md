@@ -16,6 +16,21 @@ Open `ring_brawlers.html` in a modern browser. Everything needed to play is embe
 - Fixed 120 Hz simulation with interpolated character positions, eased pose transforms, breathing, walk bob, recoil, and knockdown motion. Actual screen frame rate depends on device performance. No AI optical-flow frames are claimed.
 - Pause, rematch, three AI difficulties, training dummy, optional sound, reduced motion, and touch controls.
 
+## Aftershock + Showtime update
+
+Built on the Aftershock edition (3 arenas, parry, environment damage, extra FX atlas). Added:
+
+- **Impact frames** on supers, parries and KOs: one dark frame with white silhouettes and speed rays (skipped when Motion is reduced).
+- **Lightning** arcs on supers and KOs, crackling around a fighter whose super is ready.
+- **Comic hit words** (WHAM!, POW!, KABOOM!, DENIED!) on kicks, uppers, supers and parries; crowd shouts in the Championship arena. Toggle: *Comic pops*.
+- **Energy orbs** fly from each hit into the attacker's energy bar; health-bar chips burst off on damage.
+- **Per-fighter projectile trails** (rings, sparks, shards, lightning, bounce dust…).
+- **Living arenas:** lightning storm, blinking windows, flickering neon, puddle ripples and searchlights on the Rooftop; swinging chains, furnace glow, spark showers and embers in the Foundry; parallax depth on both.
+- **VS splash** before round 1, **YOU** marker at round start, **SUPER READY** burst.
+- **UI:** arena cards show real previews; difficulty is a button row; *Enter the ring* stays visible while the menu scrolls; Settings and How to play open as panels (also from Pause); new result card with winner pose, letter grade (S–D) and 8 match stats.
+
+Tested in headless Chromium (desktop, 800×360 landscape and 360×740 portrait touch): no errors, all three arenas, VS intro, impact frames, KO and the result card. Not tested on a real phone or a real high-refresh screen.
+
 ## Feel & visuals update (November 2026)
 
 Fight rules, damage, timings and the nine kits are unchanged, except for a short freeze when a super starts and slightly longer impact freezes on kicks, uppercuts and supers. Everything below is presentation.
