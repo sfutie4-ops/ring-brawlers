@@ -1,0 +1,2 @@
+Open index.html to play. Run python build.py after editing src/.
+The runtime artwork is embedded in index.html. Original artwork and preview media are in the full archive.

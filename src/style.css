@@ -72,11 +72,12 @@ h1 span{color:var(--gold)}
 .touch.playing #pad{display:flex}
 .touch #keys{display:none}
 .cl{display:grid;gap:7px;width:min(46vw,210px);grid-template-columns:repeat(6,minmax(0,1fr))}
-.cl.left{grid-template-areas:"u u u d d d" "l l l r r r"}
+.cl.left{grid-template-areas:"u u c c d d" "l l l r r r"}
 .cl.right{grid-template-areas:"h h w w s s" "p p p k k k"}
 .b{height:52px;border-radius:14px;border:1px solid #4a5470;background:#222a3cd9;font-size:10px;font-weight:800;letter-spacing:.04em;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:none;padding:0;overflow:hidden;line-height:1.1;transition:transform .05s,background .05s}
 .b.big{height:60px;font-size:13px}
 .b[data-k=l],.b[data-k=r]{font-size:22px}
+.b[data-k=crouch]{font-size:9px;letter-spacing:0}
 .b small{font-size:8px;color:#aeb8ce;margin-top:3px;font-weight:400}
 .b.on{background:#b07a30;border-color:#ffd58a;transform:scale(.94)}
 .b.off{opacity:.42}
@@ -115,6 +116,12 @@ h1 span{color:var(--gold)}
 .arena-heading{display:flex;justify-content:space-between;align-items:center;margin:18px 0 8px;font-size:10px;letter-spacing:.15em;color:#e3c48d;text-align:left}.arena-heading span{color:#859bb6;font-size:9px}
 #arenas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.arena-card{position:relative;overflow:hidden;text-align:left;border:1px solid #334059;border-radius:9px;background:#111929;padding:0 0 9px;transition:border-color .2s,transform .2s}.arena-card:hover{transform:translateY(-2px)}.arena-card[aria-pressed=true]{border-color:#6ce3ee;box-shadow:0 0 0 1px #6ce3ee}.arena-art{display:block;height:51px;background:linear-gradient(165deg,transparent 45%,#293b56 46%,#132039 63%),linear-gradient(110deg,#111c3d,#397593)}.arena-1 .arena-art{background:repeating-linear-gradient(90deg,transparent 0 40px,#191926 41px 47px),linear-gradient(#201b2b,#ff955c)}.arena-2 .arena-art{background:linear-gradient(0deg,#9c8563 0 24%,transparent 25%),repeating-linear-gradient(0deg,#25202d 0 11px,#e4d5c1 12px 14px)}.arena-name{display:block;font-size:12px;font-weight:800;margin:7px 10px 3px}.arena-card small{display:block;font-size:8px;letter-spacing:.1em;color:#94a6bc;margin:0 10px}@media(max-height:600px){.arena-art{height:26px}.arena-heading{margin-top:8px}.arena-name{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* The arena selector previews the exact generated art used in matches. */
+.arena-card .arena-art{height:72px;background:var(--arena-image) center 63% / cover no-repeat}
+@media(max-height:600px){.arena-card .arena-art{height:40px}}
+
+#extraPad{display:none;justify-content:center;gap:6px;padding:6px;background:#0b1220}.playing #extraPad{display:flex}#extraPad .b{flex:1 1 0;min-width:0;max-width:110px;height:34px;font-size:10px;text-align:center;padding-inline:2px}#extraPad .b[data-k=technique]{flex:1.65 1 0;max-width:150px;color:#f4d082}@media(max-width:700px){#extraPad{gap:3px}#extraPad .b{font-size:8px}}
 
 /* ===== Showtime UI layer ===== */
 .arena-card canvas.arena-art{display:block;width:100%;height:58px;object-fit:cover;background:#0b101c}
@@ -229,3 +236,12 @@ h1 span{color:var(--gold)}
 @media(orientation:landscape) and (max-height:600px){.touch.playing #pad{padding:0 max(14px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}.touch #pad .cl{pointer-events:auto}}
 #pad .b.rb{word-break:normal;overflow-wrap:normal}
 #pad .b.rb.sm{letter-spacing:0;font-size:9px!important}
+
+/* ===== port onto mana edition ===== */
+#extraPad{display:none!important}
+#leftZone{position:relative}
+#stickZone{position:absolute;left:0;right:0;bottom:0;touch-action:none}
+#pad .b.rb.mv{border-color:#b5f46d99;background:radial-gradient(circle at 35% 28%,#2e3d2a,#141c14 70%)}
+#pad .b.rb.chg{border-color:#c49aff}
+#pad .b.rb[data-k=power]{border-color:#ff90c4}
+#pad .b.rb[data-k=roll]{border-color:#92e5ff}
