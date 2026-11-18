@@ -406,3 +406,61 @@ h1.logo{animation:logoIn .7s cubic-bezier(.2,1.4,.4,1) both}
 
 .badges .badge{display:inline-flex;align-items:center;height:22px;line-height:1;white-space:nowrap;min-height:0}
 @media(max-width:720px){#menu .panel{padding-top:54px}.eyebrow{font-size:9px;letter-spacing:.22em}h1.logo .mic{display:none}}
+
+/* ===== loading screen ===== */
+#loader{position:fixed;inset:0;z-index:50;overflow:hidden;background:#07060f;color:#fff;cursor:default;transition:opacity .6s ease,transform .7s cubic-bezier(.5,0,.3,1)}
+#loader.out{opacity:0;transform:scale(1.08);pointer-events:none}
+#loader .lbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:lbgZoom 18s ease-out both}
+@keyframes lbgZoom{from{transform:scale(1.12)}to{transform:scale(1)}}
+.lrain{position:absolute;inset:-20%;background:repeating-linear-gradient(105deg,transparent 0 22px,#bcd8ff22 22px 23px,transparent 23px 61px);animation:rain .45s linear infinite;pointer-events:none;mix-blend-mode:screen}
+.lrain::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(100deg,transparent 0 37px,#ffffff18 37px 38px,transparent 38px 90px);animation:rain .7s linear infinite}
+@keyframes rain{from{transform:translate(0,-90px)}to{transform:translate(-24px,0)}}
+.lflood{position:absolute;top:-6%;width:34vw;height:46vh;background:radial-gradient(closest-side,#fff6dc66,#fff6dc00);mix-blend-mode:screen;animation:flick 4.2s infinite;pointer-events:none}
+.lflood.l{left:2vw}.lflood.r{right:2vw;animation-delay:1.3s}
+@keyframes flick{0%,100%{opacity:.9}46%{opacity:.9}48%{opacity:.45}50%{opacity:.95}52%{opacity:.6}54%{opacity:1}}
+.ltag{position:absolute;top:max(16px,env(safe-area-inset-top));display:flex;align-items:center;gap:8px;font:italic 900 clamp(13px,1.7vw,22px)/1 Impact,"Arial Black",sans-serif;letter-spacing:.02em;text-transform:uppercase;transform:rotate(-6deg);z-index:2}
+.ltag.tl{left:max(18px,env(safe-area-inset-left));color:#fff}.ltag.tl svg{width:clamp(28px,3.4vw,44px)}
+.ltag.tr{right:max(18px,env(safe-area-inset-right));color:#ffd23f;transform:rotate(-10deg);text-shadow:0 3px 0 #0008;font-size:clamp(16px,2.3vw,30px)}
+.ltitle{position:absolute;left:50%;top:7vh;transform:translateX(-50%);width:min(92vw,980px);text-align:center;z-index:2;animation:titleIn .8s cubic-bezier(.2,1.5,.4,1) .15s both}
+@keyframes titleIn{from{opacity:0;transform:translateX(-50%) scale(.6) rotate(-6deg)}to{opacity:1;transform:translateX(-50%)}}
+.lcrown{width:clamp(56px,7vw,110px);display:block;margin:0 auto -2.4vw;filter:drop-shadow(0 4px 0 #0009) drop-shadow(0 0 14px #ffd23f88);transform:rotate(-4deg);animation:crownBob 2.4s ease-in-out infinite}
+@keyframes crownBob{50%{transform:rotate(3deg) translateY(-6px)}}
+.lstroke{position:absolute;left:4%;right:2%;top:46%;height:44%;background:linear-gradient(90deg,#ff2aa0,#ff3cb4 60%,#ff2aa000);clip-path:polygon(0 30%,8% 10%,30% 18%,52% 0,78% 12%,100% 6%,96% 62%,80% 88%,56% 74%,30% 100%,12% 82%,2% 92%);transform:skewX(-14deg) rotate(-3deg);opacity:.95}
+.lsplash{position:absolute;right:6%;top:18%;width:16%;height:30%;background:radial-gradient(circle at 40% 50%,#29c8ff 0 30%,transparent 32%),radial-gradient(circle at 75% 30%,#29c8ff 0 12%,transparent 14%),radial-gradient(circle at 20% 80%,#29c8ff 0 10%,transparent 12%);opacity:.9;transform:rotate(-12deg)}
+.ltitle h1{position:relative;margin:0;font:italic 400 clamp(54px,11.5vw,168px)/1 Impact,"Arial Black",sans-serif;letter-spacing:-.01em;color:#fff;-webkit-text-stroke:clamp(2px,.35vw,5px) #0b0712;paint-order:stroke fill;text-shadow:0 .06em 0 #0b0712,.04em .1em 0 #00000080,0 0 .4em #ff2aa055}
+.ltitle h1 span{display:inline-block;transform:rotate(var(--r,0deg)) translateY(var(--y,0));animation:letterIn .5s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(.25s + var(--i)*.04s)}
+@keyframes letterIn{from{opacity:0;transform:translateY(-60px) scale(1.6)}to{opacity:1}}
+.ltitle h1 span:nth-child(1){--i:0;--r:-6deg}.ltitle h1 span:nth-child(2){--i:1;--r:3deg;--y:4px}.ltitle h1 span:nth-child(3){--i:2;--r:-2deg}.ltitle h1 span:nth-child(4){--i:3;--r:5deg;--y:-3px}.ltitle h1 span:nth-child(5){--i:4;--r:-4deg}.ltitle h1 span:nth-child(6){--i:5;--r:2deg;--y:5px}.ltitle h1 span:nth-child(7){--i:6;--r:-3deg}.ltitle h1 span:nth-child(8){--i:7;--r:4deg;--y:-4px;color:#fff}.ltitle h1 span:nth-child(9){--i:8;--r:-5deg}.ltitle h1 span:nth-child(10){--i:9;--r:3deg;--y:3px}.ltitle h1 span:nth-child(11){--i:10;--r:-2deg}
+#loader .lineup{position:absolute;left:50%;bottom:9vh;width:min(96vw,150vh);transform:translateX(-50%);animation:lineIn .9s cubic-bezier(.2,1.1,.3,1) .35s both;filter:drop-shadow(0 18px 24px #000a)}
+@keyframes lineIn{from{opacity:0;transform:translate(-50%,40px) scale(.94)}to{opacity:1;transform:translate(-50%,0)}}
+#loader .lcrowd{position:absolute;left:-2%;bottom:-1vh;width:104%;height:26vh;object-fit:cover;object-position:top;animation:crowd 1.6s ease-in-out infinite alternate}
+@keyframes crowd{to{transform:translateY(-6px)}}
+.lbox{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(88vw,640px);text-align:center;z-index:3}
+.llabel{display:inline-block;padding:6px 26px 6px 18px;margin-bottom:10px;background:#0b0712;clip-path:polygon(3% 0,100% 8%,97% 100%,0 88%);font:italic 900 clamp(15px,2.2vw,28px)/1.1 Impact,"Arial Black",sans-serif;letter-spacing:.03em}
+.llabel .dots b{display:inline-block;animation:dot 1s infinite}.llabel .dots b:nth-child(2){animation-delay:.15s}.llabel .dots b:nth-child(3){animation-delay:.3s}
+@keyframes dot{40%{transform:translateY(-6px);opacity:.4}}
+#loader.done .llabel{background:#ffd23f;color:#0b0712;animation:readyPulse 1s ease-in-out infinite}#loader.done .dots{display:none}#loader.done{cursor:pointer}
+@keyframes readyPulse{50%{transform:scale(1.07)}}
+.lbar{position:relative;height:clamp(22px,3.4vh,32px);border:3px solid #0b0712;border-radius:10px;background:#1a1626;box-shadow:0 0 0 2px #ffffff22,0 10px 30px #000a;overflow:hidden;transform:skewX(-12deg)}
+.lfill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(#ffe46a,#ffc21f 60%,#e8a400);box-shadow:0 0 18px #ffd23f88}
+.lfill i{position:absolute;inset:0;background:repeating-linear-gradient(115deg,#ffffff00 0 14px,#ffffff40 14px 22px);animation:stripes .6s linear infinite}
+.lfill::after{content:"";position:absolute;right:-2px;top:0;bottom:0;width:22px;background:linear-gradient(90deg,#fff0,#fffde8)}
+@keyframes stripes{to{background-position:36px 0}}
+#lPct{position:absolute;right:12px;top:50%;transform:translateY(-50%) skewX(12deg);font:italic 900 clamp(13px,2vh,20px)/1 Impact,"Arial Black",sans-serif;color:#fff;-webkit-text-stroke:3px #0b0712;paint-order:stroke fill}
+.ltip{margin-top:10px;display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:#0b0712c0;font-size:clamp(11px,1.5vh,14px);color:#e9ecf5}
+.ltip b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;border:2px solid #ffd23f;color:#ffd23f;font:italic 900 12px/1 Georgia,serif;flex:none}
+#lTip{opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s}#lTip.in{opacity:1;transform:none}
+@media(orientation:portrait){.ltitle{top:11vh}.ltitle h1{font-size:15vw}#loader .lineup{width:150vw;bottom:16vh}.ltag{font-size:13px}.ltag.tr{font-size:16px}}
+@media(max-height:480px){.ltitle{top:4vh}.ltitle h1{font-size:15vh}.lcrown{width:52px;margin-bottom:-14px}#loader .lineup{bottom:13vh;width:min(80vw,140vh)}.ltip{display:none}.llabel{margin-bottom:6px}}
+/* loader fixes */
+.ltitle h1{white-space:nowrap;font-size:clamp(46px,min(9.6vw,15vh),150px)}
+.ltitle h1 span{color:#fff!important}
+.ltitle h1 span:nth-child(n+8){color:#ffd23f!important;-webkit-text-stroke-color:#0b0712}
+.lstroke{top:52%;height:38%;left:0;right:0}
+.lsplash{right:-2%;top:30%;width:12%;height:24%}
+#loader .lcrowd{object-position:bottom;height:22vh}
+#loader .lineup{width:min(84vw,128vh);bottom:12vh}
+@media(orientation:portrait){.ltitle h1{font-size:12.4vw}#loader .lineup{width:150vw;bottom:17vh}}
+@media(max-height:480px){#loader .lineup{width:min(72vw,128vh);bottom:14vh}.ltitle{top:3vh}}
+
+.ltag{z-index:4}@media(max-height:480px),(orientation:portrait){.lsplash{display:none}}

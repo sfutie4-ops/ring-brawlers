@@ -71,5 +71,8 @@ for mark, text in (
         sys.exit(f"template must contain {mark} exactly once")
     out = out.replace(mark, text)
 
+# loading-screen art (small WebP files kept in the repo)
+for mark, name in (("__LOADER_BG__", "bg.webp"), ("__LOADER_LINEUP__", "lineup.webp"), ("__LOADER_CROWD__", "crowd.webp")):
+    out = out.replace(mark, "data:image/webp;base64," + base64.b64encode((root / "assets/loading" / name).read_bytes()).decode("ascii"))
 (root / "index.html").write_text(out, encoding="utf-8")
 print(f"index.html written ({len(out) / 1e6:.1f} MB)")

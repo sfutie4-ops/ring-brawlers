@@ -24,6 +24,11 @@ Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s coold
 
 ## Latest changes
 
+- Loading screen built from the real game sprites (lineup in `assets/loading/`, regenerated from the sheets), with rain, floodlights, crowd, live load progress and rotating tips; tap or press a key to enter.
+- White halo and leftover background removed from fighter sheets (most visible on Zaito's idle frames, also the Liberty statue, Lotus Smash and stray specks on the move sheets).
+- Lighting: cast shadows, arena-coloured rim light from the two light sources, ambient grade, floor glow under hits and projectiles.
+- Sound: new synth engine with compressor and room reverb; layered punches, kicks, blocks, whooshes, round bell, crowd cheers and arena ambience (rain, foundry hum, crowd). Sound is on by default and starts on the first tap.
+
 - Renamed to **FliptapWars**, with fan-made badges, a first-visit notice and an About page.
 - Suggestion box (menu corner and Settings): category, star rating, nickname, message. It opens a prefilled issue on this repository (posting needs a free GitHub account). To accept suggestions without a GitHub account, create a Google Form and set `SUGGEST_FORM` in `src/game.js`.
 
