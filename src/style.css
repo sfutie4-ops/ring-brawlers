@@ -344,3 +344,65 @@ body:not(.touch) .st.b{border-radius:8px;font-size:11px}
 .coffeemsg.show{max-height:120px;margin:12px 0!important;color:#9fe7a4!important}
 .coffeesheet .secondary{margin-top:6px}
 @media(max-height:480px){.coffee{padding:6px 10px;font-size:10px}.bigcup{width:56px;height:56px;font-size:40px}}
+
+/* ===== FliptapWars title ===== */
+h1.logo{display:flex;align-items:center;justify-content:center;gap:.12em;margin:6px 0 6px;font-size:clamp(40px,7.4vw,92px);line-height:.9;letter-spacing:.01em;text-shadow:none;position:relative}
+h1.logo .l1,h1.logo .l2{position:relative;display:inline-block;padding:0 .06em}
+h1.logo .l1{color:#fff6e6;text-shadow:0 5px 0 #00000090,0 0 40px #ffffff22}
+h1.logo .l2{color:#1a1206;background:linear-gradient(#ffe08a,#f0a93a);padding:.02em .2em .04em;transform:skewX(-10deg) rotate(-2deg);border-radius:6px;box-shadow:0 6px 0 #8a5a12,0 16px 40px -10px #f5be58;overflow:hidden}
+h1.logo .l2::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,#ffffff99 50%,transparent 65%);transform:translateX(-130%);animation:logoShine 3.6s infinite 1s}
+@keyframes logoShine{0%,60%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+h1.logo .mic{font-size:.62em;font-style:normal;filter:drop-shadow(0 4px 0 #0008);animation:micBob 2.6s infinite ease-in-out}
+@keyframes micBob{50%{transform:translateY(-5px) rotate(-8deg)}}
+h1.logo{animation:logoIn .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes logoIn{from{opacity:0;transform:scale(.7) translateY(-10px)}to{opacity:1;transform:none}}
+.badges{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0 16px}
+.badge{font-size:9px;font-weight:800;letter-spacing:.16em;padding:4px 10px;border-radius:999px;border:1px solid #3a4460;color:#aab4c8;background:#121827cc}
+.badge.bfan{border-color:#ff8fd1;color:#ffb6e2}.badge.free{border-color:#59e0a8;color:#8dffcf}
+.linkbtn{background:none;border:0;color:#f5ce84;text-decoration:underline;font-size:inherit;padding:0;cursor:pointer}
+.fan{margin-top:10px!important;line-height:1.6}
+@media(max-height:480px){.badges{margin:4px 0 6px}.badge{font-size:8px;padding:2px 8px}h1.logo{font-size:34px}}
+
+/* ===== corner buttons on the menu ===== */
+.suggest{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));z-index:6;display:flex;align-items:center;gap:8px;padding:8px 14px 8px 11px;border-radius:999px;border:1px solid #6ca6ff;background:linear-gradient(#1e2c4d,#121a30);color:#cfe0ff;font-weight:800;font-size:12px;letter-spacing:.04em;box-shadow:0 6px 18px -6px #000;transition:transform .12s}
+.suggest:hover{transform:translateY(-2px)}.suggest span:first-child{font-size:16px}
+@media(max-height:480px){.suggest{padding:6px 10px;font-size:10px}}
+@media(max-width:520px){.suggest span:last-child,.coffee span:last-child{display:none}.suggest,.coffee{padding:8px 10px}}
+.setlinks{grid-template-columns:repeat(3,1fr)!important}
+
+/* ===== suggestion box ===== */
+.sugsheet{width:min(520px,100%)!important;text-align:left}
+.sugsheet h3{text-align:center}
+.sugsub{color:#aab4c8;font-size:13px;margin:0 0 12px;text-align:center}
+.sugcats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.sugcats button{border:1px solid #333c54;background:#141a28;color:#c9d1e3;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700}
+.sugcats button[aria-checked=true]{border-color:#f5be58;color:#fff;background:linear-gradient(#3a2f1a,#221a0d);box-shadow:0 0 0 1px #f5be5855}
+.sugrate{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:12px;color:#9aa5bd}
+#sugStars button{background:none;border:0;font-size:24px;color:#3a4460;padding:0 2px;transition:transform .1s,color .1s}
+#sugStars button.on{color:#f5be58;text-shadow:0 0 10px #f5be5888}#sugStars button:hover{transform:scale(1.2)}
+#sugText{width:100%;min-height:120px;resize:vertical;background:#0b101c;border:1px solid #333c54;border-radius:12px;color:#fff;padding:12px;font:14px/1.5 Arial,sans-serif;outline:none;user-select:text;-webkit-user-select:text;touch-action:auto}
+#sugText:focus,#sugName:focus{border-color:#f5be58;box-shadow:0 0 0 3px #f5be5822}
+.sugmeta{display:flex;gap:10px;align-items:center;margin:8px 0 12px}
+#sugName{flex:1;background:#0b101c;border:1px solid #333c54;border-radius:10px;color:#fff;padding:9px 11px;font:13px Arial,sans-serif;outline:none;user-select:text;-webkit-user-select:text}
+#sugCount{font-size:11px;color:#6f7a93;white-space:nowrap}
+#sugSend{width:100%}#sugSend:disabled{opacity:.45}
+.sugnote{font-size:11px;color:#7d889f;margin:10px 0 6px;text-align:center}
+.sugthanks{display:none;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:10px;margin:6px 0;border-radius:12px;background:#10261d;border:1px solid #2b6b54;color:#bff5dc;font-size:13px}
+.sugthanks.show{display:flex;animation:pop .3s ease-out}
+.sugthanks .tick{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#2bb57a;color:#fff;font-size:22px;font-weight:900;animation:tickIn .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes tickIn{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+.sugsheet .secondary{display:block;margin:8px auto 0}
+
+/* ===== about + first-run notice ===== */
+.aboutsheet{width:min(520px,100%)!important;text-align:left}
+.aboutsheet h3{text-align:center}
+.aboutsheet p{color:#c5cee0;font-size:13px;line-height:1.6;margin:0 0 10px}
+.aboutsheet p b{color:#fff}
+.aboutsheet .go{display:block;margin:14px auto 0}
+.notice{text-align:center}
+.noticelogo{display:flex;justify-content:center;gap:8px;font-family:var(--disp);font-style:italic;font-size:44px;line-height:1;margin:6px 0 14px}
+.noticelogo .l1{color:#fff6e6}.noticelogo .l2{color:#1a1206;background:linear-gradient(#ffe08a,#f0a93a);padding:0 .2em;transform:skewX(-10deg);border-radius:6px}
+#fanNotice{z-index:9}
+
+.badges .badge{display:inline-flex;align-items:center;height:22px;line-height:1;white-space:nowrap;min-height:0}
+@media(max-width:720px){#menu .panel{padding-top:54px}.eyebrow{font-size:9px;letter-spacing:.22em}h1.logo .mic{display:none}}

@@ -1,4 +1,6 @@
-# Ring Brawlers
+# FliptapWars
+
+**Unofficial fan-made game.** FliptapWars is a free, non-commercial tribute to Filipino battle rap culture. It is not affiliated with, endorsed by or sponsored by FlipTop Battle League, Uprising Records or any emcee shown. Characters are caricatures; all moves, stats and storylines are fictional. The optional "buy me a coffee" only supports development; nothing in the game is sold. Rights holders can request changes or removal through the in-game suggestion box or this repository's issues.
 
 Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawlers/
 
@@ -21,6 +23,9 @@ Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawler
 Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s cooldown) · ← ↑ + punch uppercut (free, 2 s cooldown) · ↓ → + punch wave · ↓ ↑ + punch rising strike · ↓ ↓ + punch fighter skill · ↓ → + kick slide · ↓ ← + kick dive · ↓ ↓ + kick evade.
 
 ## Latest changes
+
+- Renamed to **FliptapWars**, with fan-made badges, a first-visit notice and an About page.
+- Suggestion box (menu corner and Settings): category, star rating, nickname, message. It opens a prefilled issue on this repository (posting needs a free GitHub account). To accept suggestions without a GitHub account, create a Google Form and set `SUGGEST_FORM` in `src/game.js`.
 
 - Training mode removed. Command list, How to play and Sound are in Settings only.
 - Animated command list: each input lights up in order; names follow the selected fighter.
