@@ -124,7 +124,7 @@ document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k;b.onpointe
   // slide a thumb between the arrows and GUARD without lifting it
   b.onpointermove=e=>{const cur=pointers.get(e.pointerId);if(!cur||!SLIDE.has(cur))return;const el=document.elementFromPoint(e.clientX,e.clientY),nk=el&&el.closest&&el.closest('[data-k]')?.dataset.k;if(nk&&nk!==cur&&SLIDE.has(nk)){padRelease(e.pointerId);padPress(e.pointerId,nk)}};
   const release=e=>padRelease(e.pointerId);b.onpointerup=release;b.onpointercancel=release;b.onlostpointercapture=release;b.oncontextmenu=e=>e.preventDefault()});
-$('pause').onclick=()=>pauseGame();$('resume').onclick=()=>pauseGame(false);$('exit').onclick=toMenu;$('select').onclick=toMenu;$('rematch').onclick=()=>newMatch(true);$('go').onclick=()=>newMatch(false);
+$('pause').onclick=()=>pauseGame();$('resume').onclick=()=>pauseGame(false);$('exit').onclick=toMenu;$('select').onclick=toMenu;$('rematch').onclick=()=>newMatch(true);$('go').onclick=()=>{goLandscape();newMatch(false)};
 
 let turnMode=store.get('turn',false),swapPad=store.get('swap',false),padSize=clamp(store.get('padsize',0)|0,0,2),padGhost=store.get('ghost',false);
 let padAlpha=store.get('padA',.75),padFade=store.get('padFade',true);if(![1,.75,.5,.3].includes(padAlpha))padAlpha=.75;
@@ -187,7 +187,15 @@ function ensureAudio(){try{if(!audioCtx){const A=audioCtx=new(window.AudioContex
   audioCtx.resume().catch(()=>{})}catch(e){audioCtx=null}}
 function toggleSound(){sound=!sound;store.set('sound',sound);if(sound){ensureAudio();sfx.ui()}else ambience(false);renderOpts()}
 {const evs=['pointerdown','pointerup','touchend','click','keydown'];const wake=()=>{if(!sound)return;ensureAudio();if(audioCtx&&audioCtx.state==='running')evs.forEach(e=>removeEventListener(e,wake,true))};evs.forEach(e=>addEventListener(e,wake,true))}
-window.rbEnter=()=>{if(sound){ensureAudio();setTimeout(()=>sfx.enter(),40)}};
+// ---------- phones always play in landscape ----------
+// Android: fullscreen + orientation lock on the first tap. iPhone (no lock API): a rotate screen covers the game in portrait.
+function goLandscape(){if(!isTouch)return;const de=document.documentElement,lock=()=>{try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})}catch(e){}};
+  try{if(!document.fullscreenElement&&de.requestFullscreen)de.requestFullscreen({navigationUI:'hide'}).then(lock,lock);else if(!document.fullscreenElement&&de.webkitRequestFullscreen){de.webkitRequestFullscreen();lock()}else lock()}catch(e){lock()}}
+let wasPortrait=null;function orientTick(){if(!isTouch)return;const portrait=innerHeight>innerWidth;if(portrait===wasPortrait)return;wasPortrait=portrait;document.body.classList.toggle('portrait',portrait);
+  if(portrait&&P1&&['intro','fight'].includes(phase)&&!paused)pauseGame(true);if(!portrait&&P1&&paused){/* stay paused until the player taps resume */}fit()}
+addEventListener('resize',orientTick);addEventListener('orientationchange',()=>setTimeout(orientTick,150));
+document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement)goLandscape()});
+window.rbEnter=()=>{goLandscape();if(sound){ensureAudio();setTimeout(()=>sfx.enter(),40)}};
 const AOK=()=>sound&&audioCtx&&audioCtx.state!=='closed';
 function env(g,t,peak,att,dur,curve='exp'){g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(peak,t+att);if(curve==='exp')g.gain.exponentialRampToValueAtTime(.0001,t+att+dur);else g.gain.linearRampToValueAtTime(0,t+att+dur)}
 function tone(hz,dur=.07,type='sine',gain=.05,end=null,delay=0,att=.004){if(!AOK())return;const t=audioCtx.currentTime+delay,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(hz,t);o.frequency.exponentialRampToValueAtTime(Math.max(30,end??hz*.35),t+dur);env(g,t,gain,att,dur);o.connect(g);g.connect(sfxBus);o.start(t);o.stop(t+dur+att+.02)}
@@ -226,7 +234,7 @@ let booting=false;
 function loadPct(f){const b=$('go');b.textContent='LOADING '+Math.round(f*100)+'%';try{window.rbLoader&&rbLoader.progress(f)}catch(e){}}
 async function boot(){
  if(booting)return;booting=true;ready=false;window.rbReady=false;
- const button=$('go'),status=$('status'),assetCount=CH.length+1+ARENA_ART.length+EXTRA_ART.length+ULTIMATE_ART.length+EXPRESSION_ART.length+Object.keys(CINEMATIC_ART).length;button.disabled=true;button.onclick=()=>newMatch(false);
+ const button=$('go'),status=$('status'),assetCount=CH.length+1+ARENA_ART.length+EXTRA_ART.length+ULTIMATE_ART.length+EXPRESSION_ART.length+Object.keys(CINEMATIC_ART).length;button.disabled=true;button.onclick=()=>{goLandscape();newMatch(false)};
  try{
   // Load sequentially to avoid a simultaneous image-decode memory spike.
   for(let n=0;n<CH.length;n++){const c=CH[n];loadPct(n/assetCount*100);status.textContent='Loading '+c.name+' · '+(n+1)+' / '+assetCount;
@@ -803,6 +811,6 @@ function loop(n){const real=clamp((n-last)/1000,0,.1);last=n;if(real>0)fpsEma+=(
     while(accumulator>=FIXED_DT&&guard++<30){if(P1&&phase!=='menu'&&phase!=='end'){for(const f of[P1,P2]){f.prevX=f.x;f.prevAir=f.air}for(const s of shots){s.px=s.x;s.py=s.y}step(FIXED_DT)}accumulator-=FIXED_DT}
     if(guard>=30)accumulator=0;renderAlpha=accumulator/FIXED_DT;fxUpdate(el,real)}else{accumulator=0;renderAlpha=1}
   draw();if(phase==='menu')drawPreview();requestAnimationFrame(loop)}
-{const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
+{const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}orientTick();$('rotTap').onclick=goLandscape;padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
 // Local diagnostics for smoke tests and frame inspection.
 window.ringDebug={get state(){return{phase,paused,round,timer,P1,P2,shots,effects,ready,parts:parts.length,fps:fpsEma,renderScale:RS,lowQuality:lowQ(),cam,hitstop,msg}},arenas:ARENAS,get arenaImages(){return arenaImages},setArena,atlas:()=>atlasCanvas,hit,step,updateDefense,floorDamage,resetEnvironment,get environment(){return{floorScars,props,envFx}},moves:ATK,press,held,start:(f,m)=>start(f,m)};

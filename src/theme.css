@@ -276,3 +276,15 @@
 .pfoot{font-size:11px!important;color:#8e88a8!important;text-align:center;margin:0!important}
 @media(max-width:520px){.pmoves{grid-template-columns:1fr}}
 @media(max-height:480px){.pmoves{grid-template-columns:1fr 1fr 1fr}.ptip,.pfoot{display:none}#pauseScreen h2{font-size:34px!important;margin-bottom:4px!important}}
+
+/* ===== landscape only on phones ===== */
+#rotLock{display:none;position:fixed;inset:0;z-index:60;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;background:radial-gradient(ellipse at center,#221838,#0b0712 75%);color:#fff}
+.touch.portrait #rotLock{display:flex}
+.touch.portrait #loader:not(.done){z-index:61}
+#rotLock h2{font:400 44px/1 var(--disp);letter-spacing:.05em;margin:18px 0 0;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:4px 4px 0 #000;color:var(--yel)}
+#rotLock p{font-family:var(--tag);color:#cfc8e8;margin:0 0 8px}
+#rotLock small{color:#8e88a8;font-size:12px;max-width:260px}
+.rphone{width:74px;height:130px;border:6px solid #fff;border-radius:16px;position:relative;box-shadow:6px 6px 0 #000;animation:rotPhone 2.2s cubic-bezier(.6,0,.3,1) infinite}
+.rphone i{position:absolute;left:50%;bottom:6px;width:16px;height:4px;margin-left:-8px;border-radius:3px;background:#fff}
+.rphone::after{content:"⟳";position:absolute;right:-46px;top:-30px;font-size:34px;color:var(--pink);animation:spin 2.2s linear infinite}
+@keyframes rotPhone{0%,15%{transform:rotate(0)}55%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
