@@ -188,7 +188,7 @@ h1 span{color:var(--gold)}
 .swap #pad{flex-direction:row-reverse}
 .pad1 .cl{width:min(48vw,250px)}.pad1 .b{height:64px;font-size:12px}.pad1 .b.big{height:80px;font-size:16px}
 .pad2 .cl{width:min(49vw,290px)}.pad2 .b{height:72px;font-size:13px}.pad2 .b.big{height:92px;font-size:18px}
-.ghost.touch #pad .b{background:#1a213255}
+
 @media(orientation:landscape) and (max-height:600px){
   .touch #pad .cl{width:min(31vw,230px)}
   .pad1.touch #pad .cl{width:min(35vw,270px)}.pad2.touch #pad .cl{width:min(39vw,310px)}
@@ -232,7 +232,7 @@ h1 span{color:var(--gold)}
 #pad .b.rb[data-k=b]{border-color:#6cc7e0}
 #pad .b.rb.on{transform:scale(.9);filter:brightness(1.5)}
 #pad .b.rb.off{opacity:.6}
-.ghost.touch #pad .b.rb{opacity:.55}.ghost.touch #stickBase{opacity:.6}
+
 @media(orientation:landscape) and (max-height:600px){.touch.playing #pad{padding:0 max(14px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}.touch #pad .cl{pointer-events:auto}}
 #pad .b.rb{word-break:normal;overflow-wrap:normal}
 #pad .b.rb.sm{letter-spacing:0;font-size:9px!important}
@@ -272,3 +272,17 @@ h1 span{color:var(--gold)}
 .cmdnote{font-size:11px;color:#9aa5bd;margin:4px 0 12px}
 
 #pad .b.rb.sh{flex-direction:column;line-height:1.05}#pad .b.rb.sh small{font-size:.72em;color:#ffd98acc;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:92%}
+
+/* ===== controls never hide the action ===== */
+:root{--padA:.75}
+.touch #pad .b.rb,.touch #stickBase,.touch #midPad .mid{opacity:var(--padA);transition:opacity .18s}
+.touch #pad .b.rb.on,.touch #stickBase.on{opacity:1}
+.touch #pad .cl.dim .b.rb:not(.on),.touch #pad .cl.dim #stickBase:not(.on){opacity:calc(var(--padA) * .3)}
+#rotateHint{display:none;position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 18px);justify-content:center;color:#8792ab;font-size:13px;letter-spacing:.06em;pointer-events:none;z-index:1}
+@media(orientation:landscape) and (max-height:600px){
+  .touch.playing #midPad{position:fixed;left:50%;transform:translateX(-50%);flex-direction:row;gap:6px;margin:0;z-index:4}
+  .touch #midPad .mid{padding:5px 11px;min-width:0;font-size:9px}
+  .touch #midPad #padPause{font-size:11px}
+  /* tighter, lower clusters so more of the floor stays visible */
+  .touch.playing #pad{padding-bottom:max(6px,env(safe-area-inset-bottom))}
+}
