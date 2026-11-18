@@ -63,7 +63,7 @@ else:
 
 out = (root / "src/template.html").read_text(encoding="utf-8")
 for mark, text in (
-    ("/*__CSS__*/", (root / "src/style.css").read_text(encoding="utf-8").strip()),
+    ("/*__CSS__*/", (root / "src/style.css").read_text(encoding="utf-8").strip() + "\n" + (root / "src/theme.css").read_text(encoding="utf-8").strip()),
     ("/*__DATA__*/", "\n".join(data)),
     ("/*__JS__*/", (root / "src/game.js").read_text(encoding="utf-8").replace("/*__TECHNIQUES__*/", (root / "src/techniques.js").read_text(encoding="utf-8")).replace("/*__CINEMATICS__*/", (root / "src/cinematics.js").read_text(encoding="utf-8")).replace("/*__TACTICS__*/", (root / "src/tactics.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_PERFORMANCE__*/", (root / "src/ultimate-performance.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_SCREEN__*/", (root / "src/ultimate-screen.js").read_text(encoding="utf-8")).replace("/*__ULTIMATES__*/", (root / "src/ultimates.js").read_text(encoding="utf-8")).replace("/*__EXPANSION__*/", (root / "src/expansion.js").read_text(encoding="utf-8")).replace("/*__ARENA__*/", (root / "src/arena.js").read_text(encoding="utf-8")).strip()),
 ):
@@ -74,5 +74,8 @@ for mark, text in (
 # loading-screen art (small WebP files kept in the repo)
 for mark, name in (("__LOADER_BG__", "bg.webp"), ("__LOADER_LINEUP__", "lineup.webp"), ("__LOADER_CROWD__", "crowd.webp")):
     out = out.replace(mark, "data:image/webp;base64," + base64.b64encode((root / "assets/loading" / name).read_bytes()).decode("ascii"))
+# fonts (OFL / Apache, see assets/fonts) and the coffee QR
+for mark, path, mime in (("__FONT_BANGERS__", "assets/fonts/bangers.woff2", "font/woff2"), ("__FONT_MARKER__", "assets/fonts/permanent-marker.woff2", "font/woff2"), ("__COFFEE_QR__", "assets/coffee/qr.png", "image/png")):
+    out = out.replace(mark, "data:" + mime + ";base64," + base64.b64encode((root / path).read_bytes()).decode("ascii"))
 (root / "index.html").write_text(out, encoding="utf-8")
 print(f"index.html written ({len(out) / 1e6:.1f} MB)")

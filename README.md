@@ -24,6 +24,10 @@ Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s coold
 
 ## Latest changes
 
+- **Street theme across every screen**: ink panels, hard drop shadows, spray-paint strokes, stickers and tape, Bangers + Permanent Marker fonts (OFL / Apache, in `assets/fonts`). Animated logo, trading-card fighter select with P1 sticker, taped arena posters, slam-in panels, game-style toggles in Settings, compact move card on Pause.
+- **Buy me a coffee** now uses the GCash / InstaPay QR (`assets/coffee/qr.png`, regenerated from the original code, verified to scan to the same payment code). SAVE QR makes a FliptapWars-styled poster to upload in GCash; no account number is stored in the game anymore.
+- **Suggestion box**: sticker-style categories, star pops, mic-drop send animation and a SALAMAT stamp.
+
 - Loading screen built from the real game sprites (lineup in `assets/loading/`, regenerated from the sheets), with rain, floodlights, crowd, live load progress and rotating tips; tap or press a key to enter.
 - White halo and leftover background removed from fighter sheets (most visible on Zaito's idle frames, also the Liberty statue, Lotus Smash and stray specks on the move sheets).
 - Lighting: cast shadows, arena-coloured rim light from the two light sources, ambient grade, floor glow under hits and projectiles.
@@ -34,7 +38,6 @@ Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s coold
 
 - Training mode removed. Command list, How to play and Sound are in Settings only.
 - Animated command list: each input lights up in order; names follow the selected fighter.
-- Buy me a coffee (menu corner and Settings): copies the GCash account to the clipboard and opens the GCash app (Android/iOS). The account is never shown on screen and is stored scrambled in the page.
 - Performance: the HUD face portrait is baked once per expression (was the most expensive draw call), dynamic resolution steps sharpness down on slow devices, phones start at 1.5x.
 
 ## Earlier merge

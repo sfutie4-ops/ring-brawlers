@@ -5,9 +5,9 @@ const ease=v=>{v=clamp(v,0,1);return v*v*(3-2*v)},easeOut=v=>{v=clamp(v,0,1);ret
 const backOut=v=>{v=clamp(v,0,1);const c=1.70158;return 1+(c+1)*Math.pow(v-1,3)+c*Math.pow(v-1,2)};
 
 // ---------- fonts ----------
-const DISP='Impact,"Arial Black","Roboto Condensed",sans-serif-condensed,Arial,sans-serif';
+const DISP='Bangers,Impact,"Arial Black","Roboto Condensed",sans-serif-condensed,Arial,sans-serif';
 const hasImpact=(()=>{try{const g=document.createElement('canvas').getContext('2d');g.font='40px monospace';const a=g.measureText('RING BRAWLERS').width;g.font='40px Impact,monospace';return Math.abs(g.measureText('RING BRAWLERS').width-a)>1}catch(e){return false}})();
-const DW=hasImpact?400:900;if(!hasImpact)document.body.classList.add('fb');
+const DW=400;try{document.fonts&&document.fonts.load('40px Bangers');document.fonts&&document.fonts.load('20px "Permanent Marker"')}catch(e){}
 
 // ---------- settings (remembered between visits) ----------
 const store={get(k,d){try{const v=localStorage.getItem('rb_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('rb_'+k,JSON.stringify(v))}catch(e){}}};
@@ -167,7 +167,7 @@ const OPTS=[
   {label:()=>'Comic pops '+(popFX?'on':'off'),fn:()=>{popFX=!popFX;store.set('pops',popFX)}},
   {label:()=>'Mesh '+(meshMode?'on':'off'),fn:()=>{meshMode=!meshMode}}
 ];
-function renderOpts(){document.querySelectorAll('.opts').forEach(box=>{box.innerHTML='';OPTS.forEach(o=>{if(o.show&&!o.show())return;const b=document.createElement('button');b.className='chip';b.textContent=o.label();b.onclick=()=>{o.fn();renderOpts()};box.append(b)})});0}
+function renderOpts(){document.querySelectorAll('.opts').forEach(box=>{box.innerHTML='';OPTS.forEach(o=>{if(o.show&&!o.show())return;const b=document.createElement('button');b.className='chip opt';const lab=o.label(),m=lab.match(/^(.*?)\s+(on|off|auto|high|low|full|reduced|light|\d+%)$/i);if(m){const v=m[2].toLowerCase(),cls=v==='on'||v==='full'||v==='high'||v==='auto'||v==='100%'?'on':v==='off'||v==='reduced'||v==='low'?'off':'mid';b.innerHTML='<span>'+m[1]+'</span><b class="v '+cls+'">'+m[2].toUpperCase()+'</b>'}else b.innerHTML='<span>'+lab+'</span><b class="v act">›</b>';b.onclick=()=>{o.fn();renderOpts();sfx.ui()};box.append(b)})});document.body.classList.toggle('rm',!!reduced)}
 document.addEventListener('fullscreenchange',()=>{renderOpts();fit()});
 function applyQuality(){MAXP=lowQ()?280:800;buildScene();fit()}
 function fit(){const st=$('stage').getBoundingClientRect();if(!st.width||!st.height)return;const k=Math.min(st.width/W,st.height/H),dpr=window.devicePixelRatio||1,s=clamp(k*dpr,.5,lowQ()?Math.min(1,resCap):resCap),w=Math.round(W*s),h=Math.round(H*s);if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h}RS=w/W;const portrait=isTouch&&st.height>st.width,ox=(st.width-W*k)/2,oy=portrait?st.height-H*k:(st.height-H*k)/2,tb=$('toolbar');cv.style.objectPosition=portrait?'center bottom':'';view={k,ox:st.left+ox,oy:st.top+oy};const mp=$('midPad');if(mp){if(overlayPad()){mp.style.top=Math.round(st.top+oy+94*k)+'px'}else mp.style.top=''}const rh=$('rotateHint');if(rh)rh.style.display=portrait&&uiPlaying?'flex':'none';tb.style.top=Math.round(oy+100*k)+'px';tb.style.right=Math.round(ox+12*k)+'px'}
@@ -261,7 +261,8 @@ function refreshMoveLabels(){
   const r=ROSTER[P1.ci], skill=TECHNIQUES[P1.ci];
   const skillButton=document.querySelector('[data-k=technique]');
   if(skillButton){skillButton.innerHTML=skill.name+'<small>'+skill.cost+'</small>';skillButton.title=skill.cost+' mana · '+skill.detail}
-  for(const[k,name,cost]of[['h',r.upper,20],['w',r.wave,30],['s',r.super,100]]){const b=document.querySelector('[data-k='+k+']');if(b){b.innerHTML=k==='s'&&b.classList.contains('sh')?'L2 · ULT':(k==='s'?ULTIMATE_PLANS[P1.ci].short:name)+'<small>'+cost+'</small>';b.title=k==='s'?ULTIMATE_PLANS[P1.ci].detail:r.detail}}$('help').innerHTML='← ↑ + J: '+r.upper+' (free) · ↓ → + J: '+r.wave+' (30 mana) · E: '+r.super+' (100 mana)<br>'+r.passive+'<br>↓ ↓ + J · '+skill.name+' ('+skill.cost+' mana). '+skill.detail+'<br>'+ULTIMATE_PLANS[P1.ci].detail+'<br>'+ULTIMATE_PLANS[P1.ci].signature+'<br>A/D: Move · S/↓: Crouch · Space: Jump · J: Punch · K: Kick · double-tap →/←: Dash · Hold back to block · Tap back to parry<br>L: Power (hold and release after the cue for the 60-mana charged version) · Hold Q: charge mana · E: Ultimate · H: command list<br>'+CHARGED_POWER[P1.ci].note+'<br>Root restricts movement. Stun and freeze lock actions. A clean hit shatters freeze.'}
+  for(const[k,name,cost]of[['h',r.upper,20],['w',r.wave,30],['s',r.super,100]]){const b=document.querySelector('[data-k='+k+']');if(b){b.innerHTML=k==='s'&&b.classList.contains('sh')?'L2 · ULT':(k==='s'?ULTIMATE_PLANS[P1.ci].short:name)+'<small>'+cost+'</small>';b.title=k==='s'?ULTIMATE_PLANS[P1.ci].detail:r.detail}}$('help').innerHTML=(()=>{const T=isTouch,P=T?'□':'J',K=T?'△':'K',U=T?'L2':'E',row=(k,n,c)=>'<div class="pm"><b class="pk">'+k+'</b><span>'+n+'</span><i>'+c+'</i></div>';
+  return '<div class="pfighter" style="--c:'+r.color+'"><b>'+r.name+'</b><span>'+r.role+'</span></div><div class="pmoves">'+row('←↑ '+P,r.upper,'free')+row('↓→ '+P,r.wave,'30')+row('↓↓ '+P,skill.name,skill.cost)+row(T?'○':'L',EXTRA_NAMES[P1.ci][4],'45')+row(U,r.super,'100')+row('→→','Dash','free')+'</div><p class="ptip">'+r.passive+'</p><p class="pfoot">Full command list · Settings</p>'})()}
 function startRound(){resetUltimateScreen();refereeWinner=null;resetEnvironment();[P1,P2].forEach((f,i)=>Object.assign(f,{x:i?660:300,face:i?-1:1,hp:100,shownHP:100,mt:Math.max(40,Math.min(70,f.mt)),st:'idle',t:0,air:0,vy:0,vx:0,hit:false,connected:false,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ctl:{dir:0},slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,back:false,backHeld:false,parryWindow:0,parryCooldown:0,prevX:undefined,prevAir:undefined,land:0,stepT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false,ultimate:null,...tacticsState()}));timer=60;phase='intro';pt=0;koMsg='';setMsg(difficulty==='training'?'TRAINING':'ROUND '+round);parts=[];effects=[];ghosts=[];shots=[];texts=[];swooshes=[];hitstop=0;flash=0;slowT=0;superDim=0;banner=null;lastTick=-1;cam.trauma=0;cam.focus=null;cam.focusT=0;cam.punch=0;clearInput();resetShowtime();introT0=round===1?1.25:0;if(introT0)msg=''}
 function toMenu(){resetUltimateScreen();paused=false;phase='menu';P1=null;P2=null;clearInput();parts=[];confettiT=0;$('menu').style.display='flex';$('pauseScreen').style.display='none';$('result').style.display='none';$('pause').textContent='PAUSE';buildCards()}
 
@@ -743,7 +744,7 @@ function drawVS(){if(phase!=='intro'||!introT0||!P1)return;const t=pt,a=1-ease((
 function openModal(id){$(id).style.display='flex'}
 document.querySelectorAll('.closeModal').forEach(b=>b.onclick=()=>{b.closest('.modal').style.display='none'});
 document.querySelectorAll('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)m.style.display='none'});
-$('setCmds').onclick=()=>openCmds();$('setSuggest').onclick=$('suggestBtn').onclick=()=>openSuggest();$('setAbout').onclick=$('aboutLink').onclick=()=>openModal('about');$('fanOk').onclick=()=>{store.set('fanAck',1);$('fanNotice').style.display='none'};if(!store.get('fanAck',0))openModal('fanNotice');$('setHelp').onclick=()=>openModal('howto');$('setCoffee').onclick=$('coffeeBtn').onclick=()=>openModal('coffee');$('openGcash').onclick=openGcash;$('openSettings').onclick=$('pauseSettings').onclick=()=>openModal('settings');
+$('setCmds').onclick=()=>openCmds();$('setSuggest').onclick=$('suggestBtn').onclick=()=>openSuggest();$('setAbout').onclick=$('aboutLink').onclick=()=>openModal('about');$('fanOk').onclick=()=>{store.set('fanAck',1);$('fanNotice').style.display='none'};if(!store.get('fanAck',0))openModal('fanNotice');$('setHelp').onclick=()=>openModal('howto');$('setCoffee').onclick=$('coffeeBtn').onclick=()=>openModal('coffee');$('openGcash').onclick=openGcash;$('saveQr').onclick=saveQr;$('openSettings').onclick=$('pauseSettings').onclick=()=>openModal('settings');
 addEventListener('keydown',e=>{if(e.key!=='Escape')return;const m=[...document.querySelectorAll('.modal')].find(m=>m.style.display==='flex');if(m){m.style.display='none';e.stopImmediatePropagation();e.preventDefault()}},true);
 function initDiff(){const box=$('diffSeg'),selEl=$('difficulty');selEl.value=store.get('diff','normal');if(selEl.value==='training'||!selEl.value)selEl.value='normal';if(!selEl.value)selEl.value='normal';const sync=()=>box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',b.dataset.v===selEl.value));[['easy','Easy'],['normal','Normal'],['hard','Hard']].forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.dataset.v=v;b.setAttribute('role','radio');b.onclick=()=>{selEl.value=v;store.set('diff',v);sync();tone(420)};box.append(b)});sync()}
 function cmdHTML(){const r=ROSTER[(P1?P1.ci:sel)],sk=TECHNIQUES[(P1?P1.ci:sel)],T=isTouch;
@@ -767,17 +768,27 @@ $('sugSend').onclick=()=>{const txt=$('sugText').value.trim();if(txt.length<4)re
   const title='['+sugCat+'] '+txt.split('\n')[0].slice(0,70);const body=txt+'\n\n---\nType: '+sugCat+(sugStars?'\nRating: '+'★'.repeat(sugStars):'')+(name?'\nFrom: '+name:'')+'\nSent from the FliptapWars suggestion box ('+(isTouch?'phone':'PC')+')';
   if(SUGGEST_FORM){const fd=new URLSearchParams();for(const[k,v]of Object.entries(SUGGEST_FORM.fields({cat:sugCat,txt,name,stars:sugStars})))fd.append(k,v);fetch(SUGGEST_FORM.url,{method:'POST',mode:'no-cors',body:fd}).catch(()=>{});$('sugThanks').querySelector('span').textContent='Your suggestion was sent. Thank you for helping!'}
   else window.open(SUGGEST_REPO+'?title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body)+'&labels=suggestion','_blank','noopener');
-  $('sugThanks').classList.add('show');$('sugText').value='';$('sugText').oninput();buzz([10,30,20])};
+  const sh=document.querySelector('.sugsheet');sh.classList.remove('sent');void sh.offsetWidth;sh.classList.add('sent');$('sugThanks').classList.add('show');$('sugText').value='';$('sugText').oninput();buzz([10,30,20])};
 // ---------- buy me a coffee (GCash) ----------
-// The number is kept scrambled in the page and only decoded when the player taps the button; it is never displayed.
-const GC=['m7rtbTq2H1rFBw4=',[171,131,218,93,13,131,44,107,253,52,63]];
-function gcNum(){const b=atob(GC[0]);let o='';for(let i=0;i<b.length;i++)o+=String.fromCharCode(b.charCodeAt(i)^GC[1][i]);return o}
-async function openGcash(){const msg=$('coffeeMsg');let copied=false;try{await navigator.clipboard.writeText(gcNum());copied=true}catch(e){try{const t=document.createElement('textarea');t.value=gcNum();t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();copied=document.execCommand('copy');t.remove()}catch(_){}}
-  buzz([15,30,15]);const ua=navigator.userAgent||'',android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua);
-  msg.innerHTML=(copied?'<b>Account copied.</b> ':'')+'In GCash tap <b>Send › Express Send</b>, then paste the number. Salamat! ☕';msg.classList.add('show');
+// Donations use the GCash / InstaPay QR (assets/coffee/qr.png). No account number is stored in the game.
+function openGcash(){const msg=$('coffeeMsg'),ua=navigator.userAgent||'',android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua);buzz([15,30,15]);
+  msg.innerHTML=android||ios?'Opening GCash… tap <b>Scan QR › Upload QR</b> and pick the saved QR. Salamat! ☕':'Scan the QR with GCash on your phone. Salamat! ☕';msg.classList.add('show');
   if(android)location.href='intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.globe.gcash.android;S.browser_fallback_url='+encodeURIComponent('https://play.google.com/store/apps/details?id=com.globe.gcash.android')+';end';
-  else if(ios){const t0=Date.now();location.href='gcash://';setTimeout(()=>{if(!document.hidden&&Date.now()-t0<2500)location.href='https://apps.apple.com/ph/app/gcash/id520020791'},1600)}
-  else msg.innerHTML=(copied?'<b>Account copied.</b> ':'')+'Open GCash on your phone, tap <b>Send › Express Send</b> and paste it. Salamat! ☕'}
+  else if(ios){const t0=Date.now();location.href='gcash://';setTimeout(()=>{if(!document.hidden&&Date.now()-t0<2500)location.href='https://apps.apple.com/ph/app/gcash/id520020791'},1600)}}
+// SAVE QR: builds a FliptapWars-styled poster around the QR and shares or downloads it
+async function saveQr(){const msg=$('coffeeMsg');buzz(12);try{await (document.fonts?document.fonts.ready:0)}catch(e){}
+  const qr=$('qrImg');if(!qr.complete)await new Promise(r=>qr.onload=r);const c=document.createElement('canvas');c.width=1080;c.height=1440;const g=c.getContext('2d');
+  let gr=g.createLinearGradient(0,0,0,1440);gr.addColorStop(0,'#1d1233');gr.addColorStop(1,'#0b0712');g.fillStyle=gr;g.fillRect(0,0,1080,1440);
+  g.save();g.globalAlpha=.9;g.fillStyle='#ff2aa0';g.translate(540,250);g.rotate(-.05);g.beginPath();g.moveTo(-470,-40);g.lineTo(460,-70);g.lineTo(480,40);g.lineTo(-460,70);g.closePath();g.fill();g.restore();
+  g.fillStyle='#29c8ff';g.globalAlpha=.85;for(let i=0;i<40;i++){g.beginPath();g.arc(980+Math.sin(i*7)*60,100+i*32,4+((i*13)%9),0,TAU);g.fill()}g.globalAlpha=1;
+  g.textAlign='center';g.lineJoin='round';const big=(t,y,size,fill)=>{g.font=size+'px Bangers,Impact,sans-serif';g.lineWidth=size*.14;g.strokeStyle='#0b0712';g.strokeText(t,540,y);g.fillStyle=fill;g.fillText(t,540,y)};
+  big('FLIPTAPWARS',230,150,'#ffffff');big('BUY ME A COFFEE',360,92,'#ffd23f');
+  g.save();g.translate(540,820);g.rotate(-.02);g.fillStyle='#000';g.fillRect(-370+16,-370+16,740,740);g.fillStyle='#fff';g.fillRect(-370,-370,740,740);g.lineWidth=10;g.strokeStyle='#0b0712';g.strokeRect(-370,-370,740,740);g.imageSmoothingEnabled=false;g.drawImage(qr,-340,-340,680,680);g.restore();
+  g.fillStyle='#e9ecf5';g.font='44px "Permanent Marker",Arial,sans-serif';g.fillText('Scan with GCash · any QR Ph app',540,1290);g.fillStyle='#8792ab';g.font='30px Arial,sans-serif';g.fillText('Free fan-made game · Salamat! ☕',540,1360);
+  const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=new File([blob],'fliptapwars-gcash-qr.png',{type:'image/png'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'FliptapWars · Buy me a coffee'});msg.innerHTML='Saved! Now open GCash › <b>Scan QR › Upload QR</b>.';msg.classList.add('show');return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fliptapwars-gcash-qr.png';document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+  msg.innerHTML='QR saved to your downloads. In GCash tap <b>Scan QR › Upload QR</b>.';msg.classList.add('show')}
 function openCmds(){$('cmdBox').innerHTML=cmdHTML();openModal('cmds')}
 function fillResult(won){const secs=Math.round((performance.now()-stats.t0)/1000),score=(won?50:0)+(P1.wins-P2.wins)*10+Math.min(20,maxCombo*3)+Math.min(15,stats.parries*5)+Math.max(0,20-stats.taken/10),grade=score>=88?'S':score>=70?'A':score>=50?'B':score>=30?'C':'D';
   $('resultStats').textContent=`${P1.wins} – ${P2.wins} rounds · ${CH[P1.ci].name} vs ${CH[P2.ci].name} · ${ARENAS[arenaId].name}`;$('grade').textContent=grade;$('grade').dataset.g=grade;
@@ -792,6 +803,6 @@ function loop(n){const real=clamp((n-last)/1000,0,.1);last=n;if(real>0)fpsEma+=(
     while(accumulator>=FIXED_DT&&guard++<30){if(P1&&phase!=='menu'&&phase!=='end'){for(const f of[P1,P2]){f.prevX=f.x;f.prevAir=f.air}for(const s of shots){s.px=s.x;s.py=s.y}step(FIXED_DT)}accumulator-=FIXED_DT}
     if(guard>=30)accumulator=0;renderAlpha=accumulator/FIXED_DT;fxUpdate(el,real)}else{accumulator=0;renderAlpha=1}
   draw();if(phase==='menu')drawPreview();requestAnimationFrame(loop)}
-padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
+{const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
 // Local diagnostics for smoke tests and frame inspection.
 window.ringDebug={get state(){return{phase,paused,round,timer,P1,P2,shots,effects,ready,parts:parts.length,fps:fpsEma,renderScale:RS,lowQuality:lowQ(),cam,hitstop,msg}},arenas:ARENAS,get arenaImages(){return arenaImages},setArena,atlas:()=>atlasCanvas,hit,step,updateDefense,floorDamage,resetEnvironment,get environment(){return{floorScars,props,envFx}},moves:ATK,press,held,start:(f,m)=>start(f,m)};
