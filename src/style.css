@@ -245,3 +245,30 @@ h1 span{color:var(--gold)}
 #pad .b.rb.chg{border-color:#c49aff}
 #pad .b.rb[data-k=power]{border-color:#ff90c4}
 #pad .b.rb[data-k=roll]{border-color:#92e5ff}
+
+/* ===== controller v5: stick + PlayStation-style buttons ===== */
+#toolbar #pause{display:none}.touch #toolbar{display:none}body:not(.touch) #toolbar #pause{display:inline-block}
+#midPad{display:flex;flex-direction:column;gap:8px;align-self:flex-end;align-items:center;pointer-events:auto;margin-bottom:6px}
+#midPad .mid{border:1px solid #8fa0c880;background:#141b2ccc;border-radius:999px;color:#e9ecf5;font-weight:800;font-size:11px;letter-spacing:.1em;padding:8px 14px;min-width:64px}
+#midPad #padPause{font-size:14px}
+#pad .b.rb.ps{flex-direction:column}
+#pad .b.rb.ps i{font-style:normal;font-size:1.25em;line-height:1;font-weight:900}
+#pad .b.rb.ps small{font-size:.32em;color:#e9ecf5cc;margin-top:2px;letter-spacing:.08em}
+#pad .b.rb[data-k=u]{border-color:#6ca6ff;background:radial-gradient(circle at 35% 28%,#2b3f6e,#121a33 72%)}#pad .b.rb[data-k=u] i{color:#8fbaff}
+#pad .b.rb[data-k=power]{border-color:#ff6b6b;background:radial-gradient(circle at 35% 28%,#5e2a2a,#2a1212 72%)}#pad .b.rb[data-k=power] i{color:#ff8a8a}
+#pad .b.rb[data-k=p]{border-color:#ff8fd1;background:radial-gradient(circle at 35% 28%,#5a2a4a,#26121f 72%);box-shadow:0 5px 12px #000a}#pad .b.rb[data-k=p] i{color:#ffa6dc}
+#pad .b.rb[data-k=k]{border-color:#59e0a8;background:radial-gradient(circle at 35% 28%,#22503d,#0f241b 72%)}#pad .b.rb[data-k=k] i{color:#7dffc4}
+#pad .b.rb.sh{border-radius:14px 14px 20px 20px!important;font-size:11px!important;font-weight:800;letter-spacing:.06em;background:linear-gradient(#2a3350,#141b2c);border:2px solid #8fa0c880;color:#e9ecf5}
+#pad .b.rb.sh[data-k=s]{border-color:#f5be58;color:#ffd98a}#pad .b.rb.sh[data-k=s].ready{animation:sup .7s infinite alternate}
+#pad .b.rb.sh[data-k=charge]{border-color:#c49aff;color:#dcc5ff}
+#stickBase[data-z=u] .a1,#stickBase[data-z=l] .a2,#stickBase[data-z=r] .a3,#stickBase[data-z=d] .a4{color:#f5be58;text-shadow:0 0 8px #f5be58}
+#stickBase .ar{font-size:13px}
+.cmdlist{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:7px 12px;text-align:left;font-size:13px;color:#c9d1e3;align-items:center;margin-bottom:8px}
+.cmdlist b{font-size:9px;letter-spacing:.18em;color:#8792ab;border-bottom:1px solid #2b3349;padding-bottom:4px}
+.cmdlist span:nth-child(3n+1){color:#fff;font-weight:700}
+.cmdlist .arr{font-size:16px;font-weight:800;color:#f5ce84;letter-spacing:.06em}.cmdlist .arr em{font-size:11px;color:#8792ab;font-style:normal}
+.cmdlist span:nth-child(3n){font-size:11px;color:#9aa5bd}
+.ps.sq{color:#ffa6dc}.ps.tr{color:#7dffc4}i.ps{font-style:normal;font-weight:900}
+.cmdnote{font-size:11px;color:#9aa5bd;margin:4px 0 12px}
+
+#pad .b.rb.sh{flex-direction:column;line-height:1.05}#pad .b.rb.sh small{font-size:.72em;color:#ffd98acc;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:92%}
