@@ -92,27 +92,12 @@ function dirTick(){if(!P1||phase!=='fight'||paused){dirSet='';return}const x=(he
   for(const ch of cur)if(!dirSet.includes(ch)){const prev=cmdHist[cmdHist.length-1];cmdHist.push({s:ch,t:now});if(cmdHist.length>8)cmdHist.shift();
     if((ch==='f'||ch==='b')&&prev&&prev.s===ch&&now-prev.t<300&&!held.up&&!held.crouch){if(P1.cd<=0){P1.dashBack=ch==='b';buf.d=.22;cmdHist.length=0;buzz(16)}else{buzz(4);if(P1.notice!=='dashcd'){label('DASH COOLING',P1.x,GY-200,'#f5be58');P1.notice='dashcd'}}}}
   dirSet=cur}
-// Hex energy shield in front of a guarding fighter: unfolds when you hold back, flashes and ripples on a block,
-// turns gold during the parry window.
-function shieldPath(w,h){ctx.beginPath();ctx.ellipse(38,0,w+14,h,0,-1.36,1.36);ctx.ellipse(28,0,w*.55,h*.92,0,1.3,-1.3,true);ctx.closePath()}
-function hexAt(x,y,r){ctx.moveTo(x+r*Math.cos(Math.PI/6),y+r*Math.sin(Math.PI/6));for(let i=1;i<=6;i++){const a=Math.PI/6+i*Math.PI/3;ctx.lineTo(x+r*Math.cos(a),y+r*Math.sin(a))}}
-function drawShield(f,rx,ra){const crouch=f.st==='crouch',gf=clamp(f.guardFlash/.2,0,1),parry=f.parryWindow>0,A=f.shieldA,h=((crouch?46:74)+gf*10)*(.55+.45*A),w=(20+gf*6)*A+4,cy=GY-ra-(crouch?50:94),col=parry?'#ffe39a':gf>0?'#d8f8ff':'#6fe3ff',pulse=.85+.15*Math.sin(vclock*7+f.ci);
-  ctx.save();ctx.translate(rx,cy);ctx.scale(f.face,1);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=A;
-  // soft glow behind the shield
-  ctx.globalAlpha=A*(.22+gf*.4);ctx.drawImage(glow(col),34,-h*.9,w+40,h*1.8);ctx.globalAlpha=A;
-  // body
-  const g=ctx.createLinearGradient(14,0,42+w,0);g.addColorStop(0,col+'08');g.addColorStop(.6,col+'2a');g.addColorStop(1,col+'78');ctx.fillStyle=g;shieldPath(w,h);ctx.fill();
-  // honeycomb
-  if(!lowQ()){ctx.save();shieldPath(w,h);ctx.clip();ctx.strokeStyle=col;ctx.lineWidth=1;ctx.globalAlpha=A*(.6+gf*.4)*pulse;ctx.lineWidth=1.2;const r=7;ctx.beginPath();for(let row=-Math.ceil(h/(r*1.5));row<=Math.ceil(h/(r*1.5));row++)for(let xx=24;xx<80;xx+=r*1.732)hexAt(xx+(row&1?r*.866:0),row*r*1.5,r);ctx.stroke();ctx.restore()}
-  // rim + highlight
-  ctx.globalAlpha=A*.95*pulse;ctx.strokeStyle=col;ctx.lineWidth=2.6+gf*3;ctx.lineCap='round';ctx.beginPath();ctx.ellipse(38,0,w+14,h,0,-1.36,1.36);ctx.stroke();ctx.globalAlpha=A*.5;ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(28,0,w*.55,h*.92,0,-1.3,1.3);ctx.stroke();
-  ctx.globalAlpha=A*.7;ctx.strokeStyle='#ffffff';ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(38,0,w+14,h,0,-.95,-.25);ctx.stroke();
-  // light sweeping along the rim
-  const sy=Math.sin(vclock*2.6+f.ci*1.3)*h*.82,sx=38+(w+14)*Math.sqrt(Math.max(0,1-(sy/h)**2));ctx.globalAlpha=A*.9;ctx.drawImage(glow('#ffffff'),sx-9,sy-9,18,18);
-  // block impact ripple
-  if(gf>0){ctx.globalAlpha=gf;ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(46+w,0,(1-gf)*40+6,(1-gf)*70+10,0,0,TAU);ctx.stroke()}
-  // parry window: gold spark at the centre
-  if(parry){ctx.globalAlpha=1;ctx.drawImage(glow('#ffe39a'),w+36,-16,32,32)}
+// Classic block: guard pose, small lean back, and a white/cyan block spark where the hit lands.
+function drawBlockSpark(f,rx,ra){const gf=clamp(f.guardFlash/.2,0,1),crouch=f.st==='crouch',x=rx+f.face*48,y=GY-ra-(crouch?50:86),L=((1-gf)*.6+.6)*1.25;
+  ctx.save();ctx.translate(x,y);ctx.scale(f.face,1);ctx.globalCompositeOperation='lighter';ctx.lineCap='round';
+  ctx.globalAlpha=gf;ctx.drawImage(glow('#9fefff'),-34,-34,68,68);
+  for(let i=0;i<8;i++){const a=-Math.PI/2+(i-3.5)*.36,len=(i%2?20:34)*L;ctx.strokeStyle=i%2?'#7fe6ff':'#ffffff';ctx.lineWidth=i%2?2:3;ctx.beginPath();ctx.moveTo(Math.cos(a+Math.PI/2)*6,Math.sin(a+Math.PI/2)*6);ctx.lineTo(Math.cos(a+Math.PI/2)*(6+len),Math.sin(a+Math.PI/2)*(6+len));ctx.stroke()}
+  ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.globalAlpha=gf*.8;ctx.beginPath();ctx.ellipse(0,0,10+(1-gf)*22,16+(1-gf)*30,0,0,TAU);ctx.stroke();
   ctx.restore()}
 function drawKeyHint(){if(isTouch||phase!=='fight'||!P1)return;text('←↑ J uppercut  ·  →→ dash  ·  ↓→ J wave  ·  ↓← K dive  ·  H command list',480,494,9,'#aab4c8')}
 function drawCooldowns(){if(!P1||phase==='menu')return;const items=[['DASH',P1.cd,DASH_CD,'#f5be58'],['UPPER',P1.upCD||0,UPPER_CD,'#92e5ff']];items.forEach(([n,v,max,c],i)=>{const x=104+i*62,y=118,r=15,ready=v<=0;ctx.save();ctx.fillStyle='#070b14d0';ctx.beginPath();ctx.arc(x,y,r+3,0,TAU);ctx.fill();ctx.strokeStyle=ready?c:'#3a4460';ctx.lineWidth=3;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.stroke();if(!ready){ctx.strokeStyle=c;ctx.beginPath();ctx.arc(x,y,r,-Math.PI/2,-Math.PI/2+TAU*(1-v/max));ctx.stroke();text(v.toFixed(1),x,y+4,10,'#e9ebf0')}else{ctx.globalAlpha=.6+.4*Math.sin(vclock*6);ctx.fillStyle=c;ctx.beginPath();ctx.arc(x,y,5,0,TAU);ctx.fill();ctx.globalAlpha=1}text(n,x,y+r+13,8,ready?c:'#8792ab');ctx.restore()})}
@@ -420,7 +405,7 @@ function drawMesh(fr,x,y,face,sx,sy,rotation){if(!meshMode||!fr.vertices?.length
 const glowCache=new Map();
 function glow(color){let c=glowCache.get(color);if(c)return c;c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,'#ffffff');r.addColorStop(.22,color);r.addColorStop(.55,color+'50');r.addColorStop(1,color+'00');g.fillStyle=r;g.fillRect(0,0,64,64);glowCache.set(color,c);return c}
 const DUST=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),r=g.createRadialGradient(32,32,2,32,32,32);r.addColorStop(0,'#e6d8b8');r.addColorStop(.6,'#d9caa888');r.addColorStop(1,'#d9caa800');g.fillStyle=r;g.fillRect(0,0,64,64);return c})();
-function drawF(f){let fr=selectFrame(f);const rx0=rxOf(f),ra=raOf(f)*(reduced&&isMountainClimbing(f)?REDUCED_CLIMB_SCALE:1),vt=f.t+(hitstop>0||paused?0:renderAlpha*FIXED_DT),col=COL[f.ci];
+function drawF(f){let fr=selectFrame(f);const guarding=f.air===0&&f.back&&['idle','walk','block'].includes(f.st);if(guarding&&CH[f.ci].f.dash)fr=CH[f.ci].f.dash[0];f.shieldA=(f.shieldA||0)+((guarding?1:0)-(f.shieldA||0))*.3;const rx0=rxOf(f),ra=raOf(f)*(reduced&&isMountainClimbing(f)?REDUCED_CLIMB_SCALE:1),vt=f.t+(hitstop>0||paused?0:renderAlpha*FIXED_DT),col=COL[f.ci];
   let rx=rx0,breath=['idle','block'].includes(f.st)?Math.sin(vclock*3.7+f.ci)*.013:0,sx=1-breath,sy=1+breath,angle=0,dx=0,dy=0;
   if(phase==='intro'&&!reduced){const k=1-easeOut((pt-introT0)/.9);if(k>.015){rx-=f.face*k*340;const wf=CH[f.ci].f.walk;fr=wf[Math.floor(vclock*10)%wf.length];dy=Math.sin(vclock*20)*1.4;angle=Math.sin(vclock*10)*.014}}
   // shadow + color ring
@@ -433,7 +418,7 @@ function drawF(f){let fr=selectFrame(f);const rx0=rxOf(f),ra=raOf(f)*(reduced&&i
   if(f.st==='hit'){const k=Math.sin(clamp(vt/.31,0,1)*Math.PI);angle=-k*.17;dx=-f.face*k*6;sx-=k*.03;sy+=k*.02}
   if(f.st==='down'&&fr!==stanceFrame(f)){const t=ease(vt/.25);angle=-t*.95;dx=f.face*t*22}
   if(f.st==='crouch'&&!reduced)sy+=Math.sin(vt*5+f.ci)*.023;
-  if(f.st==='dash'){angle=.13;sy=.95;sx=1.06}if(f.st==='block'){sy=.97;dx-=f.face*Math.sin(clamp(vt/.18,0,1)*Math.PI)*4}
+  if(f.st==='dash'){angle=.13;sy=.95;sx=1.06}if(f.st==='block'){sy=.97;dx-=f.face*Math.sin(clamp(vt/.18,0,1)*Math.PI)*4}if(f.shieldA>.02){const g=f.shieldA;angle-=.08*g;sy-=.04*g;sx+=.025*g;dx-=f.face*6*g}
   if(f.st==='win'&&!reduced)dy-=Math.abs(Math.sin(vt*6.5))*13*Math.exp(-vt*.9);
   if(f.land>0){const k=Math.sin(f.land/.16*Math.PI);sy-=k*.09;sx+=k*.07}
   if(hitstop>0&&(f.st==='hit'||f.st==='down')&&!reduced)dx+=Math.sin(vclock*95)*3;
@@ -455,6 +440,7 @@ function drawF(f){let fr=selectFrame(f);const rx0=rxOf(f),ra=raOf(f)*(reduced&&i
     ctx.restore();
   } else if(f.st!=='sp'&&f.st!=='technique')drawManaAura(f,fr,X,Y,sx,sy,angle);
   drawSprite(fr,X,Y,f.face,opacity,!CH[f.ci].extra?.[f.st],sx,sy,angle);
+  if(f.shieldA>.05&&!lowQ()){ctx.save();ctx.globalCompositeOperation='lighter';const ga=.12*f.shieldA+(f.guardFlash>0?.2*clamp(f.guardFlash/.2,0,1):0);for(const o of[-2,2])drawSprite(fr,X+o,Y,f.face,ga,false,sx,sy,angle,'#7fe6ff');ctx.restore()}
   if(zaitoShade>0)drawSprite(fr,X,Y,f.face,zaitoShade*.83,false,sx,sy,angle,'#080610');
   drawCinematicFighterFX(f,X,Y,fr);
   drawTacticalOverlay(f,X,Y);
@@ -462,7 +448,7 @@ function drawF(f){let fr=selectFrame(f);const rx0=rxOf(f),ra=raOf(f)*(reduced&&i
   if(f.hitGlow>0)drawSprite(fr,X,Y,f.face,clamp(f.hitGlow/.13,0,1)*(superScreen?.beat>=0?.51:.85),false,sx,sy,angle,'#ffffff');
   drawMesh(fr,X,Y,f.face,sx,sy,angle);
   if((f.angle>0||f.setup>0)&&!currentStatus(f)){const c2=f.angle>0?'#ff758b':f.setup>0?'#8eb6ff':'#d5a8ff';text(f.angle>0?'MARKED':f.setup>0?'SETUP':'SLOWED',rx,GY-ra-205,10,c2);ctx.save();ctx.strokeStyle=c2;ctx.lineWidth=1.5;ctx.globalAlpha=.8;ctx.setLineDash([5,5]);ctx.lineDashOffset=-vclock*30;ctx.beginPath();ctx.ellipse(rx,GY-ra-222,13,5,0,0,TAU);ctx.stroke();ctx.restore()}
-  {const on=(f.back&&GUARD_STATES.has(f.st))||f.guardFlash>0;f.shieldA=(f.shieldA||0)+((on?1:0)-(f.shieldA||0))*.3;if(f.shieldA>.03&&!impactOn)drawShield(f,rx,ra)}}
+}
 function crescent(R,aT,aH,thick){const n=14;ctx.beginPath();for(let i=0;i<=n;i++){const a=aT+(aH-aT)*i/n;ctx.lineTo(Math.cos(a)*R,Math.sin(a)*R)}for(let i=n;i>=0;i--){const a=aT+(aH-aT)*i/n,r=R-thick*Math.sin(Math.PI*i/n)*(.35+.65*i/n);ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();ctx.fill()}
 function drawSwoosh(s){if(s.t<0)return;const f=s.f,p=s.t/s.dur,head=easeOut(p*1.7),tail=easeOut(clamp(p*1.7-.55,0,1)),al=(1-p)*(1-p);if(head<=tail)return;ctx.save();ctx.translate(rxOf(f),GY-raOf(f));ctx.scale(f.face,1);ctx.globalCompositeOperation='lighter';
   const arc=(R,a0,a1,th,cy)=>{ctx.save();ctx.translate(0,cy);ctx.globalAlpha=al*.75;ctx.fillStyle=s.col;crescent(R,lerp(a0,a1,tail),lerp(a0,a1,head),th);ctx.globalAlpha=al*.9;ctx.fillStyle='#ffffff';crescent(R,lerp(a0,a1,tail),lerp(a0,a1,head),th*.3);ctx.restore()};
@@ -562,7 +548,7 @@ function draw(){ctx.setTransform(RS,0,0,RS,0,0);ctx.globalAlpha=1;ctx.globalComp
     drawUltimate(P1);drawUltimate(P2);
     drawZaitoShadow(screenFx);
     drawZaitoMeteors(screenFx);
-    const order=ATK[P1.st]&&!ATK[P2.st]?[P2,P1]:[P1,P2];drawF(order[0]);drawF(order[1]);
+    const order=ATK[P1.st]&&!ATK[P2.st]?[P2,P1]:[P1,P2];drawF(order[0]);drawF(order[1]);for(const f of[P1,P2])if(f.guardFlash>0)drawBlockSpark(f,rxOf(f),raOf(f));
     for(const s of swooshes)drawSwoosh(s);
     for(const s of shots){const x=s.px===undefined?s.x:lerp(s.px,s.x,renderAlpha),y=s.py===undefined?s.y:lerp(s.py,s.y,renderAlpha),sz=s.at.rapid?80:110;ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.55+.15*Math.sin(vclock*30);ctx.drawImage(glow(s.color),x-sz*.7,y-sz*.7,sz*1.4,sz*1.4);ctx.restore();drawFX(2,Math.floor(s.t*18)%6,x,y,sz,s.face,1,0,s.color);drawSkillGlyph(s,x,y)}
     for(const e of effects){const t=e.t/e.dur;drawFX(e.row,Math.min(5,Math.floor(t*6)),e.x,e.y,e.size*(.9+.15*ease(t)),e.face,1-ease((t-.7)/.3),t)}
