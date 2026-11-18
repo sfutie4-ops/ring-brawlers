@@ -16,12 +16,18 @@ Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawler
 | hold Q | L1 | charge mana |
 | E | L2 | ultimate |
 | hold back | hold stick away | block (tap just before a hit to parry) |
-| H | MOVES | command list |
-| Esc | ❚❚ | pause |
+| Esc | ❚❚ | pause (Settings has the command list, how to play, sound and the coffee button) |
 
 Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s cooldown) · ← ↑ + punch uppercut (free, 2 s cooldown) · ↓ → + punch wave · ↓ ↑ + punch rising strike · ↓ ↓ + punch fighter skill · ↓ → + kick slide · ↓ ← + kick dive · ↓ ↓ + kick evade.
 
-## Latest merge
+## Latest changes
+
+- Training mode removed. Command list, How to play and Sound are in Settings only.
+- Animated command list: each input lights up in order; names follow the selected fighter.
+- Buy me a coffee (menu corner and Settings): copies the GCash account to the clipboard and opens the GCash app (Android/iOS). The account is never shown on screen and is stored scrambled in the page.
+- Performance: the HUD face portrait is baked once per expression (was the most expensive draw call), dynamic resolution steps sharpness down on slow devices, phones start at 1.5x.
+
+## Earlier merge
 
 The new art package (priest Loonie, renewed Abra, replacement Shehyee / Smugglaz / Apekz sheets, ink sheets for Batas, Aklas and Sinio, Cerberus, Third Eye, Axe of Law, Lotus Smash, Triple Timer clones, Anygma referee, facial expressions, comic effects) was merged with a three-way merge onto the existing controller, commands, cooldowns, block, floor damage, crates, effects and menus. Blocking now uses the dedicated block pose from the new sheets for every fighter except Zaito.
 
