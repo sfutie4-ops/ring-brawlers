@@ -60,7 +60,7 @@ const held={},buf={},pointers=new Map();let fxImage,renderAlpha=1;
 const FIXED_DT=1/120,SLOW=.22;
 const cam={x:480,z:1.03,cx:480,cy:270,kx:0,ky:0,kvx:0,kvy:0,trauma:0,punch:0,focus:null,focusT:0};
 const rope={a:0,v:0};
-const KM={a:'l',arrowleft:'l',d:'r',arrowright:'r',w:'up',arrowup:'up',' ':'u',s:'crouch',arrowdown:'crouch',j:'p',z:'p',k:'k',x:'k',u:'h',i:'w',l:'s',c:'s',q:'q',e:'e',r:'risingDive',t:'roll',y:'power',g:'technique',b:'charge'};
+const KM={a:'l',arrowleft:'l',d:'r',arrowright:'r',w:'up',arrowup:'up',' ':'u',s:'crouch',arrowdown:'crouch',j:'p',z:'p',k:'k',x:'k',l:'power',q:'charge',e:'s'};
 const GUARD_STATES=new Set(['idle','walk','block','crouch']);
 
 // ---------- feedback helpers ----------
@@ -92,9 +92,32 @@ function dirTick(){if(!P1||phase!=='fight'||paused){dirSet='';return}const x=(he
   for(const ch of cur)if(!dirSet.includes(ch)){const prev=cmdHist[cmdHist.length-1];cmdHist.push({s:ch,t:now});if(cmdHist.length>8)cmdHist.shift();
     if((ch==='f'||ch==='b')&&prev&&prev.s===ch&&now-prev.t<300&&!held.up&&!held.crouch){if(P1.cd<=0){P1.dashBack=ch==='b';buf.d=.22;cmdHist.length=0;buzz(16)}else{buzz(4);if(P1.notice!=='dashcd'){label('DASH COOLING',P1.x,GY-200,'#f5be58');P1.notice='dashcd'}}}}
   dirSet=cur}
+// Hex energy shield in front of a guarding fighter: unfolds when you hold back, flashes and ripples on a block,
+// turns gold during the parry window.
+function shieldPath(w,h){ctx.beginPath();ctx.ellipse(38,0,w+14,h,0,-1.36,1.36);ctx.ellipse(28,0,w*.55,h*.92,0,1.3,-1.3,true);ctx.closePath()}
+function hexAt(x,y,r){ctx.moveTo(x+r*Math.cos(Math.PI/6),y+r*Math.sin(Math.PI/6));for(let i=1;i<=6;i++){const a=Math.PI/6+i*Math.PI/3;ctx.lineTo(x+r*Math.cos(a),y+r*Math.sin(a))}}
+function drawShield(f,rx,ra){const crouch=f.st==='crouch',gf=clamp(f.guardFlash/.2,0,1),parry=f.parryWindow>0,A=f.shieldA,h=((crouch?46:74)+gf*10)*(.55+.45*A),w=(20+gf*6)*A+4,cy=GY-ra-(crouch?50:94),col=parry?'#ffe39a':gf>0?'#d8f8ff':'#6fe3ff',pulse=.85+.15*Math.sin(vclock*7+f.ci);
+  ctx.save();ctx.translate(rx,cy);ctx.scale(f.face,1);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=A;
+  // soft glow behind the shield
+  ctx.globalAlpha=A*(.22+gf*.4);ctx.drawImage(glow(col),34,-h*.9,w+40,h*1.8);ctx.globalAlpha=A;
+  // body
+  const g=ctx.createLinearGradient(14,0,42+w,0);g.addColorStop(0,col+'08');g.addColorStop(.6,col+'2a');g.addColorStop(1,col+'78');ctx.fillStyle=g;shieldPath(w,h);ctx.fill();
+  // honeycomb
+  if(!lowQ()){ctx.save();shieldPath(w,h);ctx.clip();ctx.strokeStyle=col;ctx.lineWidth=1;ctx.globalAlpha=A*(.6+gf*.4)*pulse;ctx.lineWidth=1.2;const r=7;ctx.beginPath();for(let row=-Math.ceil(h/(r*1.5));row<=Math.ceil(h/(r*1.5));row++)for(let xx=24;xx<80;xx+=r*1.732)hexAt(xx+(row&1?r*.866:0),row*r*1.5,r);ctx.stroke();ctx.restore()}
+  // rim + highlight
+  ctx.globalAlpha=A*.95*pulse;ctx.strokeStyle=col;ctx.lineWidth=2.6+gf*3;ctx.lineCap='round';ctx.beginPath();ctx.ellipse(38,0,w+14,h,0,-1.36,1.36);ctx.stroke();ctx.globalAlpha=A*.5;ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(28,0,w*.55,h*.92,0,-1.3,1.3);ctx.stroke();
+  ctx.globalAlpha=A*.7;ctx.strokeStyle='#ffffff';ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(38,0,w+14,h,0,-.95,-.25);ctx.stroke();
+  // light sweeping along the rim
+  const sy=Math.sin(vclock*2.6+f.ci*1.3)*h*.82,sx=38+(w+14)*Math.sqrt(Math.max(0,1-(sy/h)**2));ctx.globalAlpha=A*.9;ctx.drawImage(glow('#ffffff'),sx-9,sy-9,18,18);
+  // block impact ripple
+  if(gf>0){ctx.globalAlpha=gf;ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(46+w,0,(1-gf)*40+6,(1-gf)*70+10,0,0,TAU);ctx.stroke()}
+  // parry window: gold spark at the centre
+  if(parry){ctx.globalAlpha=1;ctx.drawImage(glow('#ffe39a'),w+36,-16,32,32)}
+  ctx.restore()}
+function drawKeyHint(){if(isTouch||phase!=='fight'||!P1)return;text('←↑ J uppercut  ·  →→ dash  ·  ↓→ J wave  ·  ↓← K dive  ·  H command list',480,494,9,'#aab4c8')}
 function drawCooldowns(){if(!P1||phase==='menu')return;const items=[['DASH',P1.cd,DASH_CD,'#f5be58'],['UPPER',P1.upCD||0,UPPER_CD,'#92e5ff']];items.forEach(([n,v,max,c],i)=>{const x=104+i*62,y=118,r=15,ready=v<=0;ctx.save();ctx.fillStyle='#070b14d0';ctx.beginPath();ctx.arc(x,y,r+3,0,TAU);ctx.fill();ctx.strokeStyle=ready?c:'#3a4460';ctx.lineWidth=3;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.stroke();if(!ready){ctx.strokeStyle=c;ctx.beginPath();ctx.arc(x,y,r,-Math.PI/2,-Math.PI/2+TAU*(1-v/max));ctx.stroke();text(v.toFixed(1),x,y+4,10,'#e9ebf0')}else{ctx.globalAlpha=.6+.4*Math.sin(vclock*6);ctx.fillStyle=c;ctx.beginPath();ctx.arc(x,y,5,0,TAU);ctx.fill();ctx.globalAlpha=1}text(n,x,y+r+13,8,ready?c:'#8792ab');ctx.restore()})}
 function pauseGame(v=!paused){if(!P1||phase==='menu'||phase==='end')return;paused=v;clearInput();$('pauseScreen').style.display=v?'flex':'none';$('pause').textContent=v?'RESUME':'PAUSE'}
-addEventListener('keydown',e=>{if(e.target.tagName==='SELECT')return;const key=e.key.toLowerCase();if(key==='escape'||key==='p'){e.preventDefault();if(!e.repeat)pauseGame();return}if(key==='v'){if(!e.repeat){meshMode=!meshMode;renderOpts()}return}if(key==='f'){if(!e.repeat){showFps=!showFps;store.set('fps',showFps);renderOpts()}return}if(key==='m'){if(!e.repeat)toggleSound();return}if(key==='enter'&&phase==='end'){newMatch(true);return}const k=KM[key];if(!k)return;e.preventDefault();if(!held[k]&&!paused){held[k]=held[k];if(['l','r','up','crouch'].includes(k)){held[k]=1;dirTick()}else press(k)}});
+addEventListener('keydown',e=>{if(e.target.tagName==='SELECT')return;const key=e.key.toLowerCase();if(key==='h'){e.preventDefault();if(!e.repeat){if(phase==='fight'||phase==='intro')pauseGame(true);openCmds()}return}if(key==='escape'||key==='p'){e.preventDefault();if(!e.repeat)pauseGame();return}if(key==='v'){if(!e.repeat){meshMode=!meshMode;renderOpts()}return}if(key==='f'){if(!e.repeat){showFps=!showFps;store.set('fps',showFps);renderOpts()}return}if(key==='m'){if(!e.repeat)toggleSound();return}if(key==='enter'&&phase==='end'){newMatch(true);return}const k=KM[key];if(!k)return;e.preventDefault();if(!held[k]&&!paused){held[k]=held[k];if(['l','r','up','crouch'].includes(k)){held[k]=1;dirTick()}else press(k)}});
 addEventListener('keyup',e=>{if(KM[e.key.toLowerCase()]){held[KM[e.key.toLowerCase()]]=0;dirTick()}});
 addEventListener('blur',()=>{clearInput();if(phase==='fight'||phase==='intro')pauseGame(true)});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();pauseGame(true)}});
 if(isTouch)document.body.classList.add('touch');
@@ -212,7 +235,7 @@ function refreshMoveLabels(){
   const r=ROSTER[P1.ci], skill=TECHNIQUES[P1.ci];
   const skillButton=document.querySelector('[data-k=technique]');
   if(skillButton){skillButton.innerHTML=skill.name+'<small>'+skill.cost+'</small>';skillButton.title=skill.cost+' mana · '+skill.detail}
-  for(const[k,name,cost]of[['h',r.upper,20],['w',r.wave,30],['s',r.super,100]]){const b=document.querySelector('[data-k='+k+']');if(b){b.innerHTML=k==='s'&&b.classList.contains('sh')?'L2 · ULT':(k==='s'?ULTIMATE_PLANS[P1.ci].short:name)+'<small>'+cost+'</small>';b.title=k==='s'?ULTIMATE_PLANS[P1.ci].detail:r.detail}}$('help').innerHTML='U: '+r.upper+' (20 energy) · I: '+r.wave+' (30 energy) · L: '+r.super+' (100 energy)<br>'+r.passive+'<br>G · '+skill.name+' ('+skill.cost+' mana). '+skill.detail+'<br>'+ULTIMATE_PLANS[P1.ci].detail+'<br>'+ULTIMATE_PLANS[P1.ci].signature+'<br>A/D: Move · S/↓: Crouch · W: Jump · J: Punch · K: Kick · Shift: Dash · Hold back to block · Tap back to parry<br>Q: Rise · E: Slide · R: Dive · T: Evade · Y: Power<br>Hold B to charge mana. Hold Y and release after the cue for the 60-mana charged version.<br>'+CHARGED_POWER[P1.ci].note+'<br>Root restricts movement. Stun and freeze lock actions. A clean hit shatters freeze.'}
+  for(const[k,name,cost]of[['h',r.upper,20],['w',r.wave,30],['s',r.super,100]]){const b=document.querySelector('[data-k='+k+']');if(b){b.innerHTML=k==='s'&&b.classList.contains('sh')?'L2 · ULT':(k==='s'?ULTIMATE_PLANS[P1.ci].short:name)+'<small>'+cost+'</small>';b.title=k==='s'?ULTIMATE_PLANS[P1.ci].detail:r.detail}}$('help').innerHTML='← ↑ + J: '+r.upper+' (free) · ↓ → + J: '+r.wave+' (30 mana) · E: '+r.super+' (100 mana)<br>'+r.passive+'<br>↓ ↓ + J · '+skill.name+' ('+skill.cost+' mana). '+skill.detail+'<br>'+ULTIMATE_PLANS[P1.ci].detail+'<br>'+ULTIMATE_PLANS[P1.ci].signature+'<br>A/D: Move · S/↓: Crouch · Space: Jump · J: Punch · K: Kick · double-tap →/←: Dash · Hold back to block · Tap back to parry<br>L: Power (hold and release after the cue for the 60-mana charged version) · Hold Q: charge mana · E: Ultimate · H: command list<br>'+CHARGED_POWER[P1.ci].note+'<br>Root restricts movement. Stun and freeze lock actions. A clean hit shatters freeze.'}
 function startRound(){resetUltimateScreen();refereeWinner=null;resetEnvironment();[P1,P2].forEach((f,i)=>Object.assign(f,{x:i?660:300,face:i?-1:1,hp:100,shownHP:100,mt:Math.max(40,Math.min(70,f.mt)),st:'idle',t:0,air:0,vy:0,vx:0,hit:false,connected:false,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ctl:{dir:0},slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,back:false,backHeld:false,parryWindow:0,parryCooldown:0,prevX:undefined,prevAir:undefined,land:0,stepT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false,ultimate:null,...tacticsState()}));timer=60;phase='intro';pt=0;koMsg='';setMsg(difficulty==='training'?'TRAINING':'ROUND '+round);parts=[];effects=[];ghosts=[];shots=[];texts=[];swooshes=[];hitstop=0;flash=0;slowT=0;superDim=0;banner=null;lastTick=-1;cam.trauma=0;cam.focus=null;cam.focusT=0;cam.punch=0;clearInput();resetShowtime();introT0=round===1?1.25:0;if(introT0)msg=''}
 function toMenu(){resetUltimateScreen();paused=false;phase='menu';P1=null;P2=null;clearInput();parts=[];confettiT=0;$('menu').style.display='flex';$('pauseScreen').style.display='none';$('result').style.display='none';$('pause').textContent='PAUSE';buildCards()}
 
@@ -439,7 +462,7 @@ function drawF(f){let fr=selectFrame(f);const rx0=rxOf(f),ra=raOf(f)*(reduced&&i
   if(f.hitGlow>0)drawSprite(fr,X,Y,f.face,clamp(f.hitGlow/.13,0,1)*(superScreen?.beat>=0?.51:.85),false,sx,sy,angle,'#ffffff');
   drawMesh(fr,X,Y,f.face,sx,sy,angle);
   if((f.angle>0||f.setup>0)&&!currentStatus(f)){const c2=f.angle>0?'#ff758b':f.setup>0?'#8eb6ff':'#d5a8ff';text(f.angle>0?'MARKED':f.setup>0?'SETUP':'SLOWED',rx,GY-ra-205,10,c2);ctx.save();ctx.strokeStyle=c2;ctx.lineWidth=1.5;ctx.globalAlpha=.8;ctx.setLineDash([5,5]);ctx.lineDashOffset=-vclock*30;ctx.beginPath();ctx.ellipse(rx,GY-ra-222,13,5,0,0,TAU);ctx.stroke();ctx.restore()}
-  if((f.back&&GUARD_STATES.has(f.st))||f.guardFlash>0){const gf=clamp(f.guardFlash/.2,0,1);ctx.save();ctx.globalCompositeOperation='lighter';ctx.strokeStyle='#8be2ff';ctx.globalAlpha=.55+gf*.45;ctx.lineWidth=3+gf*5;ctx.lineCap='round';ctx.translate(rx,GY-ra-(f.st==='crouch'?49:90));ctx.scale(f.face,1);ctx.beginPath();ctx.ellipse(35,0,20+gf*5,(f.st==='crouch'?40:64)+gf*8,0,-1.4,1.4);ctx.stroke();ctx.restore()}}
+  {const on=(f.back&&GUARD_STATES.has(f.st))||f.guardFlash>0;f.shieldA=(f.shieldA||0)+((on?1:0)-(f.shieldA||0))*.3;if(f.shieldA>.03&&!impactOn)drawShield(f,rx,ra)}}
 function crescent(R,aT,aH,thick){const n=14;ctx.beginPath();for(let i=0;i<=n;i++){const a=aT+(aH-aT)*i/n;ctx.lineTo(Math.cos(a)*R,Math.sin(a)*R)}for(let i=n;i>=0;i--){const a=aT+(aH-aT)*i/n,r=R-thick*Math.sin(Math.PI*i/n)*(.35+.65*i/n);ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();ctx.fill()}
 function drawSwoosh(s){if(s.t<0)return;const f=s.f,p=s.t/s.dur,head=easeOut(p*1.7),tail=easeOut(clamp(p*1.7-.55,0,1)),al=(1-p)*(1-p);if(head<=tail)return;ctx.save();ctx.translate(rxOf(f),GY-raOf(f));ctx.scale(f.face,1);ctx.globalCompositeOperation='lighter';
   const arc=(R,a0,a1,th,cy)=>{ctx.save();ctx.translate(0,cy);ctx.globalAlpha=al*.75;ctx.fillStyle=s.col;crescent(R,lerp(a0,a1,tail),lerp(a0,a1,head),th);ctx.globalAlpha=al*.9;ctx.fillStyle='#ffffff';crescent(R,lerp(a0,a1,tail),lerp(a0,a1,head),th*.3);ctx.restore()};
@@ -501,8 +524,8 @@ function hud(f,right){const d=right?-1:1,m=x=>right?W-x:x,col=COL[f.ci],sh=f.hud
   if(f.combo>=2&&f.comboTime>0){const a=clamp(f.comboTime/.3,0,1),pop=1+.45*f.comboPop;ctx.save();ctx.globalAlpha=a;ctx.translate(m(36),196);ctx.rotate(d*-.07);ctx.scale(pop,pop);dtext(String(f.combo),0,0,54,col,right?'right':'left');const nw=(()=>{ctx.font=`italic ${DW} 54px ${DISP}`;return ctx.measureText(String(f.combo)).width})();dtext(f.combo>=7?'UNSTOPPABLE':f.combo>=5?'ON FIRE':'HITS',d*(nw+10),0,20,'#fff3d5',right?'right':'left');ctx.restore()}}
 function drawTimer(){const training=difficulty==='training',low=!training&&timer<=10&&phase==='fight';ctx.save();ctx.fillStyle='#070b14d8';ctx.beginPath();ctx.moveTo(436,12);ctx.lineTo(524,12);ctx.lineTo(512,88);ctx.lineTo(448,88);ctx.closePath();ctx.fill();ctx.strokeStyle=low?'#ff5a4e':'#f5be5880';ctx.lineWidth=2;ctx.stroke();
   const s=low&&!reduced?1+.1*Math.abs(Math.sin(vclock*Math.PI)):1;ctx.translate(480,62);ctx.scale(s,s);dtext(training?'∞':String(Math.ceil(timer)),0,0,42,low?'#ff7a6e':'#f8efdc');ctx.restore();text(training?'PRACTICE':'ROUND '+round,480,82,9,'#adbad0')}
-function drawSkillBar(){if(isTouch||phase!=='fight')return;const skills=[['J','PUNCH',0],['K','KICK',0],['←↑J','UPPER',0],['↓→J','WAVE',30],['→→','DASH',0],['L','SUPER',100]];
-  skills.forEach(([key,name,cost],i)=>{const x=205+i*93,y=503,w=86,h=28,dash=name==='DASH',ok=P1.mt>=cost&&(!dash||P1.cd<=0)&&(name!=='UPPER'||!(P1.upCD>0)),sup=name==='SUPER'&&ok;
+function drawSkillBar(){if(isTouch||phase!=='fight')return;const skills=[['J','□ PUNCH',0],['K','△ KICK',0],['␣','✕ JUMP',0],['L','○ POWER',45],['Q','L1 CHARGE',0],['E','L2 ULT',100]];
+  skills.forEach(([key,name,cost],i)=>{const x=205+i*93,y=503,w=86,h=28,dash=name==='DASH',ok=P1.mt>=cost&&(!dash||P1.cd<=0)&&(name!=='UPPER'||!(P1.upCD>0)),sup=name==='L2 ULT'&&ok;
     ctx.fillStyle=ok?'#0d1422e0':'#0d142290';para(x,y,w,h,6);ctx.fill();
     if(dash&&P1.cd>0){ctx.fillStyle='#f5be5830';para(x,y,w*(1-P1.cd/DASH_CD),h,6);ctx.fill()}if(name==='UPPER'&&P1.upCD>0){ctx.fillStyle='#92e5ff30';para(x,y,w*(1-P1.upCD/UPPER_CD),h,6);ctx.fill()}
     if(cost&&!ok){ctx.fillStyle=COL[P1.ci]+'38';para(x,y,w*clamp(P1.mt/cost,0,1),h,6);ctx.fill()}
@@ -553,7 +576,7 @@ function draw(){ctx.setTransform(RS,0,0,RS,0,0);ctx.globalAlpha=1;ctx.globalComp
   drawCrownVerse(screenFx);
   if(flash>0&&!reduced){ctx.fillStyle=`rgba(255,236,205,${Math.min(.75,flash*2.4)})`;ctx.fillRect(0,0,W,H)}
   if(!P1){if(showFps)drawFps();return}
-  drawDanger();drawBanner();hud(P1,false);hud(P2,true);drawTimer();drawAnnounce();drawSkillBar();drawCooldowns();drawUiFx();drawCrowdTexts();drawVS();if(showFps)drawFps()}
+  drawDanger();drawBanner();hud(P1,false);hud(P2,true);drawTimer();drawAnnounce();drawSkillBar();drawKeyHint();drawCooldowns();drawUiFx();drawCrowdTexts();drawVS();if(showFps)drawFps()}
 let fpsEma=60;function drawFps(){text(Math.round(fpsEma)+' FPS'+(lowQ()?' · low':''),480,104,9,'#9fe7a4')}
 function drawPreview(){const c=$('pv');if(!c||!ready||!c.offsetParent)return;const g=c.getContext('2d'),w=c.width,h=c.height,F=CH[sel].f,col=COL[sel],cyc=vclock%4.4;g.clearRect(0,0,w,h);
   let fr=F.idle[0],st='idle',lt=0;for(const[name,at]of[['punch',1.2],['kick',2.2],['upper',3.2]])if(cyc>=at&&cyc<at+ATK[name].dur){st=name;lt=cyc-at;let idx=0;TIMING[name].forEach((tt,i)=>{if(lt>=tt)idx=i});fr=F[name][Math.min(idx,F[name].length-1)]}
