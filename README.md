@@ -1,3 +1,34 @@
+# Ring Brawlers
+
+Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawlers/
+
+## Controls
+
+| PC | Phone | Action |
+|---|---|---|
+| A / D or ← → | stick | move |
+| S / ↓ | stick ▼ | crouch |
+| W / ↑ | stick ▲ | "up" for commands |
+| Space | ✕ | jump |
+| J | □ | punch |
+| K | △ | kick |
+| L | ○ | signature power (hold for charged) |
+| hold Q | L1 | charge mana |
+| E | L2 | ultimate |
+| hold back | hold stick away | block (tap just before a hit to parry) |
+| H | MOVES | command list |
+| Esc | ❚❚ | pause |
+
+Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s cooldown) · ← ↑ + punch uppercut (free, 2 s cooldown) · ↓ → + punch wave · ↓ ↑ + punch rising strike · ↓ ↓ + punch fighter skill · ↓ → + kick slide · ↓ ← + kick dive · ↓ ↓ + kick evade.
+
+## Latest merge
+
+The new art package (priest Loonie, renewed Abra, replacement Shehyee / Smugglaz / Apekz sheets, ink sheets for Batas, Aklas and Sinio, Cerberus, Third Eye, Axe of Law, Lotus Smash, Triple Timer clones, Anygma referee, facial expressions, comic effects) was merged with a three-way merge onto the existing controller, commands, cooldowns, block, floor damage, crates, effects and menus. Blocking now uses the dedicated block pose from the new sheets for every fighter except Zaito.
+
+Tested in headless Chromium: all keyboard commands, phone stick/buttons in landscape and portrait, control fading, block, a full match to the result card, all nine fighters' block poses and two ultimates. No errors. Not tested on a real phone.
+
+---
+
 # Ring Brawlers — Mana Edition
 
 Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawlers/

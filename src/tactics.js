@@ -19,7 +19,7 @@ const CONTROL = {
 const CHARGED_POWER = [
   {damage:5, status:{stun:.54}, note:'Last gold bar stuns.'},
   {damage:7, status:{slow:2.5}, note:'A stronger slow traps retreating fighters.'},
-  {damage:6, status:{root:1.45}, note:'Roots and marks the opponent for Angle Breaker.'},
+  {damage:6, status:{root:1.45}, note:'Roots and marks the opponent for Third Eye.'},
   {damage:8, status:{stun:.72}, note:'The guard-breaking Faultline stuns on its clean hit.'},
   {damage:5, status:{stun:.5}, note:'Last shot stuns after a sustained barrage.'},
   {damage:6, status:{root:1.55}, note:'Last zigzag bolt roots, setting up Black Hole.'},
@@ -312,14 +312,25 @@ async function loadExpressions(progress) {
   }
 }
 function drawCombatPortrait(f,pr) {
-  let expression=ultimateFaceImage(f);
-  if(LOCKED_STATES.has(f.st)||f.st==='hit'||f.st==='down')expression=expressions.recoil;
-  else if(!expression && (f.st==='chargeMana'||f.st==='chargePower'||(f.st!=='sp'&&f.mt>=100)))expression=expressions.focus;
+  const expression=combatPortraitFrame(f);
   if(!expression) {
     ctx.drawImage(portrait(f.ci),-pr,-pr+2,pr*2,pr*2);
     return;
   }
   drawExpressionCell(expression,f.ci,-pr,-pr-2,pr*2,pr*2+5);
+}
+
+function combatPortraitFrame(f) {
+  const cast=ultimateFaceImage(f);
+  if (cast) return cast;
+  const {ci,st,t}=f;
+  let pose=idleFacePose(ci,t);
+  if (st==='win') pose='win';
+  else if (LOCKED_STATES.has(st)||st==='hit'||st==='down') pose='recoil';
+  else if (st==='chargeMana'||st==='chargePower'||st==='chargeRecover') pose=t>=.35?'attack':'breath';
+  else if (MOVES[ci][st]) pose=t>=MOVES[ci][st].hit*.72?'attack':'alert';
+  else if (st==='block'||st==='evade') pose='alert';
+  return rosterFaceFrame(ci,pose);
 }
 
 function tacticalAI(f,opponent,dist,controls,roll) {

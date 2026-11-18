@@ -286,3 +286,6 @@ h1 span{color:var(--gold)}
   /* tighter, lower clusters so more of the floor stays visible */
   .touch.playing #pad{padding-bottom:max(6px,env(safe-area-inset-bottom))}
 }
+
+#fighterInfo .keyhint{color:#8792ab;font-size:10px;letter-spacing:.04em}.touch #fighterInfo .keyhint{display:none}
+#fighterInfo .mv span b{letter-spacing:.02em}

@@ -73,14 +73,15 @@ function ultimateFaceImage(f) {
   if(f.st!=='sp'&&!finishing)return null;
   const acting=ultimateActingFrame(f);
   const ritual=ritualCastFrame(f,acting);
-  if (acting.phase==='windup' && acting.step===0 && acting.amount>.55 && expressions['cast-expressions']) {
+  const body=cinematicBodyFrame(f,acting);
+  if (body?.faceCrop && acting.phase!=='recover' && !(f.ci===1 && acting.phase==='windup' && acting.amount<.26)) return body;
+  if (f.ci===5 && acting.phase==='windup' && acting.step===0 && acting.amount>.55 && expressions['cast-expressions']) {
     return expressions['cast-expressions'];
   }
-  if (f.ci===0 && acting.phase==='impact' && expressions['cast-expressions']) return expressions['cast-expressions'];
   if(ritual)return ritual;
   const {phase:castPhase}=acting;
-  if(castPhase==='impact')return expressions['ultimate-impact']||expressions.focus;
-  if(castPhase==='windup')return expressions['ultimate-windup']||expressions.focus;
+  if(castPhase==='impact')return rosterFaceFrame(f.ci,'attack')||expressions['ultimate-impact'];
+  if(castPhase==='windup')return rosterFaceFrame(f.ci,acting.amount>.54?'attack':'alert')||expressions['ultimate-windup'];
   return null;
 }
 

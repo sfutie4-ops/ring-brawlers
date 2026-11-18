@@ -1,13 +1,13 @@
 // Generated 36-frame sheets: five new actions and a replacement ultimate.
 const NEW_ACTIONS=['rise','slide','dive','evade','power'];
 const EXTRA_NAMES=[
-['Crown Rise','Bar Slide','Golden Drop','Beat Step','Rhyme Barrage'],
+['Crown Rise','Bar Slide','Golden Drop','Beat Step','Literal Punchline'],
 ['Mirage Rise','Phantom Slide','Violet Dive','Illusion Roll','Ghost Rush'],
 ['Angle Rise','Redline Slide','Pressure Dive','Angle Step','Crimson Mark'],
 ['Iron Rise','Anvil Slide','Hammer Drop','Iron Roll','Faultline'],
 ['Turbo Rise','Velocity Slide','Flash Dive','Speed Roll','Overclock'],
 ['Chaos Rise','Crooked Slide','Wild Dive','Rift Roll','Zigzag Burst'],
-['Rebound Rise','Freestyle Slide','Bounce Drop','Rebuttal Roll','Echo Bounce'],
+['Rebound Rise','Freestyle Slide','Bounce Drop','Rebuttal Roll','Poop Barrage'],
 ['Setup Rise','Double Slide','Payoff Dive','Pivot Roll','Triple Trigger'],
 ['Punchline Rise','Crowd Slide','Mic Drop','Juke Roll','Laugh Wave']];
 const extraImages=[];

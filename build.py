@@ -3,11 +3,9 @@
 
 index.html = src/template.html + src/style.css + art data + src/game.js
 
-The art (sprite atlases as base64 + frame metadata) lives only inside
-index.html, as the three lines starting with `const CH=`, `const FX_META=`
-and `const FX_SRC=`. This script lifts those lines out of the current
-index.html and wraps the new code around them, so the game stays one
-self-contained offline file.
+The base fighter art and effects come from the current index.html.
+Additional art comes from the asset folders in the full project. The compact
+distribution can also rebuild from the artwork already embedded in index.html.
 
 Usage:  python3 build.py
 """
@@ -22,12 +20,12 @@ for key in ("const CH=", "const FX_META=", "const FX_SRC="):
         sys.exit(f"expected exactly one line starting with {key!r} in index.html, found {len(lines)}")
     data.append(lines[0])
 
-# Compact archives keep the runtime artwork embedded in index.html.
 if not (root / "assets/arenas").is_dir():
     for key in ("ARENA_ART", "EXTRA_ART", "ULTIMATE_ART", "EXPRESSION_ART", "CINEMATIC_ART", "CINEMATIC_FRAMES"):
         prefix = f"const {key}="
         data.append(next(line for line in html.splitlines() if line.startswith(prefix)))
 else:
+    # Asset data from the full development project.
     arena_art = []
     for name in ("neon-rooftop", "foundry-district", "championship"):
         raw = (root / "assets/arenas" / (name + ".webp")).read_bytes()
@@ -39,8 +37,8 @@ else:
      extra.append("data:image/webp;base64,"+base64.b64encode((root/"assets/moves"/(name+".webp")).read_bytes()).decode())
     data.append("const EXTRA_ART="+json.dumps(extra,separators=(",",":"))+";")
     ultimate_art = []
-    for name in ("royal-bust", "illusion-rush", "angle-breaker", "liberty-book", "triple-timer",
-                 "black-hole", "freestyle-rebound", "triple-meaning", "crowd-control", "anygma", "ritual-casts"):
+    for name in ("royal-bust", "cerberus-breath", "triple-timer", "black-hole",
+                 "freestyle-rebound", "triple-meaning", "anygma", "ritual-casts"):
         raw = (root / "assets/ultimates" / (name + ".webp")).read_bytes()
         ultimate_art.append({"name": name, "src": "data:image/webp;base64," + base64.b64encode(raw).decode("ascii")})
     data.append("const ULTIMATE_ART=" + json.dumps(ultimate_art, separators=(",", ":")) + ";")
@@ -54,7 +52,10 @@ else:
     cinematic_dir = root / "assets/cinematics"
     cinematic_art = {}
     for name in ("states-early", "states-mid", "states-late", "cast-actions", "mountain-climb", "poop-meteors",
-                 "unique-early", "unique-mid", "unique-late", "technique-effects"):
+                 "unique-early", "unique-mid", "unique-late", "technique-effects",
+                 "shehyee-replacement", "smugglaz-replacement", "apekz-replacement", "roster-faces",
+                 "loonie-priest", "abra-renewed", "priest-abra-faces", "verdict-axe",
+                 "third-eye", "lotus-smash", "batas-ink", "aklas-ink", "idle-expressions", "sinio-ink", "comic-effects"):
         raw = (cinematic_dir / (name + ".webp")).read_bytes()
         cinematic_art[name] = "data:image/webp;base64," + base64.b64encode(raw).decode("ascii")
     data.append("const CINEMATIC_ART=" + json.dumps(cinematic_art, separators=(",", ":")) + ";")

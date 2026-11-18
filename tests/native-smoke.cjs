@@ -11,6 +11,40 @@ console.log(tacticTests);
 const techniqueTests=run(fs.readFileSync('tests/technique-cases.js','utf8'));
 console.log(techniqueTests);
 Object.assign(tests,ultimateTests,tacticTests,techniqueTests);
+tests.idleExpressionsForNineFighters=run(`CH.every((_,ci)=>{
+  const f=mk(ci,350,1,true);f.st='idle';
+  const period=2.8+(ci%4)*.28;
+  f.t=period-ci*.22;const neutral=combatPortraitFrame(f);
+  f.t=.42*period-ci*.22;const breath=combatPortraitFrame(f);
+  f.t=.75*period-ci*.22;const blink=combatPortraitFrame(f);
+  const atlas=ci<=1?'priest-abra-faces':'roster-faces';
+  return new Set([neutral,breath,blink]).size===3 &&
+    [neutral,breath,blink].every(frame=>frame.im===cinematicImages[atlas]);
+})`);
+tests.facialReactionsForNineFighters=run(`CH.every((_,ci)=>{
+  const f=mk(ci,350,1,true);
+  const states={punch:'attack',down:'recoil',frozen:'recoil',stunned:'recoil',block:'alert',win:'win'};
+  return Object.entries(states).every(([st,pose])=>{
+    f.st=st;f.t=MOVES[ci][st]?.hit??.3;
+    return combatPortraitFrame(f)===rosterFaceFrame(ci,pose);
+  });
+})`);
+tests.revisedSpritesStayConsistent=run(`Object.keys(REVISED_FIGHTERS).map(Number).every(ci=>[
+  'idle','walk','dash','jump','block','hit','crouch','down','frozen','stunned','win',
+  'chargeMana','chargePower','chargeRecover',...Object.keys(MOVES[ci]).filter(st=>st!=='sp')
+].every(st=>{
+  const f=mk(ci,350,1,true);f.st=st;f.t=MOVES[ci][st]?.hit??.2;
+  return selectFrame(f).im===cinematicImages[REVISED_FIGHTERS[ci].sheet];
+}))`);
+tests.classicZaito=run(`(()=>{
+  const f=mk(6,350,1,true);
+  return selectFrame(f).im===cinematicImages['idle-expressions'] && (f.st='punch',CH[6].f.punch.includes(selectFrame(f)));
+})()`);
+for(const ci of [0,1,2,4,6,7]) {
+  run(`setArena(2);sel=${ci};newMatch(false);phase='fight';msg='';P1.x=318;P2.x=646;
+    cam.z=1;cam.cx=480;cam.cy=270;cam.kx=cam.ky=cam.trauma=0;draw();`);
+  fs.writeFileSync(`.qa/roster-${ci}.png`,nodes.g.toBuffer('image/png'));
+}
 run("setArena(2);sel=3;newMatch(false);phase='fight';msg='';P1.x=300;P1.mt=100;checkFullMana(P1);P2.x=690;P2.st='frozen';P2.freeze=.7;P2.hitGlow=0;cam.z=1;cam.cx=480;cam.cy=270;cam.kx=cam.ky=cam.trauma=0;draw()");
 fs.writeFileSync('.qa/full-mana-and-freeze.png',nodes.g.toBuffer('image/png'));
 
@@ -20,12 +54,15 @@ tests.castingExpressions=run(`(()=>{
   if(!expressions['ultimate-windup']||!expressions['ultimate-impact'])return false;
   return ULTIMATE_PLANS.every((plan,i)=>{
     sel=i;newMatch(false);phase='fight';P1.mt=100;start(P1,'sp');
-    const windup=i===0 ? ritualFrames[0] : i===5 ? ritualFrames[2] : expressions['ultimate-windup'];
+    const activeSheet=plan.castSheet && cinematicFrames[plan.castSheet];
+    const revised=REVISED_FIGHTERS[i] && cinematicFrames[REVISED_FIGHTERS[i].sheet];
+    const windup=activeSheet?.[0] || (i===0 ? revised[18] : i===5 ? ritualFrames[2] : rosterFaceFrame(i,'alert'));
     if(ultimateFaceImage(P1)!==windup||!ultimateBodyFrame(P1))return false;
-    if((i===0||i===5||i===7)&&ultimateBodyFrame(P1)!==cinematicFrames['cast-actions'][i===0?0:i===5?3:6])return false;
+    if(i===5&&ultimateBodyFrame(P1)!==cinematicFrames['cast-actions'][3])return false;
+    if(revised&&i!==5&&!activeSheet&&ultimateBodyFrame(P1).im!==revised[0].im)return false;
     for(const beat of plan.beats){
       P1.t=beat[0]+.001;updateUltimate(P1,P2);
-      const impact=i===0 ? expressions['cast-expressions'] : expressions['ultimate-impact'];
+      const impact=activeSheet?.[2] || ((i===0||i===1) ? revised[19] : rosterFaceFrame(i,'attack'));
       if(ultimateFaceImage(P1)!==impact||!ultimateBodyFrame(P1))return false;
     }
     P1.ultimate.elapsed+=.25;
@@ -42,9 +79,14 @@ for(const [ci,progress] of [[0,.41],[1,.42],[2,.33],[3,.51],[4,.33],[5,.52],[6,.
 }
 for(const [ci,targets] of [
   [0,[[.08,'loonie-praying'],[.74,'loonie-gold-eyes']]],
+  [1,[[.20,'abra-summon'],[.63,'abra-hellbreath']]],
+  [2,[[.35,'shehyee-eye-open'],[.87,'shehyee-laser']]],
+  [3,[[.65,'batas-law-book'],[1.13,'batas-axe-impact']]],
+  [4,[[.45,'smugglaz-clones'],[.592,'smugglaz-muzzle-flash']]],
   [5,[[.19,'aklas-sniff-cinematic'],[.29,'aklas-dazed']]],
   [6,[[.38,'zaito-shadow-raised'],[.89,'zaito-shadow-swing'],[1.03,'zaito-shadow-splash']]],
   [7,[[.18,'apekz-climb'],[.30,'apekz-summit'],[.425,'apekz-dive'],[.53,'apekz-landed']]],
+  [8,[[.32,'sinio-lotus'],[.70,'sinio-alter-ego'],[.88,'sinio-ground-smash']]],
 ]){
   run(`setArena(2);sel=${ci};newMatch(false);phase='fight';msg='';P1.x=340;P2.x=540;P1.mt=100;
     cam.z=1;cam.cx=480;cam.cy=270;cam.kx=cam.ky=cam.trauma=0;start(P1,'sp');`);
@@ -98,7 +140,7 @@ tests.zaitoDarkInMeteorWindup=run("zaitoShadowStrength(P1)>.8&&superScreen.beat=
 run("P1.t=.982;updateUltimate(P1,P2);advanceUltimateScreen(1.11)");
 tests.zaitoMeteorTerminalBeat=run("superScreen.beat===1&&zaitoShadowStrength(P1)>.8");
 run("sel=8;newMatch(false);phase='fight';P1.mt=100;start(P1,'sp');P1.t=.9;updateUltimate(P1,P2)");
-tests.sinioIsNotShadowCaster=run("zaitoShadowStrength(P1)===0&&ULTIMATE_PLANS[P1.ci].title==='Crowd Control'");
+tests.sinioUsesLotusSmash=run("zaitoShadowStrength(P1)===0&&ULTIMATE_PLANS[P1.ci].lotus===true");
 run("newMatch(false);pt=.6;msgT=.6;draw()");
 fs.writeFileSync('.qa/referee.png',nodes.g.toBuffer('image/png'));
 console.log(tests);fs.writeFileSync('.qa/results.json',JSON.stringify({tests,validation:'Native Canvas rendering and JS simulation; browser unavailable in container'},null,2));fs.writeFileSync('assets/aftershock_fx_atlas.png',run('atlasCanvas.toBuffer("image/png")'));

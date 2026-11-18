@@ -3,29 +3,30 @@
 const ULTIMATE_PLANS = [
   {title:'Hari ng Tugma: Crown Smash', short:'Crown Smash', art:'royal-bust',
     detail:'Loonie levitates in prayer, then his eyes flare gold as he chants a rhyming couplet. The final rhyme brings his guardian’s crown down for 36 damage. Jump over the shockwave.',
-    signature:'Five gold bars keep ranged pressure going.',
+    signature:'Punchline sends five golden punches down the lane.',
     duration:1.84, width:355, aim:112, frames:[.38,.91,1.29], shake:1.12,
     beats:[[.91,36,153,156,48]], floor:2.8},
-  {title:'Gayuma: Illusion Rush', short:'Illusion Rush', art:'illusion-rush',
-    detail:'A violet double opens the attack. Abra phases forward and strikes twice for 29 total damage, slowing on the second hit.',
+  {title:'Cerberus: Hellbreath', short:'Cerberus', art:'cerberus-breath',
+    detail:'Summon a three-headed hound. Two waves of flame deal 29 total damage and the second slows. Back away or jump out of the flame lane.',
     signature:'Ghost Rush dashes in and slows on contact.',
-    duration:1.44, width:276, aim:30, frames:[.2,.66,1.01], shake:.42,
-    beats:[[.37,12,96,110,100],[.66,17,101,120,115]], phaseRush:true, slow:1.35},
-  {title:'Angle Breaker', short:'Angle Breaker', art:'angle-breaker',
-    detail:'Break a crimson crystal for 27 damage. An Angle Mark breaks guard and adds 5 damage.',
-    signature:'Crimson Mark primes Angle Breaker.',
-    duration:1.58, width:261, aim:138, frames:[.31,.76,1.09], shake:.73,
-    beats:[[.76,27,138,111,114]], breakMarked:true},
-  {title:'Final Verdict: Liberty Clap', short:'Liberty Clap', art:'liberty-book',
-    detail:'Lady Liberty opens a giant book and locks onto a nearby opponent. The clap deals 41 damage and breaks guard. Jump or move clear of the pages.',
+    duration:1.63, width:319, aim:168, frames:[.24,.52,.91], shake:.57,
+    beats:[[.52,12,W,-1,111],[.81,17,W,-1,123]], breath:true, slow:1.35},
+  {title:'Third Eye: Crimson Focus', short:'Third Eye', castSheet:'third-eye',
+    detail:'Shape a giant eye of crimson energy and fire a piercing laser for 27 damage. An Angle Mark breaks guard and adds 5 damage.',
+    signature:'Crimson Mark primes Third Eye.',
+    duration:1.63, width:460, aim:249, frames:[.25,.76,1.18], shake:.73,
+    beats:[[.76,27,W,-1,132]], eye:true, breakMarked:true},
+  {title:'Final Verdict: Axe of Law', short:'Axe of Law', castSheet:'verdict-axe',
+    detail:'Open a law book, draw a giant axe and split a stone Lady Liberty. Its shockwave breaks guard and deals 41 damage. Jump or move clear of the statue.',
     signature:'Faultline has startup armor and breaks guard.',
-    duration:1.92, width:365, aim:108, frames:[.37,1.03,1.4], shake:1.2,
+    duration:1.92, width:365, aim:108, frames:[.37,1.03,1.30], shake:1.2,
     beats:[[1.03,41,108,112,55]], armor:1.01, guardBreak:true, floor:2.5, book:true},
   {title:'Triple Timer', short:'Triple Timer', art:'triple-timer',
-    detail:'Four speed clones fire three volleys. Each volley deals 11 damage for up to 33. Jump or parry to escape the firing lane.',
+    detail:'Four speed clones fire three machine-gun bursts. Each burst lands up to four hits, for 33 total damage. Jump or parry in the gaps.',
     signature:'Overclock fires six fast energy shots.',
     duration:1.68, width:126, aim:0, frames:[], shake:.32,
-    beats:[[.57,11,555,-1,75],[.83,11,555,-1,75],[1.09,11,555,-1,75]], clones:true},
+    beats:[.57,.83,1.09].flatMap(start=>[2,2,2,5].map((damage,shot)=>
+      [start+shot*.043,damage,W,-1,75])), clones:true},
   {title:'Black Hole', short:'Black Hole', art:'black-hole',
     detail:'Aklas sniffs a puff of fictional charged dust and reels with a dazed grin. His black hole pulls in nearby opponents for three pulses of 7, 9 and 15 damage. The final pulse launches.',
     signature:'Zigzag Burst sends three irregular shots.',
@@ -33,8 +34,8 @@ const ULTIMATE_PLANS = [
     beats:[[.46,7,174,106,73],[.67,9,174,124,104],[.91,15,174,143,150]],
     blackHole:{opens:.30,radius:270,pull:430}, launch:370},
   {title:'Shadow Meteor', short:'Shadow Meteor', art:'freestyle-rebound',
-    detail:'Zaito darkens, swings a giant shadow into the ground, and splatters a cartoon poop meteor. The opener deals 13 damage and the slam deals 21. A windup counter pulls the impact closer.',
-    signature:'Echo Bounce sends two bouncing shots. Rebuttal Roll can counter.',
+    detail:'Zaito darkens, sends a giant googly-eyed shadow cobra lunging across the arena, and splatters a cartoon poop meteor. The opener deals 13 damage and the slam deals 21. A windup counter pulls the impact closer.',
+    signature:'Poop Barrage sends two bouncing cartoon poops. Rebuttal Roll can counter.',
     duration:1.87, width:300, aim:150, frames:[.28,.98,1.38], shake:.55,
     beats:[[.51,13,123,113,100],[.98,21,208,134,131]], response:true},
   {title:'Triple Meaning: Summit Kick', short:'Summit Kick', art:'triple-meaning',
@@ -42,14 +43,14 @@ const ULTIMATE_PLANS = [
     signature:'Setup marks the opponent. Triple Trigger fires three increasing shots.',
     duration:1.73, width:285, aim:146, frames:[.47,1,1.26], shake:.58,
     beats:[[.47,6,146,132,104],[.72,8,146,146,118],[1,9,146,156,138]], payoff:true, mountain:true},
-  {title:'Crowd Control', short:'Crowd Control', art:'crowd-control',
-    detail:'A pink crowd wave deals 25 damage, slows the opponent and drains up to 18 energy.',
+  {title:'Lotus Ground Smash', short:'Lotus Smash', castSheet:'lotus-smash',
+    detail:'Meditate in a floating lotus pose and summon a huge, muscular Sinio to smash the floor for 25 damage. The shockwave slows and drains up to 18 mana.',
     signature:'Laugh Wave trades raw damage for reach and a longer slow.',
-    duration:1.67, width:354, aim:128, frames:[.24,.72,1.08], shake:.66,
-    beats:[[.72,25,142,172,130]], slow:2.1, drain:18},
+    duration:1.77, width:354, aim:142, frames:[.57,.82,1.16], shake:.92,
+    beats:[[.82,25,142,172,77]], lotus:true, floor:1.9, slow:2.1, drain:18},
 ];
 
-const ultimateImages = [];
+const ultimateImages = {};
 const ultimateFrameBaselines = [
   [.94,.94,.95,.95], [.86,.86,.80,.79], [.91,.91,.87,.87],
   [.97,.98,.96,.96], [.88,.88,.88,.88], [.50,.50,.50,.50],
@@ -64,7 +65,7 @@ ULTIMATE_PLANS.forEach((plan, i) => {
   const last = plan.beats.at(-1);
   Object.assign(MOVES[i].sp, {
     dur:plan.duration, hit:first[0], end:last[0], dmg:plan.beats.reduce((sum, beat) => sum + beat[1], 0),
-    reach:Math.max(...plan.beats.map(beat => beat[2] + Math.max(0,beat[3]))),
+    reach:W,
     lunge:0, volley:null, guardBreak:!!plan.guardBreak, breakMarked:!!plan.breakMarked
   });
   ROSTER[i].super = plan.title;
@@ -72,11 +73,11 @@ ULTIMATE_PLANS.forEach((plan, i) => {
 });
 
 async function loadUltimateArt(progress) {
-  for (let i=0; i<ULTIMATE_ART.length; i++) {
-    progress(i);
-    if (!ultimateImages[i]) ultimateImages[i] = await loadImage(ULTIMATE_ART[i].src);
+  for (const [i,{name,src}] of ULTIMATE_ART.entries()) {
+    progress(i,name);
+    ultimateImages[name] ||= await loadImage(src);
   }
-  const im = ultimateImages[10], tile = im.width/2;
+  const im = ultimateImages['ritual-casts'], tile = im.width/2;
   const head = [[135,10,211,208],[130,10,211,208],[111,1,224,223],[107,4,224,223]];
   head.forEach((faceCrop,i) => {
     ritualFrames[i] = {im,x:i%2*tile,y:Math.floor(i/2)*tile,w:tile,h:tile,
@@ -87,10 +88,11 @@ async function loadUltimateArt(progress) {
 function ultimateStart(f) {
   const plan = ULTIMATE_PLANS[f.ci];
   const cast = {x:f.x, face:f.face, next:0, elapsed:0, lastBurst:null, countered:false};
-  if (plan.blackHole) cast.wellX = clamp(cast.x+cast.face*plan.aim,65,895);
+  const opponent=f===P1?P2:P1;
+  cast.targetX=opponent && (opponent.x-f.x)*cast.face>=0 ? opponent.x : clamp(f.x+cast.face*plan.aim,65,895);
+  if (plan.blackHole) cast.wellX=cast.targetX;
   f.ultimate = cast;
   startUltimateScreen(f,cast);
-  if (plan.phaseRush) f.inv = .27;
   if (plan.armor) f.armor = plan.armor;
   if (plan.response) f.ultimate.reboundAt = null;
   const col = COL[f.ci];
@@ -122,10 +124,10 @@ function ultimateCounter(attacker, defender, attack) {
   return true;
 }
 
-function ultimateBeatX(plan, cast, beat, index, f) {
-  if (plan.phaseRush) return f.x + cast.face*beat[2];
+function ultimateBeatX(plan, cast, beat, index) {
   if (plan.response && index===1 && cast.reboundAt!==null) return cast.reboundAt;
-  return cast.bookX ?? cast.wellX ?? clamp(cast.x + cast.face*beat[2],60,900);
+  const offset=beat[3]<0 ? plan.aim||beat[2]*.5 : beat[2];
+  return cast.bookX ?? cast.wellX ?? cast.targetX ?? clamp(cast.x + cast.face*offset,60,900);
 }
 
 function pullIntoBlackHole(opponent, cast, field, dt) {
@@ -146,16 +148,10 @@ function updateUltimate(f, opponent, dt=FIXED_DT) {
   cast.elapsed = f.t;
   if (f.ci===0) advanceCrownRhymes(f,cast,plan);
   if (plan.mountain) advanceMountainKick(f,cast,plan);
-  if (plan.phaseRush && !f.root && cast.next===0 && f.t>=.24 && !cast.shifted) {
-    const gap = (opponent.x - f.x)*cast.face;
-    f.x = clamp(f.x + cast.face*clamp(gap-92,0,224),65,895);
-    f.prevX = f.x;
-    cast.shifted = true;
-  }
   if (plan.book && cast.bookX===undefined && f.t>=plan.frames[0]) {
     const [, , offset,radius] = plan.beats[0];
     const gap = (opponent.x-cast.x)*cast.face;
-    cast.bookX = gap>=0 && gap<=offset+radius ?
+    cast.bookX = gap>=0 && gap<=W ?
       opponent.x : clamp(cast.x+cast.face*offset,65,895);
     if (superScreen?.cast===cast) superScreen.worldX = cast.bookX;
   }
@@ -166,9 +162,10 @@ function updateUltimate(f, opponent, dt=FIXED_DT) {
   const index = cast.next++;
   const [,damage,,radius,height] = beat;
   const last = index===plan.beats.length-1;
-  const center = ultimateBeatX(plan,cast,beat,index,f);
+  const center = ultimateBeatX(plan,cast,beat,index);
   const forward = (opponent.x-cast.x)*cast.face;
-  markUltimateScreen(f,cast,plan.clones?opponent.x:center,index);
+  const screenTarget=plan.clones||plan.eye||plan.breath;
+  markUltimateScreen(f,cast,screenTarget?opponent.x:center,index);
 
   if (last && f.ci===6) {
     const color='#a792f5';
@@ -191,8 +188,8 @@ function updateUltimate(f, opponent, dt=FIXED_DT) {
     ringFx(center,GY-108,last?'#cafa89':'#a473e7',last?280:175,.41,.84,last?6:3);
   }
   if (plan.clones) {
-    cast.lastBurst = {time:f.t, x:opponent.x, y:GY-85};
-    noise(.13,920+index*280,.09,1.1,'bandpass',3);
+    cast.lastBurst = {time:f.t, x:clamp(cast.x+cast.face*beat[2],35,W-35)};
+    noise(.046,1600+(index%4)*310,.052,.84,'bandpass',3);
   } else {
     sfx.heavy();
   }
@@ -202,8 +199,8 @@ function updateUltimate(f, opponent, dt=FIXED_DT) {
   const inRange = radius<0 ? forward>=-10 && forward<=beat[2] : Math.abs(opponent.x-center)<=radius;
   if (!inRange || opponent.air>height) return;
   const at = {
-    kind:'sp', ultimate:true, dmg:damage, kb:last ? (plan.floor ? 465 : 330) : 22,
-    rapid:!last || !!plan.clones, knockdown:last,
+    kind:'sp', ultimate:true, dmg:damage, kb:last ? (plan.floor ? 465 : 330) : plan.clones?10:22,
+    rapid:!last || !!plan.clones, knockdown:last, burstRound:!!plan.clones,
     guardBreak:!!plan.guardBreak, breakMarked:!!plan.breakMarked,
     slow:last ? plan.slow : 0, drain:last ? plan.drain : 0,
     launch:last ? plan.launch : 0, ultimatePayoff:last && !!plan.payoff
@@ -212,7 +209,7 @@ function updateUltimate(f, opponent, dt=FIXED_DT) {
 }
 
 function drawUltimateTile(i, frame, x, floor, width, face, alpha, anchor=.5) {
-  const image = ultimateImages[i];
+  const image = ultimateImages[i===9?'anygma':ULTIMATE_PLANS[i].art];
   if (!image) return;
   const cell = image.width/2;
   ctx.save();
@@ -227,38 +224,169 @@ function drawUltimateTile(i, frame, x, floor, width, face, alpha, anchor=.5) {
 function clonePlacement(cast) {
   const line = clamp(cast.x-cast.face*150,153,W-153);
   return [
-    {x:line-cast.face*101, y:GY-80, size:120},
+    {x:line-cast.face*79, y:GY-80, size:120},
     {x:line+cast.face*38, y:GY-79, size:120},
     {x:line-cast.face*54, y:GY-11, size:131},
-    {x:line+cast.face*95, y:GY-12, size:132},
+    {x:line+cast.face*114, y:GY-136, size:132},
   ];
 }
 
 function drawTripleTimer(f, cast, alpha) {
-  const clones = clonePlacement(cast);
-  clones.forEach((clone, i) => {
+  clonePlacement(cast).forEach((clone,i) => {
     const since = cast.lastBurst ? cast.elapsed-cast.lastBurst.time : -1;
-    const recoil = since>=0 && since<.12 && !reduced ? 13*(1-since/.12) : 0;
-    const x = clone.x-recoil*cast.face;
+    const firing = since>=0 && since<.13;
+    const recoil = firing && !reduced ? 8*(1-easeOut(since/.13)) : 0;
+    const phase=(cast.elapsed*4.8+i/4)%1;
+    const sweep=reduced?0:Math.sin(phase*TAU)*Math.min(140,45+Math.abs(cast.targetX-cast.x)*.16);
+    const x=clamp(clone.x+sweep*cast.face-recoil*cast.face,42,W-42);
+    if (!reduced) for (let ghost=1;ghost<=2;ghost++) {
+      const past=clone.x+Math.sin((phase-ghost*.045)*TAU)*Math.min(140,45+Math.abs(cast.targetX-cast.x)*.16)*cast.face;
+      drawUltimateTile(f.ci,i,clamp(past,42,W-42),clone.y,clone.size*1.28,cast.face,alpha*(.26/ghost),.36);
+    }
     const size=clone.size*(reduced?1.1:1.28);
     drawUltimateTile(f.ci,i,x,clone.y,size,cast.face,alpha*.96,.36);
-    if (since<0 || since>.18) return;
-    const muzzle = x+cast.face*size*.52;
+    if (!firing) return;
+    const muzzle = x+cast.face*size*[.59,.60,.58,.40][i];
+    const y = clone.y-size*[.27,.33,.27,.37][i];
     const target = cast.lastBurst.x;
     if ((target-muzzle)*cast.face<6) return;
     ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.globalAlpha = alpha*(1-since/.18)*.74;
-    ctx.lineCap='round';
-    ctx.strokeStyle = i%2 ? '#19beff' : '#3fd4ff';
-    ctx.lineWidth = i===2 ? 18 : 11;
-    ctx.beginPath();
-    ctx.moveTo(muzzle,clone.y-size*[.32,.40,.51,.44][i]);
-    ctx.lineTo(target,cast.lastBurst.y+(i-1.5)*9);
-    ctx.stroke();
-    ctx.strokeStyle='#c8faff';ctx.lineWidth=i===2?6:3;ctx.stroke();
+    ctx.globalCompositeOperation='screen';
+    const pulse=1-ease(since/.079);
+    ctx.globalAlpha=alpha*pulse;
+    ctx.translate(muzzle,y);ctx.scale(cast.face,1);
+    ctx.fillStyle='#ffb74d';
+    const flashSize=size*.20*(.63+pulse*.37);
+    screenPolygon([[0,0],[-flashSize*.32,-flashSize*.65],[flashSize*.26,-flashSize*.21],
+      [flashSize,-flashSize*.38],[flashSize*.64,0],[flashSize,.47*flashSize],
+      [flashSize*.14,flashSize*.25],[-flashSize*.20,flashSize*.65]]);
+    ctx.fill();
+    ctx.fillStyle='#fff5bd';ctx.fillRect(-1,-3,flashSize*.63,6);
+    ctx.restore();
+    ctx.save();
+    ctx.globalAlpha=alpha*(1-ease(since/.13));
+    const count=reduced?3:7;
+    for (let n=0;n<count;n++) {
+      const travel=(since*9+n/count*.87)%1;
+      const xx=lerp(muzzle,target,travel);
+      const yy=lerp(y,GY-85+i*7,travel)+(screenHash(n+i*11,93)-.5)*38;
+      ctx.fillStyle=n%2?'#ffbf60':'#fff5c4';
+      ctx.fillRect(xx,yy,(i===2?18:13)+n%3*3,2+n%2);
+    }
+    if (!reduced) {
+      ctx.fillStyle='#b28b51';
+      for (let n=0;n<3;n++) {
+        const fall=since*8+n*.22;
+        const xx=muzzle-cast.face*(28+fall*38);
+        const yy=y-fall*52+fall*fall*72;
+        ctx.fillRect(xx,yy,5,3);
+      }
+    }
     ctx.restore();
   });
+}
+
+function drawCerberus(f,cast,plan,alpha) {
+  const frame=plan.frames.filter(time=>cast.elapsed>=time).length;
+  const x=clamp(cast.x+cast.face*57,110,W-110);
+  const breath=frame===2 && cast.next>0;
+  const width=plan.width*(breath?1.07:1);
+  drawUltimateTile(f.ci,frame,x,GY-29,width,cast.face,alpha*.97,.58);
+  if (!breath) return;
+  const front=clamp(cast.x+cast.face*plan.beats[0][2],20,W-20);
+  const lift=[152,180,121];
+  ctx.save();
+  ctx.globalCompositeOperation='screen';
+  for (let jaw=0;jaw<3;jaw++) {
+    for (let n=0;n<(lowQ()?10:19);n++) {
+      const drift=(n*.105+cast.elapsed*2.7+jaw*.14)%1;
+      const spread=screenHash(n+jaw*30,11);
+      const xx=lerp(x+cast.face*(69-jaw*14),front,drift);
+      const yy=lerp(GY-lift[jaw],GY-67,drift)+Math.sin(drift*11+n)*spread*35;
+      const size=14+spread*34+drift*30;
+      const fade=alpha*Math.sin(drift*Math.PI)*.55;
+      screenBloom(xx,yy,size,n%4===0?'#a54bf1':'#ff681e',fade);
+      if (!reduced && n%3===0) {
+        ctx.globalAlpha=fade;
+        ctx.fillStyle='#ffd690';ctx.fillRect(xx,yy,6+spread*8,3);
+      }
+    }
+  }
+  ctx.restore();
+}
+
+function drawThirdEye(cast,plan,alpha) {
+  const frame=cast.next>0 && cast.elapsed<plan.frames[2] ? 5 : cast.elapsed>=plan.frames[0] ? 4 : 3;
+  const x=clamp(cast.x+cast.face*60,116,W-116);
+  const y=GY-195;
+  const swell=ease(cast.elapsed/.43);
+  const width=plan.width*(.40+swell*.60);
+  const beamFrame=frame===5;
+  drawUltimateSprite(plan.castSheet,frame,x+(beamFrame ? width*.13*cast.face : 0),y,
+    width*(beamFrame?1.27:1),cast.face,alpha,.5);
+  const beamTime=cast.elapsed-plan.beats[0][0];
+  if (beamTime<0 || beamTime>.39) return;
+  const strength=(1-ease((beamTime-.11)/.28))*alpha;
+  const end=clamp(cast.x+cast.face*plan.beats[0][2],15,W-15);
+  const beamX=x+cast.face*width*.17;
+  const beamY=y+6;
+  const travel=easeOut(beamTime/.07);
+  const tip=lerp(beamX,end,travel);
+  const aimY=GY-78;
+  ctx.save();
+  ctx.globalCompositeOperation='screen';
+  for (const [thick,color] of [[148,'#cf093b'],[90,'#fb1e4a'],[50,'#ff7587'],[17,'#fff1e2']]) {
+    ctx.globalAlpha=strength*(thick===148?.53:.92);
+    ctx.strokeStyle=color;ctx.lineWidth=thick*(.68+strength*.32);
+    ctx.lineCap='round';ctx.beginPath();ctx.moveTo(beamX,beamY);
+    ctx.lineTo(tip,lerp(beamY,aimY,travel));ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawAxeVerdict(cast, plan, alpha) {
+  if (cast.elapsed<.14) return;
+  const frame=cast.next===0?3:cast.elapsed<plan.frames[2]?4:5;
+  const target=cast.bookX ?? clamp(cast.x+cast.face*plan.aim,70,W-70);
+  const appear=ease((cast.elapsed-.14)/.24);
+  const scale=frame===5 ? 1.06 : .94;
+  drawUltimateSprite(plan.castSheet,frame,target,GY+2,plan.width*scale,cast.face,alpha*appear);
+  const since=cast.elapsed-plan.beats[0][0];
+  if (since<-.11 || since>.29) return;
+  const swing=ease((since+.11)/.18);
+  const tail=1-ease((since-.07)/.22);
+  ctx.save();
+  ctx.globalCompositeOperation='screen';
+  ctx.translate(target-45*cast.face,GY-98);
+  ctx.scale(cast.face,1);
+  ctx.rotate(-.51);
+  ctx.globalAlpha=alpha*tail*.79;
+  ctx.strokeStyle='#ffbf55';ctx.lineWidth=22;
+  ctx.beginPath();ctx.ellipse(0,0,112,85,0,-2.7,-2.7+swing*4.9);ctx.stroke();
+  ctx.strokeStyle='#fff8d0';ctx.lineWidth=5;ctx.stroke();
+  ctx.restore();
+}
+
+function drawLotusSmash(cast,plan,alpha) {
+  if (cast.elapsed<plan.frames[0]) return;
+  const frame=cast.next===0 ? 3 : cast.elapsed<plan.frames[2] ? 4 : 5;
+  const target=cast.targetX;
+  const appear=ease((cast.elapsed-plan.frames[0])/.15);
+  drawUltimateSprite(plan.castSheet,frame,target,GY+6,plan.width,cast.face,alpha*appear);
+}
+
+function drawUltimateSprite(name, index, x, y, width, face, alpha, baseline=1) {
+  const frame=cinematicFrames[name]?.[index];
+  if (!frame) return;
+  let maxHeight=reduced?240:319;
+  if (baseline===1) {
+    const matrix=ctx.getTransform();
+    const zoom=Math.hypot(matrix.c,matrix.d)/RS;
+    const screenY=(matrix.b*x+matrix.d*y+matrix.f)/RS;
+    maxHeight=Math.min(maxHeight,Math.max(90,(screenY-148)/zoom));
+  }
+  const height=Math.min(maxHeight,width*frame.h/frame.w);
+  drawCinematicTile(name,index,x,y,height*frame.w/frame.h,height,face,alpha,0,baseline);
 }
 
 function drawBlackHole(f, cast, plan, alpha) {
@@ -314,19 +442,21 @@ function drawUltimate(f) {
   if (plan.mountain && cast.next===0) return;
   if (plan.clones) {drawTripleTimer(f,cast,alpha);return}
   if (plan.blackHole) {drawBlackHole(f,cast,plan,alpha);return}
+  if (plan.breath) {drawCerberus(f,cast,plan,alpha);return}
+  if (plan.eye) {drawThirdEye(cast,plan,alpha);return}
+  if (plan.book) {drawAxeVerdict(cast,plan,alpha);return}
+  if (plan.lotus) {drawLotusSmash(cast,plan,alpha);return}
   const frame = plan.frames.filter(time => elapsed>=time).length;
-  let x = clamp(cast.x+cast.face*plan.aim,60,900);
+  let x = cast.targetX;
 
-  if (plan.phaseRush) x=rxOf(f)+cast.face*(frame===0 ? -22 : 43);
-  if (plan.response && frame>=2) x=ultimateBeatX(plan,cast,plan.beats[1],1,f);
+  if (plan.response && frame>=2) x=ultimateBeatX(plan,cast,plan.beats[1],1);
   const powerFrame=frame===2;
-  if (f.ci===0 || plan.book) {
-    if (plan.book) x = cast.bookX ?? x;
+  if (f.ci===0) {
     const width = summonWidth(x,frame,f.ci,plan.width*(powerFrame?1.12:1));
     // The crown lands to the right of the guardian within the final two cells.
-    const crownOffset = f.ci===0 && frame>=2 ? (frame===2?.16:.19) : 0;
-    if (crownOffset) x = ultimateBeatX(plan,cast,plan.beats[0],0,f)-cast.face*width*crownOffset;
-    const summonAlpha=f.ci===0?alpha*ease((elapsed-.10)/.24):alpha;
+    const crownOffset = frame>=2 ? (frame===2?.16:.19) : 0;
+    if (crownOffset) x = ultimateBeatX(plan,cast,plan.beats[0],0)-cast.face*width*crownOffset;
+    const summonAlpha=alpha*ease((elapsed-.10)/.24);
     drawUltimateTile(f.ci,frame,x,GY+4,width,cast.face,summonAlpha);
     return;
   }
@@ -339,7 +469,7 @@ function drawUltimate(f) {
 }
 
 function drawReferee() {
-  if (!P1 || !ultimateImages[9]) return;
+  if (!P1 || !ultimateImages.anygma) return;
   const start = phase==='intro' || (phase==='fight' && pt<.65);
   const result = phase==='ko';
   const frame = result ? (refereeWinner && pt>.48 ? 3 : 2) : phase==='intro' ? 0 : start ? 1 : 0;

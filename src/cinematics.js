@@ -5,15 +5,103 @@ const REDUCED_CLIMB_SCALE = .64;
 const cinematicImages = {};
 const cinematicFrames = {};
 const STATE_SHEETS = ['states-early','states-mid','states-late'];
+const FACE_POSES = {neutral:0, halfBlink:1, blink:2, alert:3, breath:4, attack:5, recoil:6, win:7};
+const STREET_COMBAT_POSES = {
+  dash:5, crouch:6, jump:7, block:8, hit:9, down:10, getup:11, evade:12,
+  punch:[13,12], kick:[14,8], upper:[15,6], rise:[15,6], slide:[16,6], dive:[14,7],
+};
+const REVISED_FIGHTERS = {
+  0: {sheet:'loonie-priest', ...STREET_COMBAT_POSES,
+      wave:[17,8], power:[17,18], technique:[17,8,13], charge:[8,18], super:[18,19]},
+  1: {sheet:'abra-renewed', ...STREET_COMBAT_POSES,
+      wave:[17,8], power:[19,18], technique:[13,5,12], charge:[8,18], super:[18,19]},
+  2: {sheet:'shehyee-replacement', ...STREET_COMBAT_POSES,
+      wave:[17,8], power:[19,18], technique:[17,13,12], charge:[8,18], super:[18,19]},
+  4: {sheet:'smugglaz-replacement', ...STREET_COMBAT_POSES,
+      wave:[17,8], power:[19,18], technique:[18,19,17], charge:[8,17], super:[8,18]},
+  ...Object.fromEntries([[3,'batas-ink'],[5,'aklas-ink'],[8,'sinio-ink']].map(([ci,sheet])=>
+    [ci,{sheet,...STREET_COMBAT_POSES,wave:[17,8],power:[19,18],technique:[17,12,13],charge:[8,18],super:[18,19]}])),
+  7: {sheet:'apekz-replacement', dash:5, crouch:6, jump:8, block:10, hit:11, down:12, getup:13, evade:14,
+      punch:[16,15], kick:[17,10], upper:[18,7], rise:[18,7], slide:[19,6], dive:[20,8],
+      wave:[22,21], power:[24,23], technique:[26,25,22], charge:[10,23], climb:[27,28,29]},
+};
 
 async function loadCinematicArt(progress) {
   let index = 0;
   for (const [name,src] of Object.entries(CINEMATIC_ART)) {
     progress(index++);
     const im = cinematicImages[name] ||= await loadImage(src);
-    cinematicFrames[name] = CINEMATIC_FRAMES[name]?.map(([x,y,w,h,ax,ay,scale]) =>
-      ({im,x,y,w,h,ax,ay,scale}));
+    cinematicFrames[name] = CINEMATIC_FRAMES[name]?.map(([x,y,w,h,ax,ay,scale,faceCrop]) => {
+      const frame = {im,x,y,w,h,ax,ay,scale};
+      if (name==='roster-faces' || name==='priest-abra-faces') frame.faceCrop=[0,0,w,h];
+      else if (faceCrop) frame.faceCrop=faceCrop;
+      return frame;
+    });
   }
+}
+
+function rosterFaceFrame(ci,pose) {
+  const index=ci*8+FACE_POSES[pose];
+  return cinematicFrames['priest-abra-faces']?.[index] || cinematicFrames['roster-faces']?.[index];
+}
+
+function idleFacePose(ci,time) {
+  if (reduced) return 'neutral';
+  const period=2.8+(ci%4)*.28;
+  const cycle=(time+ci*.22)%period/period;
+  if (cycle>=.32 && cycle<.51) return 'breath';
+  if (cycle>=.72 && cycle<.805) {
+    return cycle>=.738 && cycle<.779 ? 'blink' : 'halfBlink';
+  }
+  return 'neutral';
+}
+
+function revisedFighterFrame(ci,state,time,f) {
+  const art=REVISED_FIGHTERS[ci];
+  const frames=art && cinematicFrames[art.sheet];
+  if (!frames) return null;
+  if (state==='idle') {
+    const pose=idleFacePose(ci,time);
+    return frames[pose==='breath'?2 : pose==='halfBlink'||pose==='blink'?1 : 0];
+  }
+  if (state==='walk') return frames[3+Math.floor(time*8)%2];
+  if (state==='down') {
+    if (f.air>=11 || time<.12) return frames[art.hit];
+    return frames[f.hp>0 && phase==='fight' && time>=.72 ? art.getup : art.down];
+  }
+  if (state==='jump' && ci===7 && f.vy>0) return frames[9];
+  if (state==='stunned'||state==='frozen') return frames[art.hit];
+  if (state==='chargeMana'||state==='chargePower') return frames[art.charge[Number(time>=.18)]];
+  if (state==='chargeRecover') return frames[art.block];
+  if (state==='win') return frames[0];
+  const pose=art[state];
+  if (Number.isInteger(pose)) return frames[pose];
+  if (!Array.isArray(pose)) return null;
+  const [active,windup,follow]=pose;
+  const move=MOVES[ci][state];
+  if (!move) return null;
+  if (time>=move.dur*.79) return frames[art.block];
+  if (follow!=null && time>=move.dur*.63) return frames[follow];
+  return frames[time>=move.hit*.72 ? active : windup];
+}
+
+function idleExpressionFrame(ci, time) {
+  const revised=revisedFighterFrame(ci,'idle',time);
+  if (revised) return revised;
+  const frames=cinematicFrames['idle-expressions'];
+  if (!frames) return null;
+  const period=2.45+(ci%4)*.32;
+  const cycle=((time+ci*.21)%period)/period;
+  const expressive=!reduced && cycle>.67 && cycle<.86;
+  const pose=Number(expressive);
+  return frames[ci*2+pose];
+}
+
+function drawIdlePortrait(ci,time,g,x,y,size) {
+  const fr=rosterFaceFrame(ci,idleFacePose(ci,time));
+  if (!fr) return false;
+  g.drawImage(fr.im,fr.x,fr.y,fr.w,fr.h,x,y,size,size);
+  return true;
 }
 
 function castTimeScale(f) {
@@ -22,20 +110,43 @@ function castTimeScale(f) {
 }
 
 function stanceFrame(f) {
+  const down=f.st==='down' && f.air<11 && f.t>=.12;
+  if (f.st!=='crouch' && !down) return null;
+  const revised=revisedFighterFrame(f.ci,f.st,f.t,f);
+  if (revised) return revised;
   const clips = cinematicFrames[STATE_SHEETS[Math.floor(f.ci/3)]];
   if (!clips) return null;
   const row = 4*(f.ci%3);
   if (f.st==='crouch') return clips[row+(f.t<.10?0:1)];
-  if (f.st==='down' && f.air<11 && f.t>=.12) return clips[row+(f.hp>0&&phase==='fight'&&f.t>=.72?3:2)];
-  return null;
+  return clips[row+(f.hp>0&&phase==='fight'&&f.t>=.72?3:2)];
 }
 
 function cinematicBodyFrame(f, acting) {
+  const castSheet=ULTIMATE_PLANS[f.ci].castSheet;
+  const castFrames=cinematicFrames[castSheet];
+  if (castFrames && acting.phase!=='recover') {
+    const held=acting.amount>=.37?1:0;
+    const release=acting.phase==='impact' || (f.ci===8 && acting.amount>=.83);
+    return castFrames[release?2:held];
+  }
+  if (f.ci===5 && acting.phase==='windup' && acting.step===0)
+    return cinematicFrames['cast-actions'][acting.amount>=.58?5:acting.amount>=.27?4:3];
+  const art=REVISED_FIGHTERS[f.ci];
+  const revised=art && cinematicFrames[art.sheet];
+  if (revised) {
+    if (acting.phase==='recover') return revised[art.block];
+    if (f.ci===0) return revised[art.super[acting.amount>=.64||acting.phase==='impact'?1:0]];
+    if (art.climb) {
+      if (acting.step>0) return revised[art.power[acting.phase==='impact'?0:1]];
+      if (acting.phase==='impact') return revised[art.climb[2]];
+      return revised[art.climb[acting.amount>=.79?2:acting.amount>=.62?1:0]];
+    }
+    if (acting.phase==='impact') return revised[art.super[1]];
+    if (acting.step>0 || acting.amount>=.26) return revised[art.super[0]];
+    return revised[0];
+  }
   const clips = cinematicFrames['cast-actions'];
   if (!clips) return null;
-  if (f.ci===0 && acting.phase!=='recover') {
-    return clips[acting.phase==='impact'||acting.amount>=.64 ? 2 : acting.amount>=.26 ? 1 : 0];
-  }
   if (f.ci===5 && acting.phase==='windup' && acting.step===0) {
     return clips[acting.amount>=.58 ? 5 : acting.amount>=.27 ? 4 : 3];
   }
@@ -58,6 +169,10 @@ function cinematicBodyMotion(f, acting, pose) {
   }
   if (f.ci===7 && acting.step===0) {
     pose.dx = pose.dy = pose.angle = 0;
+  }
+  if (f.ci===8 && acting.phase!=='recover') {
+    pose.angle=0;
+    pose.dy-=ease((acting.amount-.12)/.50)*(reduced?30:82);
   }
   return pose;
 }
@@ -91,9 +206,10 @@ function drawCrownVerse(s) {
 function drawCinematicFighterFX(f,x,y,frame) {
   if (f.st!=='sp' || !f.ultimate || !cinematicFrames['cast-actions']) return;
   const acting = ultimateActingFrame(f);
-  if (f.ci===0 && frame===cinematicFrames['cast-actions'][2]) {
-    const lightX=x+f.face*(frame.w*.61-frame.ax)*frame.scale;
-    const lightY=y-(frame.ay-frame.h*.17)*frame.scale;
+  if (f.ci===0 && frame===cinematicFrames['loonie-priest']?.[19] && frame.faceCrop) {
+    const [fx,fy,fw,fh]=frame.faceCrop;
+    const lightX=x+f.face*(fx+fw*.60-frame.ax)*frame.scale;
+    const lightY=y-(frame.ay-fy-fh*.53)*frame.scale;
     ctx.save();
     ctx.globalCompositeOperation='screen';
     ctx.globalAlpha=reduced?.45:.65;
@@ -135,7 +251,7 @@ function advanceMountainKick(f,cast,plan) {
   const dive=clamp((p-.68)/.32,0,1);
   const center=mountainBase(cast);
   const peak=center+cast.face*61;
-  const target=clamp(cast.x+cast.face*plan.aim,65,895);
+  const target=cast.targetX;
   // Each section ends at the start of the next, even when the mountain faces left.
   const firstLedge=center-cast.face*46;
   const crest=rise<.22 ? lerp(cast.x,firstLedge,ease(rise/.22)) :

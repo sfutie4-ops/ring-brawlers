@@ -33,6 +33,13 @@
     checks[ROSTER[i].name+' damage'] = Math.abs(100-P2.hp-expected)<.001;
   });
 
+  checks.fullLaneReachBothDirections=ROSTER.every((_,i)=>[false,true].every(left=>{
+    fight(i,{left});
+    P1.st='idle';P1.mt=100;P1.x=left?895:65;P2.x=left?65:895;P1.face=left?-1:1;
+    start(P1,'sp');playThroughImpact();
+    return P2.hp<100;
+  }));
+
   fight(0,{left:true});
   playThroughImpact();
   checks.mirroredCrown = P2.hp===64 && floorScars.length>=1;
@@ -47,13 +54,13 @@
   updateUltimate(P1,P2);
   P2.x=bookTarget-24;P2.back=true;P1.t=1.04;
   updateUltimate(P1,P2);
-  checks.libertyLocksAndBreaksGuard = P1.ultimate.bookX===bookTarget && P2.hp===59;
+  checks.axeLocksAndBreaksGuard = P1.ultimate.bookX===bookTarget && P2.hp===59;
   fight(3);
   P1.t=.38;
   updateUltimate(P1,P2);
   P2.x+=130;P1.t=1.04;
   updateUltimate(P1,P2);
-  checks.libertyCanBeDodged = P2.hp===100 && P1.ultimate.bookX!==P2.x;
+  checks.axeCanBeDodged = P2.hp===100 && P1.ultimate.bookX!==P2.x;
 
   fight(5,{left:true});
   P2.x=232;
@@ -75,6 +82,17 @@
   updateUltimate(P1,P2);
   checks.cloneVolleyParry = P2.hp===100 && P2.parryWindow===0 && P1.st==='sp' &&
     clonePlacement(P1.ultimate).length===4;
+  fight(4);
+  playThroughImpact();
+  checks.twelveBurstHits = P1.combo===12 && P2.hp===67 && P1.ultimate.next===12;
+
+  fight(1,{left:true});
+  const origin=P1.x;
+  playThroughImpact();
+  checks.cerberusBreathMirrors = P2.hp===71 && P2.slow>0 && P1.x===origin;
+  fight(2,{air:160});
+  P1.t=.77;updateUltimate(P1,P2);
+  checks.eyeLaserCanBeJumped = P2.hp===100;
 
   fight(6);
   P1.t=.26;
@@ -93,7 +111,7 @@
   checks.castSlowsOpponent=P1.ultimate.next===0&&P2.x>initial+10&&P2.x<initial+29;
   for(let i=0;i<126;i++) step(1/120);
   checks.crownRhymeAndLevitation=P1.ultimate.rhyme===2&&ultimateBodyMotion(P1).dy<-80&&
-    ultimateFaceImage(P1)===expressions['cast-expressions'];
+    ultimateFaceImage(P1)===cinematicFrames['loonie-priest'][19];
   for(let i=0;i<49;i++) step(1/120);
   checks.cinematicDelaysFirstHit=P1.ultimate.next===0&&P2.hp===100;
   for(let i=0;i<20;i++) step(1/120);
@@ -109,7 +127,7 @@
   P1.st='idle';P1.ultimate=null;hitstop=0;
   press('crouch');
   for(let i=0;i<17;i++) step(1/120);
-  checks.crouchControlAndSprite=P1.st==='crouch'&&selectFrame(P1)===cinematicFrames['states-early'][1];
+  checks.crouchControlAndSprite=P1.st==='crouch'&&selectFrame(P1)===cinematicFrames['loonie-priest'][6];
   const shot={x:P1.x,y:GY-90,originY:GY-90,vx:70,owner:P2,face:-1,t:0,life:1,at:{kind:'wave',dmg:10,kb:50}};
   shots=[shot];step(1/120);
   checks.crouchDucksHighShot=P1.hp===100&&shot.life>0;
@@ -119,6 +137,16 @@
 
   checks.distinctCrouchAndDown=[...Array(9).keys()].every(ci=>{
     const f=mk(ci,310,1,false);
+    const art=REVISED_FIGHTERS[ci];
+    if (art) {
+      const frames=cinematicFrames[art.sheet];
+      f.st='crouch';f.t=.19;
+      if (selectFrame(f)!==frames[art.crouch]) return false;
+      f.st='down';f.t=.52;
+      if (selectFrame(f)!==frames[art.down]) return false;
+      f.t=.82;
+      return selectFrame(f)===frames[art.getup];
+    }
     const state=cinematicFrames[STATE_SHEETS[Math.floor(ci/3)]];
     const i=ci%3*4;
     f.st='crouch';f.t=.02;
@@ -132,15 +160,17 @@
   });
 
   fight(8);
-  P2.mt=40;P1.t=.73;
+  P2.mt=40;P1.t=.83;
   updateUltimate(P1,P2);
-  checks.crowdDrainAndSlow = P2.hp===75 && P2.mt<40 && P2.slow>2;
+  checks.lotusSmashDrainsAndScarsFloor = P2.hp===75 && P2.mt<40 && P2.slow>2 && floorScars.length>0;
 
   fight(0);
   P2.hp=0;
   finishRound();
   checks.refereeSignalsWinner = refereeWinner===P1 && phase==='ko';
-  checks.generatedSheetsLoad = ultimateImages.length===11 && ultimateImages.every(im=>im.width===896) &&
-    ritualFrames.length===4 && ritualFrames.every(fr=>fr.im===ultimateImages[10]);
+  checks.generatedSheetsLoad = ULTIMATE_ART.every(({name})=>ultimateImages[name]?.width===896) &&
+    ritualFrames.length===4 && ritualFrames.every(fr=>fr.im===ultimateImages['ritual-casts']) &&
+    [2,3,8].every(ci=>cinematicFrames[ULTIMATE_PLANS[ci].castSheet]?.length===6) &&
+    cinematicFrames['comic-effects']?.length===16;
   return checks;
 })()
