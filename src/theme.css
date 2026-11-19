@@ -288,3 +288,102 @@
 .rphone i{position:absolute;left:50%;bottom:6px;width:16px;height:4px;margin-left:-8px;border-radius:3px;background:#fff}
 .rphone::after{content:"⟳";position:absolute;right:-46px;top:-30px;font-size:34px;color:var(--pink);animation:spin 2.2s linear infinite}
 @keyframes rotPhone{0%,15%{transform:rotate(0)}55%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+
+/* ===================== STORY / TROPHY / RANKINGS ===================== */
+.storybtn{background:var(--pink)!important;color:#fff!important;font-size:24px!important;padding:12px 26px!important}
+.storybtn::before{content:"NEW";position:absolute;top:-2px;right:6px;font-size:11px;letter-spacing:.1em;color:var(--yel)}
+.trophybadge{display:none;align-items:center;gap:8px;margin:-4px auto 10px;padding:5px 14px 4px 8px;background:linear-gradient(#ffe680,#d9a300);color:var(--ink);border:3px solid var(--ink);box-shadow:3px 3px 0 #000;transform:rotate(-1.5deg) skewX(-8deg);font:400 16px/1 var(--disp);letter-spacing:.06em;animation:stickIn .4s .3s both}
+.trophybadge i{font-style:normal;font-size:20px;animation:cupBob 2s infinite}
+.storybanner{display:none;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 12px;max-width:760px;padding:8px 12px;background:var(--ink);border:3px solid var(--pink);box-shadow:4px 4px 0 #000;font-family:var(--tag);font-size:13px;color:#fff;animation:fadeUp .3s both}
+.storybanner b{color:var(--yel)}.storybanner .chip{font-size:13px!important;padding:5px 10px!important}
+.storysheet{width:min(860px,100%)!important;text-align:center}
+.storysub{font-family:var(--tag);color:#cfc8e8!important;margin:0 0 12px}.storysub b{color:var(--yel)}
+.ladder{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;margin:6px 0 12px}
+.rung{--c:#fff;position:relative;width:104px;padding:8px 4px 6px;background:#120d1f;border:3px solid var(--ink);box-shadow:3px 3px 0 #000;transform:rotate(calc((var(--d) - 2.5) * 1.2deg));animation:cardIn .4s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--d)*70ms)}
+.rung img{width:60px;height:60px;border-radius:50%;border:3px solid var(--c);display:block;margin:0 auto 4px;background:#000}
+.rung b{display:block;font:400 15px/1.1 var(--disp);letter-spacing:.05em;color:#fff}
+.rung small{font-family:var(--tag);font-size:10px;color:var(--c)}
+.rung.lock{filter:grayscale(.8) brightness(.55)}
+.rung.done{filter:saturate(.6)}.rung .ok{position:absolute;top:-10px;right:-8px;width:26px;height:26px;border-radius:50%;background:#2fd67a;color:var(--ink);font:900 16px/26px Arial;font-style:normal;border:2px solid var(--ink)}
+.rung.now{border-color:var(--yel);transform:scale(1.12) rotate(0);z-index:1;box-shadow:4px 4px 0 var(--pink),0 0 24px -4px var(--yel)}
+.rung.now::after{content:"YOU ARE HERE";position:absolute;bottom:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);white-space:nowrap;font:400 11px/1 var(--disp);letter-spacing:.06em;background:var(--yel);color:var(--ink);padding:3px 6px 2px;border:2px solid var(--ink)}
+.rung.boss{width:120px;background:radial-gradient(circle at 50% 30%,#5a4210,#120d1f 70%)}
+.rung.boss img{border-color:#ffd23f;box-shadow:0 0 18px #ffd23f,0 0 0 4px #ffd23f55;animation:bossGlow 1.4s ease-in-out infinite}
+@keyframes bossGlow{50%{box-shadow:0 0 30px #ffd23f,0 0 0 8px #ffd23f33}}
+.rarr{font:400 22px var(--disp);color:#5d5578}
+.vsline{font:400 22px/1.2 var(--disp);letter-spacing:.05em;margin:14px 0 14px;color:#fff}
+.bosstag{background:linear-gradient(#ffe680,#d9a300);color:var(--ink);padding:2px 8px 0;border:2px solid var(--ink);display:inline-block;transform:skewX(-8deg)}
+.storysheet .go{margin:4px 6px}
+.scbox h3{margin-top:2px!important}
+.breakdown{max-width:420px;margin:6px auto 10px;text-align:left}
+.br{display:flex;justify-content:space-between;padding:5px 10px;font-size:13px;color:#cfc8e8;border-bottom:2px dashed #ffffff14;animation:fadeUp .3s both}
+.br:nth-child(2){animation-delay:.08s}.br:nth-child(3){animation-delay:.16s}.br:nth-child(4){animation-delay:.24s}.br:nth-child(5){animation-delay:.32s}.br:nth-child(6){animation-delay:.4s}.br:nth-child(7){animation-delay:.48s}
+.br b{font:400 16px var(--disp);letter-spacing:.04em;color:#fff}
+.tot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:8px 12px;background:var(--yel);color:var(--ink);border:3px solid var(--ink);box-shadow:4px 4px 0 #000;transform:skewX(-6deg);animation:stamp .45s cubic-bezier(.2,1.8,.4,1) .55s both}
+.tot span{font:400 16px var(--disp);letter-spacing:.06em}.tot b{font:400 30px/1 var(--disp);letter-spacing:.03em}
+.runscore{font-family:var(--tag);color:#cfc8e8}.runscore b{font:400 22px var(--disp);color:var(--yel);letter-spacing:.04em}.runscore small{color:#ff8a8a}
+/* defeat countdown */
+#storyLose{position:absolute;inset:0;z-index:7;display:none;align-items:flex-start;justify-content:center;padding-top:12vh;pointer-events:none}
+#storyLose .lbg2{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#3a061280,#0b0712d0 70%);animation:fadeUp .4s both}
+.losebox{position:relative;text-align:center;pointer-events:auto;animation:slam .45s cubic-bezier(.2,1.3,.4,1) both}
+.losebox .eyebrow{font-family:var(--tag);color:#ff8a8a;font-size:16px}
+.losebox h2{margin:0;font:400 clamp(44px,8vw,86px)/1 var(--disp);letter-spacing:.05em;color:#ff4d6d;-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;text-shadow:6px 6px 0 #000}
+.losebox .num{font:400 clamp(90px,17vw,180px)/1 var(--disp);color:#fff;-webkit-text-stroke:6px var(--ink);paint-order:stroke fill;text-shadow:8px 8px 0 #000,0 0 40px #ff2aa0}
+.losebox .num.bump{animation:numBump .5s cubic-bezier(.2,1.8,.4,1)}
+@keyframes numBump{from{transform:scale(1.7) rotate(-8deg);color:var(--yel)}}
+.losebtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0 10px}
+.losebox small{color:#cfc8e8;font-size:12px}
+/* champion */
+.champsheet{width:min(560px,100%)!important;text-align:center;overflow:hidden}
+.champsheet .rays{position:absolute;left:50%;top:120px;width:900px;height:900px;margin:-450px 0 0 -450px;background:repeating-conic-gradient(#ffd23f22 0 8deg,transparent 8deg 20deg);animation:spin 16s linear infinite;pointer-events:none}
+.trophy{position:relative;width:150px;margin:0 auto -4px;animation:trophyIn .9s cubic-bezier(.2,1.5,.4,1) both,trophyFloat 2.6s ease-in-out 1s infinite;filter:drop-shadow(6px 8px 0 #000) drop-shadow(0 0 28px #ffd23f)}
+.trophy svg{width:100%;display:block}
+.trophy .shine{position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#ffffffb0 48%,transparent 60%);transform:translateX(-120%);animation:goShine 2.6s infinite 1.2s;mix-blend-mode:overlay;-webkit-mask:linear-gradient(#000,#000)}
+.trcount{position:absolute;right:-18px;top:6px;font:400 22px/1 var(--disp);color:var(--ink);background:var(--yel);border:3px solid var(--ink);padding:3px 6px 1px;transform:rotate(12deg)}
+.trcount:empty{display:none}
+@keyframes trophyIn{from{opacity:0;transform:translateY(-160px) rotate(-30deg) scale(.4)}}
+@keyframes trophyFloat{50%{transform:translateY(-8px) rotate(2deg)}}
+.champtitle{position:relative;margin:4px 0 8px!important;font:400 clamp(34px,6vw,52px)/1 var(--disp)!important;letter-spacing:.05em;color:var(--yel)!important;-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;text-shadow:5px 5px 0 #000,0 0 30px #ffd23f88!important;animation:nameSlam .5s cubic-bezier(.2,1.6,.4,1) .5s both}
+.champfighter{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+.champfighter img{width:50px;height:50px;border-radius:50%;border:3px solid var(--yel)}
+.champfighter b{font:400 24px var(--disp);letter-spacing:.05em;color:#fff}
+.champbtns{display:flex;gap:12px;justify-content:center;margin-top:10px}
+.submitbox{display:grid;gap:8px;max-width:420px;margin:8px auto 0}
+.submitbox input,.submitbox textarea,.wallpost input{background:#0e0a18;border:3px solid var(--ink);border-radius:4px;color:#fff;padding:10px 12px;font:14px Arial,sans-serif;box-shadow:inset 0 0 0 1px #ffffff14,3px 3px 0 #000;outline:none;user-select:text;-webkit-user-select:text;touch-action:auto}
+.submitbox textarea{min-height:64px;resize:vertical}
+.submitbox input:focus,.submitbox textarea:focus,.wallpost input:focus{border-color:var(--yel)}
+.smsg,#wMsg{min-height:16px;margin:0;font-size:13px;color:#ff9aa8}
+.rankstamp{display:inline-block;font:400 30px/1 var(--disp);letter-spacing:.06em;color:#2fd67a;border:4px solid #2fd67a;padding:4px 14px 0;transform:rotate(-6deg);text-shadow:2px 2px 0 #000;animation:stamp .45s cubic-bezier(.2,1.8,.4,1) both}
+/* rankings */
+.rankssheet{width:min(720px,100%)!important;text-align:center}
+.rtabs{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.rtab{font:400 18px/1 var(--disp);letter-spacing:.06em;color:#a49cc0;background:var(--ink);border:3px solid var(--ink);padding:9px 16px 7px;box-shadow:3px 3px 0 #000;transform:skewX(-8deg);cursor:pointer}
+.rtab.on{background:var(--yel);color:var(--ink)}
+#rankBody{max-height:52vh;overflow-y:auto;overscroll-behavior:contain;text-align:left;padding:2px 6px 6px 2px}
+.rload{text-align:center;padding:30px 10px;font:400 20px var(--disp);letter-spacing:.05em;color:#a49cc0}
+.rlist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rrow{position:relative;display:flex;align-items:center;gap:10px;padding:8px 10px;background:#120d1f;border:2px solid var(--ink);box-shadow:3px 3px 0 #000;animation:cardIn .3s both;animation-delay:calc(var(--d)*30ms)}
+.rrow.top1{background:linear-gradient(90deg,#5a4210,#120d1f 70%);border-color:#ffd23f}.rrow.top2{background:linear-gradient(90deg,#3a3f4f,#120d1f 70%)}.rrow.top3{background:linear-gradient(90deg,#4a2a14,#120d1f 70%)}
+.rk{min-width:38px;text-align:center;font:400 20px var(--disp);color:#cfc8e8}
+.rwho{flex:1;min-width:0}.rwho b{font:400 18px/1.1 var(--disp);letter-spacing:.04em;color:#fff}.rwho .crown{font-style:normal}
+.rwho small{display:block;font-size:11px;color:#8e88a8}
+.rwho q{display:block;margin-top:3px;font-family:var(--tag);font-size:12px;color:var(--cyan);quotes:"“" "”"}
+.rs{font:400 22px/1 var(--disp);color:var(--yel);letter-spacing:.03em}
+.rdel{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);background:#ff4d6d;color:#fff;font:900 11px/1 Arial;cursor:pointer}
+.wallpost{display:grid;grid-template-columns:120px 1fr auto;gap:8px;margin-bottom:12px}.wallpost .go{font-size:18px!important;padding:8px 16px!important}
+#wMsg{grid-column:1/-1}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:6px 2px}
+.wnote{position:relative;padding:10px 12px 8px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);box-shadow:4px 4px 0 #000;transform:rotate(var(--r));animation:cardIn .35s both;animation-delay:calc(var(--d)*35ms)}
+.wnote:nth-child(3n+2){background:#ffe680}.wnote:nth-child(3n){background:#bfefff}
+.wnote::before{content:"";position:absolute;top:-8px;left:50%;width:44px;height:14px;margin-left:-22px;background:#f4efe6c0;transform:rotate(-3deg);box-shadow:0 1px 2px #0005}
+.wnote b{font:400 17px var(--disp);letter-spacing:.04em}.wnote .wsc{float:right;font:400 13px var(--disp);background:var(--ink);color:var(--yel);padding:2px 6px 0}
+.wnote p{margin:4px 0;font-family:var(--tag);font-size:14px;line-height:1.3;word-break:break-word;color:var(--ink)!important}
+.wnote small{font-size:10px;color:#555}
+.rnote{font-size:11px!important;color:#8e88a8!important;margin:10px 0!important}
+@media(max-width:620px){.wallpost{grid-template-columns:1fr}.rung{width:84px}.rung img{width:46px;height:46px}.rarr{display:none}}
+@media(max-height:480px){.ladder{gap:6px}.rung{width:88px;padding:6px 3px 4px}.rung img{width:40px;height:40px}.rung b{font-size:13px}.storysub{display:none}#rankBody{max-height:44vh}.trophy{width:100px}.champsheet .breakdown{display:none}#storyLose{padding-top:4vh}.losebox .num{font-size:100px}}
+
+.trophy .shine{display:none}.trophy svg{animation:trophyGleam 2.4s ease-in-out infinite}
+@keyframes trophyGleam{0%,70%,100%{filter:brightness(1)}82%{filter:brightness(1.45)}}
+.champsheet .breakdown{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;max-width:520px}.champsheet .breakdown .tot{grid-column:1/-1}
+.champsheet .br{font-size:12px;padding:4px 6px}.champsheet .br b{font-size:14px}

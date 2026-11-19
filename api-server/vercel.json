@@ -1,0 +1,1 @@
+{ "functions": { "api/board.js": { "maxDuration": 10 } } }

@@ -24,6 +24,12 @@ Commands (→ = toward the opponent): double-tap → / ← dash (free, 2 s coold
 
 ## Latest changes
 
+- **Story mode**: six fights from easy to hard, ending with **Golden Loonie** (gold glow, honeycomb shield that soaks 75% of each hit until it breaks, +18% damage). Boss rules only apply in story mode.
+- **Defeat countdown**: 10 → 0 to REMATCH or CHOOSE FIGHTER (−750 per retry) while the boss and Anygma laugh; at 0 you return to the menu and can post your run.
+- **ISABUHAY CHAMPION** trophy screen and a trophy badge on the menu (counted per device).
+- **Public rankings + comment wall** (anyone can read them). Score per stage = 1000 + HP left ×30 + time left ×20 + best combo ×150 (boss ×2), +5000 champion bonus, −750 per retry. Names/comments are length-limited, swear-filtered and links are stripped; one post per device every 2 minutes (checked in the game and on the server).
+- Backend: `api-server/` (Vercel function + Vercel Blob) deployed as `fliptapwars-api`. **Moderation**: open the game with `#admin` at the end of the URL, open Rankings, and tap ✕ on an entry; the admin key is the `ADMIN_KEY` environment variable in the Vercel project.
+
 - **Street theme across every screen**: ink panels, hard drop shadows, spray-paint strokes, stickers and tape, Bangers + Permanent Marker fonts (OFL / Apache, in `assets/fonts`). Animated logo, trading-card fighter select with P1 sticker, taped arena posters, slam-in panels, game-style toggles in Settings, compact move card on Pause.
 - **Buy me a coffee** now uses the GCash / InstaPay QR (`assets/coffee/qr.png`, regenerated from the original code, verified to scan to the same payment code). SAVE QR makes a FliptapWars-styled poster to upload in GCash; no account number is stored in the game anymore.
 - **Suggestion box**: sticker-style categories, star pops, mic-drop send animation and a SALAMAT stamp.

@@ -264,15 +264,15 @@ function buildCards(){const box=$('cards');box.innerHTML='';CH.forEach((c,i)=>{c
   const skill=TECHNIQUES[sel],r=ROSTER[sel],sp=clamp((r.speed-170)/(285-170),.08,1),pw=clamp((r.power-.86)/(1.14-.86),.08,1);$('preview').style.setProperty('--c',r.color);
   $('fighterInfo').innerHTML='<h3>'+r.name+'</h3><div class="tag">'+r.role+'</div><div class="stat">SPEED<i><b style="width:'+Math.round(sp*100)+'%"></b></i></div><div class="stat">POWER<i><b style="width:'+Math.round(pw*100)+'%"></b></i></div><div class="mv"><span><b>←↑□</b>'+r.upper+'</span><span><b>↓→□</b>'+r.wave+'</span><span><b>↓↓□</b>'+skill.name+' · '+skill.cost+'</span><span><b>L2</b>'+r.super+'</span></div><p class="pas">'+r.passive+'</p><p class="det">'+ULTIMATE_PLANS[sel].detail+'</p><p class="det"><strong>○ '+EXTRA_NAMES[sel][4]+'</strong> '+ULTIMATE_PLANS[sel].signature+'</p><p class="det"><strong>HOLD ○</strong> '+CHARGED_POWER[sel].note+'</p><p class="det"><strong>↓↓□ '+skill.name+'</strong> '+skill.detail+'</p><p class="det keyhint">PC: J □ · K △ · Space ✕ · L ○ · Q L1 · E L2 · Esc › Settings for the command list</p>'}
 function mk(ci,x,face,human){return{...tacticsState(),ci,x,face,human,slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,hp:100,shownHP:100,mt:40,st:'idle',t:0,air:0,vy:0,vx:0,wins:0,hit:false,connected:false,back:false,backHeld:false,parryWindow:0,parryCooldown:0,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ghostTime:0,ctl:{dir:0},land:0,stepT:0,auraT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false}}
-function newMatch(same){if(!ready)return;difficulty=$('difficulty').value;const enemy=same&&P2?P2.ci:(sel+1+Math.floor(Math.random()*(CH.length-1)))%CH.length;P1=mk(sel,300,1,true);P2=mk(enemy,660,-1,false);stats={dealt:0,taken:0,parries:0,blocks:0,supers:0,t0:performance.now()};totalHits=0;maxCombo=0;round=1;paused=false;confettiT=0;$('menu').style.display='none';$('result').style.display='none';$('pauseScreen').style.display='none';startRound();refreshMoveLabels();buzz(15)}
+function newMatch(same){if(!ready)return;const inStory=storyPre(same);difficulty=inStory?storyDifficulty():$('difficulty').value;const enemy=inStory?storyEnemy():same&&P2?P2.ci:(sel+1+Math.floor(Math.random()*(CH.length-1)))%CH.length;P1=mk(sel,300,1,true);P2=mk(enemy,660,-1,false);if(inStory)storySetup();stats={dealt:0,taken:0,parries:0,blocks:0,supers:0,t0:performance.now()};totalHits=0;maxCombo=0;round=1;paused=false;confettiT=0;$('menu').style.display='none';$('result').style.display='none';$('pauseScreen').style.display='none';startRound();refreshMoveLabels();buzz(15)}
 function refreshMoveLabels(){
   const r=ROSTER[P1.ci], skill=TECHNIQUES[P1.ci];
   const skillButton=document.querySelector('[data-k=technique]');
   if(skillButton){skillButton.innerHTML=skill.name+'<small>'+skill.cost+'</small>';skillButton.title=skill.cost+' mana · '+skill.detail}
   for(const[k,name,cost]of[['h',r.upper,20],['w',r.wave,30],['s',r.super,100]]){const b=document.querySelector('[data-k='+k+']');if(b){b.innerHTML=k==='s'&&b.classList.contains('sh')?'L2 · ULT':(k==='s'?ULTIMATE_PLANS[P1.ci].short:name)+'<small>'+cost+'</small>';b.title=k==='s'?ULTIMATE_PLANS[P1.ci].detail:r.detail}}$('help').innerHTML=(()=>{const T=isTouch,P=T?'□':'J',K=T?'△':'K',U=T?'L2':'E',row=(k,n,c)=>'<div class="pm"><b class="pk">'+k+'</b><span>'+n+'</span><i>'+c+'</i></div>';
   return '<div class="pfighter" style="--c:'+r.color+'"><b>'+r.name+'</b><span>'+r.role+'</span></div><div class="pmoves">'+row('←↑ '+P,r.upper,'free')+row('↓→ '+P,r.wave,'30')+row('↓↓ '+P,skill.name,skill.cost)+row(T?'○':'L',EXTRA_NAMES[P1.ci][4],'45')+row(U,r.super,'100')+row('→→','Dash','free')+'</div><p class="ptip">'+r.passive+'</p><p class="pfoot">Full command list · Settings</p>'})()}
-function startRound(){resetUltimateScreen();refereeWinner=null;resetEnvironment();[P1,P2].forEach((f,i)=>Object.assign(f,{x:i?660:300,face:i?-1:1,hp:100,shownHP:100,mt:Math.max(40,Math.min(70,f.mt)),st:'idle',t:0,air:0,vy:0,vx:0,hit:false,connected:false,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ctl:{dir:0},slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,back:false,backHeld:false,parryWindow:0,parryCooldown:0,prevX:undefined,prevAir:undefined,land:0,stepT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false,ultimate:null,...tacticsState()}));timer=60;phase='intro';pt=0;koMsg='';setMsg(difficulty==='training'?'TRAINING':'ROUND '+round);parts=[];effects=[];ghosts=[];shots=[];texts=[];swooshes=[];hitstop=0;flash=0;slowT=0;superDim=0;banner=null;lastTick=-1;cam.trauma=0;cam.focus=null;cam.focusT=0;cam.punch=0;clearInput();resetShowtime();introT0=round===1?1.25:0;if(introT0)msg=''}
-function toMenu(){resetUltimateScreen();paused=false;phase='menu';P1=null;P2=null;clearInput();parts=[];confettiT=0;$('menu').style.display='flex';$('pauseScreen').style.display='none';$('result').style.display='none';$('pause').textContent='PAUSE';buildCards()}
+function startRound(){setTimeout(storyRoundStart,0);resetUltimateScreen();refereeWinner=null;resetEnvironment();[P1,P2].forEach((f,i)=>Object.assign(f,{x:i?660:300,face:i?-1:1,hp:100,shownHP:100,mt:Math.max(40,Math.min(70,f.mt)),st:'idle',t:0,air:0,vy:0,vx:0,hit:false,connected:false,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ctl:{dir:0},slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,back:false,backHeld:false,parryWindow:0,parryCooldown:0,prevX:undefined,prevAir:undefined,land:0,stepT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false,ultimate:null,...tacticsState()}));timer=60;phase='intro';pt=0;koMsg='';setMsg(difficulty==='training'?'TRAINING':'ROUND '+round);parts=[];effects=[];ghosts=[];shots=[];texts=[];swooshes=[];hitstop=0;flash=0;slowT=0;superDim=0;banner=null;lastTick=-1;cam.trauma=0;cam.focus=null;cam.focusT=0;cam.punch=0;clearInput();resetShowtime();introT0=round===1?1.25:0;if(introT0)msg=''}
+function toMenu(){if(typeof endLose==='function')endLose();resetUltimateScreen();paused=false;phase='menu';P1=null;P2=null;clearInput();parts=[];confettiT=0;$('menu').style.display='flex';$('pauseScreen').style.display='none';$('result').style.display='none';$('pause').textContent='PAUSE';buildCards()}
 
 // ---------- particles & effects ----------
 function effect(row,x,y,size=140,face=1,dur=.38){effects.push({row,x,y,size,face,dur,t:0})}
@@ -355,7 +355,7 @@ function hit(a,d,at,projectile=false){if(d.inv>0||d.st==='down'||phase!=='fight'
   if(guardBreak&&guarding){label('GUARD BREAK!',d.x,GY-232,'#ff8a5c',17);shards(d.x+d.face*30,GY-90,'#92e5ff',14,null,TAU,420)}
   let bonus=blocking?0:ultimateDamageBonus(a,d,at);if(a.ci===7&&['wave','power','dive'].includes(at.kind)&&d.setup>0){bonus=8;d.setup=0;label('PAYOFF!',d.x,GY-205,COL[a.ci],17)}if(a.ci===2&&at.kind==='sp'&&d.angle>0&&!blocking){bonus=5;d.angle=0}
   const armored=d.armor>0;bonus+=shatterIce(d,blocking,armored);const scaling=at.ultimate?1:STAT[a.ci].power*Math.max(a.ci===0?.80:.65,1-a.combo*(a.ci===0?.035:.07));
-  const dmg=(at.dmg+bonus)*(blocking?.12:scaling)*(armored?.6:1);
+  const dmg=storyDamage(a,d,(at.dmg+bonus)*(blocking?.12:scaling)*(armored?.6:1),blocking);
   d.hp=Math.max(0,d.hp-dmg);trackDamage(a,d,dmg,blocking,at);d.damageTime=0;a.mt=Math.min(100,a.mt+(blocking?2:dmg*.72));d.mt=Math.min(100,d.mt+dmg*.45);a.connected=true;
   if(!blocking){if(at.mark==='angle')d.angle=3;if(at.mark==='setup')d.setup=3;
     if(at.drain){const loss=Math.min(d.mt,at.drain);d.mt-=loss;if(loss>=1)label('-'+Math.round(loss)+' MANA',d.x,GY-197,COL[a.ci],13)}}
@@ -428,7 +428,7 @@ function step(dt){if(hitstop>0){hitstop-=dt;return}pt+=dt;
     checkFullMana(P1);checkFullMana(P2);
     if(difficulty==='training'){if(practiceMana)P1.mt=100;if(P2.damageTime>1.5&&P2.hp<100&&P2.comboTime===0&&P1.comboTime===0&&['idle','walk'].includes(P2.st))P2.hp=100;if(P2.hp<=0&&P2.t>.9){P2.hp=100;P2.st='idle';P2.t=0;P2.x=660}}else if(P1.hp<=0||P2.hp<=0||timer<=0)finishRound()}
   else if(phase==='ko'){[P1,P2].forEach(f=>{f.t+=dt;f.shownHP+=(f.hp-f.shownHP)*Math.min(1,dt*5);f.hitGlow=Math.max(0,f.hitGlow-dt);f.comboTime=Math.max(0,f.comboTime-dt);f.vx*=Math.pow(.02,dt);f.x=clamp(f.x+f.vx*dt,65,895)});if(koMsg&&pt>.5){setMsg(koMsg);koMsg=''}
-    if(pt>2.2){if(P1.wins>=2||P2.wins>=2){phase='end';const won=P1.wins>=2;$('resultTitle').textContent=won?'VICTORY':'DEFEATED';$('resultTitle').style.color=won?'#f5be58':'#ff7982';$('resultStats').textContent=`${P1.wins} – ${P2.wins} rounds · ${totalHits} hits landed · Best combo: ${maxCombo}`;fillResult(won);$('result').style.display='flex';clearInput();if(won){confettiT=2.6;buzz([30,60,30,60,90])}}else{round++;startRound()}}}
+    if(pt>2.2){if(P1.wins>=2||P2.wins>=2){phase='end';const won=P1.wins>=2;if(story.on){storyMatchEnd(won);return}$('resultTitle').textContent=won?'VICTORY':'DEFEATED';$('resultTitle').style.color=won?'#f5be58':'#ff7982';$('resultStats').textContent=`${P1.wins} – ${P2.wins} rounds · ${totalHits} hits landed · Best combo: ${maxCombo}`;fillResult(won);$('result').style.display='flex';clearInput();if(won){confettiT=2.6;buzz([30,60,30,60,90])}}else{round++;startRound()}}}
   for(const k in buf)buf[k]=Math.max(0,buf[k]-dt)}
 
 // ---------- per-frame visual update (runs at the display's refresh rate) ----------
@@ -497,7 +497,7 @@ function drawF(f){let fr=selectFrame(f);const guarding=f.air===0&&f.back&&['idle
   if(f.st==='down'&&fr!==stanceFrame(f)){const t=ease(vt/.25);angle=-t*.95;dx=f.face*t*22}
   if(f.st==='crouch'&&!reduced)sy+=Math.sin(vt*5+f.ci)*.023;
   if(f.st==='dash'){angle=.13;sy=.95;sx=1.06}if(f.st==='block'){sy=.97;dx-=f.face*Math.sin(clamp(vt/.18,0,1)*Math.PI)*4}if(f.shieldA>.02){const g=f.shieldA*(REVISED_FIGHTERS[f.ci]?.5:1);angle-=.08*g;sy-=.035*g;sx+=.02*g;dx-=f.face*6*g}
-  if(f.st==='win'&&!reduced)dy-=Math.abs(Math.sin(vt*6.5))*13*Math.exp(-vt*.9);
+  if(f.st==='win'&&!reduced)dy-=Math.abs(Math.sin(vt*6.5))*13*Math.exp(-vt*.9);if(storyLaughPose(f)&&!reduced){dy-=Math.abs(Math.sin(vclock*13))*8;angle+=Math.sin(vclock*13)*.05;sy+=Math.sin(vclock*26)*.02}
   if(f.land>0){const k=Math.sin(f.land/.16*Math.PI);sy-=k*.09;sx+=k*.07}
   if(hitstop>0&&(f.st==='hit'||f.st==='down')&&!reduced)dx+=Math.sin(vclock*95)*3;
   ({sx,sy,angle,dy}=chargePose(f,{sx,sy,angle,dy}));
@@ -518,7 +518,7 @@ function drawF(f){let fr=selectFrame(f);const guarding=f.air===0&&f.back&&['idle
     ctx.restore();
   } else if(f.st!=='sp'&&f.st!=='technique')drawManaAura(f,fr,X,Y,sx,sy,angle);
   if(!impactOn)drawLighting(f,fr,X,Y,sx,sy,angle,ra,'under');
-  drawSprite(fr,X,Y,f.face,opacity,!CH[f.ci].extra?.[f.st],sx,sy,angle);
+  drawSprite(fr,X,Y,f.face,opacity,!CH[f.ci].extra?.[f.st],sx,sy,angle);storyDrawFighter(f,fr,X,Y,sx,sy,angle);
   if(!impactOn)drawLighting(f,fr,X,Y,sx,sy,angle,ra,'over');
   if(f.shieldA>.05&&!lowQ()){ctx.save();ctx.globalCompositeOperation='lighter';const ga=.12*f.shieldA+(f.guardFlash>0?.2*clamp(f.guardFlash/.2,0,1):0);for(const o of[-2,2])drawSprite(fr,X+o,Y,f.face,ga,false,sx,sy,angle,'#7fe6ff');ctx.restore()}
   if(zaitoShade>0)drawSprite(fr,X,Y,f.face,zaitoShade*.83,false,sx,sy,angle,'#080610');
@@ -651,7 +651,7 @@ function draw(){ctx.setTransform(RS,0,0,RS,0,0);ctx.globalAlpha=1;ctx.globalComp
   }
   drawEnvironmentFX();drawParticles();drawBolts();if(P1)drawPops();
   if(P1)for(const t of texts){const k=t.t/t.dur,sc=t.pop&&!reduced?lerp(1.9,1,easeOut(t.t/.13)):1;ctx.save();ctx.globalAlpha=1-ease((k-.65)/.35);ctx.translate(t.x,t.y);ctx.scale(sc,sc);if(t.pop)dtext(t.text,0,0,t.size,t.col);else text(t.text,0,0,t.size,t.col);ctx.restore()}
-  drawImpact();
+  storyWorld();drawImpact();
   ctx.restore();
   ctx.drawImage(scene.vig,0,0,W,H);
   drawUltimateEdges(screenFx);
@@ -753,7 +753,7 @@ function openModal(id){$(id).style.display='flex'}
 document.querySelectorAll('.closeModal').forEach(b=>b.onclick=()=>{b.closest('.modal').style.display='none'});
 document.querySelectorAll('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)m.style.display='none'});
 $('setCmds').onclick=()=>openCmds();$('setSuggest').onclick=$('suggestBtn').onclick=()=>openSuggest();$('setAbout').onclick=$('aboutLink').onclick=()=>openModal('about');$('fanOk').onclick=()=>{store.set('fanAck',1);$('fanNotice').style.display='none'};if(!store.get('fanAck',0))openModal('fanNotice');$('setHelp').onclick=()=>openModal('howto');$('setCoffee').onclick=$('coffeeBtn').onclick=()=>openModal('coffee');$('openGcash').onclick=openGcash;$('saveQr').onclick=saveQr;$('openSettings').onclick=$('pauseSettings').onclick=()=>openModal('settings');
-addEventListener('keydown',e=>{if(e.key!=='Escape')return;const m=[...document.querySelectorAll('.modal')].find(m=>m.style.display==='flex');if(m){m.style.display='none';e.stopImmediatePropagation();e.preventDefault()}},true);
+addEventListener('keydown',e=>{if(e.key!=='Escape')return;const m=[...document.querySelectorAll('.modal')].find(m=>m.style.display==='flex'&&!m.dataset.lock);if(m){m.style.display='none';e.stopImmediatePropagation();e.preventDefault()}},true);
 function initDiff(){const box=$('diffSeg'),selEl=$('difficulty');selEl.value=store.get('diff','normal');if(selEl.value==='training'||!selEl.value)selEl.value='normal';if(!selEl.value)selEl.value='normal';const sync=()=>box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',b.dataset.v===selEl.value));[['easy','Easy'],['normal','Normal'],['hard','Hard']].forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.dataset.v=v;b.setAttribute('role','radio');b.onclick=()=>{selEl.value=v;store.set('diff',v);sync();tone(420)};box.append(b)});sync()}
 function cmdHTML(){const r=ROSTER[(P1?P1.ci:sel)],sk=TECHNIQUES[(P1?P1.ci:sel)],T=isTouch;
   const dir={f:'→',b:'←',u:'↑',d:'↓'},btn={p:['□','sq','J'],k:['△','tr','K'],x:['✕','cr','Space'],o:['○','ci','L'],l1:['L1','sh','Q'],l2:['L2','sh','E']};
