@@ -766,17 +766,13 @@ function cmdHTML(){const r=ROSTER[(P1?P1.ci:sel)],sk=TECHNIQUES[(P1?P1.ci:sel)],
 // ---------- suggestion box ----------
 // Posts go to the public GitHub issue board of the game's repo (prefilled in a new tab).
 // To collect suggestions without a GitHub account, set SUGGEST_FORM to a Google Form "formResponse" URL and its entry ids.
-const SUGGEST_REPO='https://github.com/sfutie4-ops/ring-brawlers/issues/new',SUGGEST_FORM=null;let sugCat='Idea',sugStars=0;
-function openSuggest(){const t=$('sugText');$('sugThanks').classList.remove('show');openModal('suggest');setTimeout(()=>t.focus(),60)}
+let sugCat='Idea',sugStars=0;
+function openSuggest(){const t=$('sugText');$('sugThanks').classList.remove('show');$('sugNote').textContent='';renderSugHistory();openModal('suggest');setTimeout(()=>t.focus(),60)}
 document.querySelectorAll('.sugcats button').forEach(b=>b.onclick=()=>{sugCat=b.dataset.c;document.querySelectorAll('.sugcats button').forEach(x=>x.setAttribute('aria-checked',x===b));buzz(8)});
 document.querySelectorAll('#sugStars button').forEach(b=>b.onclick=()=>{sugStars=+b.dataset.s;document.querySelectorAll('#sugStars button').forEach(x=>x.classList.toggle('on',+x.dataset.s<=sugStars));buzz(8)});
 $('sugText').oninput=()=>{const n=$('sugText').value.trim().length;$('sugCount').textContent=$('sugText').value.length+' / 1000';$('sugSend').disabled=n<4};
 $('sugText').onkeydown=e=>e.stopPropagation();$('sugName').onkeydown=e=>e.stopPropagation();
-$('sugSend').onclick=()=>{const txt=$('sugText').value.trim();if(txt.length<4)return;const name=$('sugName').value.trim().replace(/[<>]/g,'');
-  const title='['+sugCat+'] '+txt.split('\n')[0].slice(0,70);const body=txt+'\n\n---\nType: '+sugCat+(sugStars?'\nRating: '+'★'.repeat(sugStars):'')+(name?'\nFrom: '+name:'')+'\nSent from the FliptapWars suggestion box ('+(isTouch?'phone':'PC')+')';
-  if(SUGGEST_FORM){const fd=new URLSearchParams();for(const[k,v]of Object.entries(SUGGEST_FORM.fields({cat:sugCat,txt,name,stars:sugStars})))fd.append(k,v);fetch(SUGGEST_FORM.url,{method:'POST',mode:'no-cors',body:fd}).catch(()=>{});$('sugThanks').querySelector('span').textContent='Your suggestion was sent. Thank you for helping!'}
-  else window.open(SUGGEST_REPO+'?title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body)+'&labels=suggestion','_blank','noopener');
-  const sh=document.querySelector('.sugsheet');sh.classList.remove('sent');void sh.offsetWidth;sh.classList.add('sent');$('sugThanks').classList.add('show');$('sugText').value='';$('sugText').oninput();buzz([10,30,20])};
+$('sugSend').onclick=()=>sendSuggestion();
 // ---------- buy me a coffee (GCash) ----------
 // Donations use the GCash / InstaPay QR (assets/coffee/qr.png). No account number is stored in the game.
 function openGcash(){const msg=$('coffeeMsg'),ua=navigator.userAgent||'',android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua);buzz([15,30,15]);
