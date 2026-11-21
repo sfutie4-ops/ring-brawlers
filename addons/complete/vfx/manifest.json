@@ -1,0 +1,3482 @@
+{
+  "three_part_bar": {
+    "title": "Three-Part Bar",
+    "fighter": "tipsy_d",
+    "event": "power_1_cast",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          19,
+          83,
+          153,
+          132
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          12,
+          63,
+          207,
+          150
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          8,
+          38,
+          236,
+          174
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          17,
+          74,
+          225,
+          130
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "three_part_bar.webp"
+  },
+  "quick_rebuttal": {
+    "title": "Quick Rebuttal",
+    "fighter": "tipsy_d",
+    "event": "counter_success",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          25,
+          32,
+          200,
+          193
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          40,
+          31,
+          167,
+          194
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          33,
+          38,
+          203,
+          182
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          24,
+          43,
+          223,
+          177
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "quick_rebuttal.webp"
+  },
+  "bar_cascade": {
+    "title": "Bar Cascade",
+    "fighter": "tipsy_d",
+    "event": "ultimate_cast",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          25,
+          85,
+          181,
+          140
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          19,
+          27,
+          221,
+          196
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          3,
+          18,
+          251,
+          219
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          12,
+          38,
+          227,
+          188
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "bar_cascade.webp"
+  },
+  "multi_chain_link": {
+    "title": "Multi Chain Link",
+    "fighter": "tipsy_d",
+    "event": "combo_threshold",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          25,
+          53,
+          176,
+          150
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          15,
+          52,
+          193,
+          157
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          3,
+          49,
+          234,
+          153
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          17,
+          70,
+          226,
+          115
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "multi_chain_link.webp"
+  },
+  "mic_check_ping": {
+    "title": "Mic Check Ping",
+    "fighter": "tipsy_d",
+    "event": "round_intro",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          45,
+          45,
+          158,
+          133
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          19,
+          42,
+          204,
+          140
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          8,
+          16,
+          234,
+          192
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          49,
+          57,
+          147,
+          109
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "mic_check_ping.webp"
+  },
+  "freak_switch": {
+    "title": "Freak Switch",
+    "fighter": "tipsy_d",
+    "event": "alter_ego_reveal",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          21,
+          33,
+          209,
+          143
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          12,
+          19,
+          220,
+          157
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          3,
+          19,
+          242,
+          161
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          26,
+          33,
+          203,
+          144
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "freak_switch.webp"
+  },
+  "blueprint_bars": {
+    "title": "Blueprint Bars",
+    "fighter": "blkd",
+    "event": "power_1_hit",
+    "anchor": "target",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          29,
+          33,
+          201,
+          188
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          26,
+          33,
+          212,
+          191
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          24,
+          30,
+          214,
+          193
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          33,
+          43,
+          190,
+          167
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "blueprint_bars.webp"
+  },
+  "angle_break": {
+    "title": "Angle Break",
+    "fighter": "blkd",
+    "event": "power_2_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          24,
+          40,
+          208,
+          184
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          21,
+          39,
+          212,
+          182
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          15,
+          47,
+          224,
+          167
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          19,
+          48,
+          223,
+          164
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "angle_break.webp"
+  },
+  "kamalayan": {
+    "title": "Kamalayan",
+    "fighter": "blkd",
+    "event": "ultimate_release",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          60,
+          67,
+          136,
+          140
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          22,
+          28,
+          206,
+          203
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          20,
+          23,
+          213,
+          210
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          21,
+          27,
+          211,
+          208
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "kamalayan.webp"
+  },
+  "pen_ignition": {
+    "title": "Pen Ignition",
+    "fighter": "blkd",
+    "event": "ability_ready",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          24,
+          118,
+          203,
+          90
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          20,
+          76,
+          208,
+          121
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          4,
+          33,
+          232,
+          187
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          21,
+          52,
+          210,
+          147
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "pen_ignition.webp"
+  },
+  "grid_lock": {
+    "title": "Grid Lock",
+    "fighter": "blkd",
+    "event": "mark_applied",
+    "anchor": "target",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          33,
+          34,
+          190,
+          178
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          36,
+          34,
+          183,
+          177
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          28,
+          26,
+          198,
+          193
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          38,
+          37,
+          178,
+          169
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "grid_lock.webp"
+  },
+  "margin_shatter": {
+    "title": "Margin Shatter",
+    "fighter": "blkd",
+    "event": "guard_break",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          20,
+          44,
+          211,
+          175
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          14,
+          38,
+          223,
+          181
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          11,
+          23,
+          225,
+          197
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          15,
+          32,
+          215,
+          188
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "margin_shatter.webp"
+  },
+  "lock_on_bar": {
+    "title": "Lock-On Bar",
+    "fighter": "target",
+    "event": "mark_applied",
+    "anchor": "target",
+    "frames": [
+      {
+        "rect": [
+          10,
+          4,
+          257,
+          293
+        ],
+        "bounds": [
+          18,
+          44,
+          238,
+          248
+        ],
+        "pivot": [
+          128,
+          146
+        ]
+      },
+      {
+        "rect": [
+          294,
+          4,
+          246,
+          293
+        ],
+        "bounds": [
+          35,
+          66,
+          191,
+          204
+        ],
+        "pivot": [
+          123,
+          146
+        ]
+      },
+      {
+        "rect": [
+          560,
+          4,
+          270,
+          293
+        ],
+        "bounds": [
+          30,
+          71,
+          240,
+          192
+        ],
+        "pivot": [
+          135,
+          146
+        ]
+      },
+      {
+        "rect": [
+          847,
+          4,
+          251,
+          293
+        ],
+        "bounds": [
+          0,
+          67,
+          225,
+          194
+        ],
+        "pivot": [
+          125,
+          146
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "lock_on_bar.webp"
+  },
+  "pressure_step": {
+    "title": "Pressure Step",
+    "fighter": "target",
+    "event": "power_2_dash",
+    "anchor": "fighter_feet",
+    "frames": [
+      {
+        "rect": [
+          10,
+          4,
+          257,
+          219
+        ],
+        "bounds": [
+          27,
+          134,
+          210,
+          62
+        ],
+        "pivot": [
+          128,
+          109
+        ]
+      },
+      {
+        "rect": [
+          294,
+          4,
+          246,
+          219
+        ],
+        "bounds": [
+          15,
+          107,
+          225,
+          94
+        ],
+        "pivot": [
+          123,
+          109
+        ]
+      },
+      {
+        "rect": [
+          560,
+          4,
+          270,
+          219
+        ],
+        "bounds": [
+          22,
+          70,
+          228,
+          137
+        ],
+        "pivot": [
+          135,
+          109
+        ]
+      },
+      {
+        "rect": [
+          847,
+          4,
+          251,
+          219
+        ],
+        "bounds": [
+          12,
+          103,
+          221,
+          114
+        ],
+        "pivot": [
+          125,
+          109
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "pressure_step.webp"
+  },
+  "bullseye_barrage": {
+    "title": "Bullseye Barrage",
+    "fighter": "target",
+    "event": "ultimate_release",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          10,
+          4,
+          257,
+          297
+        ],
+        "bounds": [
+          35,
+          63,
+          198,
+          205
+        ],
+        "pivot": [
+          128,
+          148
+        ]
+      },
+      {
+        "rect": [
+          294,
+          4,
+          246,
+          297
+        ],
+        "bounds": [
+          17,
+          57,
+          229,
+          218
+        ],
+        "pivot": [
+          123,
+          148
+        ]
+      },
+      {
+        "rect": [
+          560,
+          4,
+          270,
+          297
+        ],
+        "bounds": [
+          0,
+          43,
+          270,
+          254
+        ],
+        "pivot": [
+          135,
+          148
+        ]
+      },
+      {
+        "rect": [
+          847,
+          4,
+          251,
+          297
+        ],
+        "bounds": [
+          0,
+          34,
+          236,
+          253
+        ],
+        "pivot": [
+          125,
+          148
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "bullseye_barrage.webp"
+  },
+  "dead_center": {
+    "title": "Dead Center",
+    "fighter": "target",
+    "event": "hit_marked_target",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          10,
+          4,
+          257,
+          218
+        ],
+        "bounds": [
+          40,
+          6,
+          194,
+          211
+        ],
+        "pivot": [
+          128,
+          109
+        ]
+      },
+      {
+        "rect": [
+          294,
+          4,
+          246,
+          218
+        ],
+        "bounds": [
+          31,
+          15,
+          194,
+          194
+        ],
+        "pivot": [
+          123,
+          109
+        ]
+      },
+      {
+        "rect": [
+          560,
+          4,
+          270,
+          218
+        ],
+        "bounds": [
+          42,
+          0,
+          196,
+          203
+        ],
+        "pivot": [
+          135,
+          109
+        ]
+      },
+      {
+        "rect": [
+          847,
+          4,
+          251,
+          218
+        ],
+        "bounds": [
+          22,
+          32,
+          181,
+          159
+        ],
+        "pivot": [
+          125,
+          109
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "dead_center.webp"
+  },
+  "closing_distance": {
+    "title": "Closing Distance",
+    "fighter": "target",
+    "event": "dash_start",
+    "anchor": "fighter_feet",
+    "frames": [
+      {
+        "rect": [
+          10,
+          4,
+          257,
+          253
+        ],
+        "bounds": [
+          37,
+          75,
+          192,
+          110
+        ],
+        "pivot": [
+          128,
+          126
+        ]
+      },
+      {
+        "rect": [
+          294,
+          4,
+          246,
+          253
+        ],
+        "bounds": [
+          18,
+          63,
+          219,
+          125
+        ],
+        "pivot": [
+          123,
+          126
+        ]
+      },
+      {
+        "rect": [
+          560,
+          4,
+          270,
+          253
+        ],
+        "bounds": [
+          9,
+          10,
+          261,
+          211
+        ],
+        "pivot": [
+          135,
+          126
+        ]
+      },
+      {
+        "rect": [
+          847,
+          4,
+          251,
+          253
+        ],
+        "bounds": [
+          0,
+          58,
+          225,
+          136
+        ],
+        "pivot": [
+          125,
+          126
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "closing_distance.webp"
+  },
+  "red_zone_warning": {
+    "title": "Red Zone Warning",
+    "fighter": "target",
+    "event": "zone_warning",
+    "anchor": "floor",
+    "frames": [
+      {
+        "rect": [
+          10,
+          4,
+          257,
+          256
+        ],
+        "bounds": [
+          30,
+          91,
+          207,
+          54
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          294,
+          4,
+          246,
+          256
+        ],
+        "bounds": [
+          13,
+          78,
+          233,
+          84
+        ],
+        "pivot": [
+          123,
+          128
+        ]
+      },
+      {
+        "rect": [
+          560,
+          4,
+          270,
+          256
+        ],
+        "bounds": [
+          0,
+          63,
+          270,
+          112
+        ],
+        "pivot": [
+          135,
+          128
+        ]
+      },
+      {
+        "rect": [
+          847,
+          4,
+          251,
+          256
+        ],
+        "bounds": [
+          0,
+          80,
+          220,
+          72
+        ],
+        "pivot": [
+          125,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "red_zone_warning.webp"
+  },
+  "rebuttal_king": {
+    "title": "Rebuttal King",
+    "fighter": "dello",
+    "event": "counter_success",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          15,
+          50,
+          226,
+          172
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          18,
+          32,
+          224,
+          202
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          7,
+          31,
+          236,
+          203
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          12,
+          44,
+          230,
+          172
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "rebuttal_king.webp"
+  },
+  "off_the_dome": {
+    "title": "Off-the-Dome",
+    "fighter": "dello",
+    "event": "power_2_cast",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          40,
+          35,
+          170,
+          179
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          28,
+          51,
+          189,
+          161
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          17,
+          51,
+          224,
+          164
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          20,
+          51,
+          219,
+          157
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "off_the_dome.webp"
+  },
+  "tondo_turnaround": {
+    "title": "Tondo Turnaround",
+    "fighter": "dello",
+    "event": "ultimate_release",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          13,
+          67,
+          226,
+          124
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          13,
+          28,
+          229,
+          193
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          8,
+          31,
+          245,
+          196
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          23,
+          27,
+          224,
+          197
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "tondo_turnaround.webp"
+  },
+  "tokay_footprint": {
+    "title": "Tokay Footprint",
+    "fighter": "dello",
+    "event": "idle_standoff",
+    "anchor": "floor",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          28,
+          129,
+          75,
+          95
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          26,
+          75,
+          176,
+          149
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          16,
+          36,
+          208,
+          189
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          24,
+          38,
+          201,
+          183
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "tokay_footprint.webp"
+  },
+  "kambal_tuko_ripple": {
+    "title": "Kambal Tuko Ripple",
+    "fighter": "dello",
+    "event": "rivalry_end_dello_zaito",
+    "anchor": "floor",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          14,
+          54,
+          226,
+          140
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          17,
+          44,
+          221,
+          160
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          16,
+          32,
+          221,
+          181
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          21,
+          46,
+          205,
+          152
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "kambal_tuko_ripple.webp"
+  },
+  "last_word_snap": {
+    "title": "Last Word Snap",
+    "fighter": "dello",
+    "event": "round_win",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          29,
+          48,
+          190,
+          148
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          31,
+          43,
+          179,
+          163
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          26,
+          32,
+          188,
+          162
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          256
+        ],
+        "bounds": [
+          35,
+          57,
+          161,
+          127
+        ],
+        "pivot": [
+          128,
+          128
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "last_word_snap.webp"
+  },
+  "three_beat_aftershock": {
+    "title": "Three-Beat Aftershock",
+    "fighter": "tipsy_d",
+    "event": "combo_threshold",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          74,
+          101,
+          112,
+          54
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          40,
+          77,
+          168,
+          82
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          13,
+          32,
+          225,
+          137
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          28,
+          79,
+          190,
+          81
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "three_beat_aftershock.webp"
+  },
+  "syllable_skid": {
+    "title": "Syllable Skid",
+    "fighter": "tipsy_d",
+    "event": "dash_end",
+    "anchor": "fighter_feet",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          41,
+          93,
+          128,
+          45
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          37,
+          65,
+          177,
+          67
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          11,
+          38,
+          243,
+          115
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          47,
+          76,
+          175,
+          51
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "syllable_skid.webp"
+  },
+  "counter_cutback": {
+    "title": "Counter Cutback",
+    "fighter": "tipsy_d",
+    "event": "counter_success",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          88,
+          33,
+          87,
+          107
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          36,
+          31,
+          168,
+          125
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          21,
+          20,
+          215,
+          132
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          47,
+          33,
+          166,
+          102
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "counter_cutback.webp"
+  },
+  "multi_bar_finale": {
+    "title": "Multi-Bar Finale",
+    "fighter": "tipsy_d",
+    "event": "ultimate_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          37,
+          20,
+          186,
+          136
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          37,
+          22,
+          177,
+          123
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          16,
+          6,
+          224,
+          186
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          49,
+          34,
+          156,
+          93
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "multi_bar_finale.webp"
+  },
+  "drafting_compass": {
+    "title": "Drafting Compass",
+    "fighter": "blkd",
+    "event": "ability_ready",
+    "anchor": "emitter",
+    "frames": [
+      {
+        "rect": [
+          15,
+          4,
+          249,
+          192
+        ],
+        "bounds": [
+          43,
+          53,
+          99,
+          112
+        ],
+        "pivot": [
+          124,
+          96
+        ]
+      },
+      {
+        "rect": [
+          296,
+          4,
+          247,
+          192
+        ],
+        "bounds": [
+          32,
+          21,
+          172,
+          142
+        ],
+        "pivot": [
+          123,
+          96
+        ]
+      },
+      {
+        "rect": [
+          564,
+          4,
+          272,
+          192
+        ],
+        "bounds": [
+          28,
+          0,
+          218,
+          181
+        ],
+        "pivot": [
+          136,
+          96
+        ]
+      },
+      {
+        "rect": [
+          852,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          40,
+          11,
+          169,
+          165
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "drafting_compass.webp"
+  },
+  "cross_section": {
+    "title": "Cross Section",
+    "fighter": "blkd",
+    "event": "guard_break",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          15,
+          4,
+          249,
+          192
+        ],
+        "bounds": [
+          24,
+          23,
+          201,
+          143
+        ],
+        "pivot": [
+          124,
+          96
+        ]
+      },
+      {
+        "rect": [
+          296,
+          4,
+          247,
+          192
+        ],
+        "bounds": [
+          19,
+          20,
+          213,
+          141
+        ],
+        "pivot": [
+          123,
+          96
+        ]
+      },
+      {
+        "rect": [
+          564,
+          4,
+          272,
+          192
+        ],
+        "bounds": [
+          16,
+          19,
+          242,
+          141
+        ],
+        "pivot": [
+          136,
+          96
+        ]
+      },
+      {
+        "rect": [
+          852,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          42,
+          37,
+          183,
+          105
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "cross_section.webp"
+  },
+  "structural_collapse": {
+    "title": "Structural Collapse",
+    "fighter": "blkd",
+    "event": "ultimate_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          15,
+          4,
+          249,
+          192
+        ],
+        "bounds": [
+          37,
+          8,
+          168,
+          163
+        ],
+        "pivot": [
+          124,
+          96
+        ]
+      },
+      {
+        "rect": [
+          296,
+          4,
+          247,
+          192
+        ],
+        "bounds": [
+          38,
+          26,
+          191,
+          136
+        ],
+        "pivot": [
+          123,
+          96
+        ]
+      },
+      {
+        "rect": [
+          564,
+          4,
+          272,
+          192
+        ],
+        "bounds": [
+          36,
+          17,
+          201,
+          153
+        ],
+        "pivot": [
+          136,
+          96
+        ]
+      },
+      {
+        "rect": [
+          852,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          29,
+          21,
+          192,
+          140
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "structural_collapse.webp"
+  },
+  "ink_underline": {
+    "title": "Ink Underline",
+    "fighter": "blkd",
+    "event": "mark_applied",
+    "anchor": "target",
+    "frames": [
+      {
+        "rect": [
+          15,
+          4,
+          249,
+          192
+        ],
+        "bounds": [
+          24,
+          79,
+          115,
+          36
+        ],
+        "pivot": [
+          124,
+          96
+        ]
+      },
+      {
+        "rect": [
+          296,
+          4,
+          247,
+          192
+        ],
+        "bounds": [
+          2,
+          71,
+          227,
+          50
+        ],
+        "pivot": [
+          123,
+          96
+        ]
+      },
+      {
+        "rect": [
+          564,
+          4,
+          272,
+          192
+        ],
+        "bounds": [
+          2,
+          30,
+          261,
+          94
+        ],
+        "pivot": [
+          136,
+          96
+        ]
+      },
+      {
+        "rect": [
+          852,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          19,
+          51,
+          204,
+          56
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "ink_underline.webp"
+  },
+  "sightline_snap": {
+    "title": "Sightline Snap",
+    "fighter": "target",
+    "event": "mark_applied",
+    "anchor": "target",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          24,
+          78,
+          211,
+          73
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          27,
+          72,
+          200,
+          78
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          23,
+          43,
+          214,
+          124
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          19,
+          54,
+          217,
+          110
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "sightline_snap.webp"
+  },
+  "pressure_landing": {
+    "title": "Pressure Landing",
+    "fighter": "target",
+    "event": "dash_end",
+    "anchor": "fighter_feet",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          60,
+          117,
+          133,
+          42
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          34,
+          65,
+          176,
+          96
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          27,
+          15,
+          203,
+          148
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          35,
+          48,
+          192,
+          111
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "pressure_landing.webp"
+  },
+  "bullseye_overload": {
+    "title": "Bullseye Overload",
+    "fighter": "target",
+    "event": "ultimate_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          48,
+          34,
+          160,
+          140
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          33,
+          28,
+          180,
+          147
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          33,
+          18,
+          194,
+          160
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          29,
+          23,
+          198,
+          149
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "bullseye_overload.webp"
+  },
+  "closing_arc": {
+    "title": "Closing Arc",
+    "fighter": "target",
+    "event": "power_2_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          4,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          21,
+          59,
+          209,
+          102
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          268,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          15,
+          46,
+          227,
+          122
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          532,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          18,
+          39,
+          227,
+          131
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          796,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          18,
+          54,
+          220,
+          105
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "closing_arc.webp"
+  },
+  "golden_comeback": {
+    "title": "Golden Comeback",
+    "fighter": "dello",
+    "event": "counter_success",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          5,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          20,
+          72,
+          205,
+          89
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          274,
+          4,
+          253,
+          192
+        ],
+        "bounds": [
+          12,
+          53,
+          211,
+          109
+        ],
+        "pivot": [
+          126,
+          96
+        ]
+      },
+      {
+        "rect": [
+          538,
+          4,
+          259,
+          192
+        ],
+        "bounds": [
+          2,
+          35,
+          246,
+          139
+        ],
+        "pivot": [
+          129,
+          96
+        ]
+      },
+      {
+        "rect": [
+          806,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          24,
+          54,
+          211,
+          104
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "golden_comeback.webp"
+  },
+  "dome_double_echo": {
+    "title": "Dome Double Echo",
+    "fighter": "dello",
+    "event": "power_2_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          5,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          23,
+          86,
+          205,
+          62
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          274,
+          4,
+          253,
+          192
+        ],
+        "bounds": [
+          14,
+          59,
+          226,
+          94
+        ],
+        "pivot": [
+          126,
+          96
+        ]
+      },
+      {
+        "rect": [
+          538,
+          4,
+          259,
+          192
+        ],
+        "bounds": [
+          8,
+          33,
+          239,
+          124
+        ],
+        "pivot": [
+          129,
+          96
+        ]
+      },
+      {
+        "rect": [
+          806,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          17,
+          54,
+          219,
+          98
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "dome_double_echo.webp"
+  },
+  "twin_tail_cross": {
+    "title": "Twin-Tail Cross",
+    "fighter": "dello",
+    "event": "rivalry_end_dello_zaito",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          5,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          23,
+          40,
+          208,
+          112
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          274,
+          4,
+          253,
+          192
+        ],
+        "bounds": [
+          21,
+          40,
+          208,
+          102
+        ],
+        "pivot": [
+          126,
+          96
+        ]
+      },
+      {
+        "rect": [
+          538,
+          4,
+          259,
+          192
+        ],
+        "bounds": [
+          22,
+          23,
+          219,
+          130
+        ],
+        "pivot": [
+          129,
+          96
+        ]
+      },
+      {
+        "rect": [
+          806,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          22,
+          45,
+          207,
+          104
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      95,
+      125,
+      115,
+      230
+    ],
+    "file": "twin_tail_cross.webp"
+  },
+  "tondo_gold_dust": {
+    "title": "Tondo Gold Dust",
+    "fighter": "dello",
+    "event": "ultimate_hit",
+    "anchor": "contact",
+    "frames": [
+      {
+        "rect": [
+          5,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          42,
+          40,
+          147,
+          115
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      },
+      {
+        "rect": [
+          274,
+          4,
+          253,
+          192
+        ],
+        "bounds": [
+          25,
+          17,
+          189,
+          154
+        ],
+        "pivot": [
+          126,
+          96
+        ]
+      },
+      {
+        "rect": [
+          538,
+          4,
+          259,
+          192
+        ],
+        "bounds": [
+          10,
+          8,
+          231,
+          166
+        ],
+        "pivot": [
+          129,
+          96
+        ]
+      },
+      {
+        "rect": [
+          806,
+          4,
+          256,
+          192
+        ],
+        "bounds": [
+          31,
+          33,
+          187,
+          125
+        ],
+        "pivot": [
+          128,
+          96
+        ]
+      }
+    ],
+    "frameMs": [
+      140,
+      170,
+      135,
+      300
+    ],
+    "file": "tondo_gold_dust.webp"
+  }
+}

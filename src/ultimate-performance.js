@@ -21,20 +21,22 @@ const ULTIMATE_ACTING = [
     windPose:[-12,2,-.15,-.09], hitPose:[9,-12,-.12,.13]},       // Sinio: lean back and laugh
 ];
 
+const completeActing={windPose:[-7,2,-.11,-.08],hitPose:[11,-3,.10,.06]};
+
 function ultimateActingFrame(f,elapsed=f.ultimate?.elapsed??f.t) {
-  const plan=ULTIMATE_PLANS[f.ci], cast=f.ultimate;
-  const beats=plan.beats, next=cast?.next??0;
+  const cast=f.ultimate,plan=cast?.plan??ULTIMATE_PLANS[f.ci];
+  const beats=plan.beats, next=cast?.next??0, style=ULTIMATE_ACTING[f.ci]??completeActing;
   const last=next-1;
   const since=last>=0 ? elapsed-beats[last][0] : Infinity;
   if(last>=0 && since<.20) {
-    return {phase:'impact',step:last,amount:1-ease(since/.22),style:ULTIMATE_ACTING[f.ci]};
+    return {phase:'impact',step:last,amount:1-ease(since/.22),style};
   }
   if(next>=beats.length) {
-    return {phase:'recover',step:last,amount:1-ease((elapsed-beats[last][0]-.2)/.32),style:ULTIMATE_ACTING[f.ci]};
+    return {phase:'recover',step:last,amount:1-ease((elapsed-beats[last][0]-.2)/.32),style};
   }
   const from=last<0?0:beats[last][0];
   const amount=clamp((elapsed-from)/(beats[next][0]-from),0,1);
-  return {phase:'windup',step:next,amount,style:ULTIMATE_ACTING[f.ci]};
+  return {phase:'windup',step:next,amount,style};
 }
 
 function ritualCastFrame(f, {phase,step,amount}) {
@@ -72,17 +74,8 @@ function ultimateFaceImage(f) {
   const finishing=phase==='ko'&&f.st==='win'&&f.ultimate.next>0&&pt<.19;
   if(f.st!=='sp'&&!finishing)return null;
   const acting=ultimateActingFrame(f);
-  const ritual=ritualCastFrame(f,acting);
-  const body=cinematicBodyFrame(f,acting);
-  if (body?.faceCrop && acting.phase!=='recover' && !(f.ci===1 && acting.phase==='windup' && acting.amount<.26)) return body;
-  if (f.ci===5 && acting.phase==='windup' && acting.step===0 && acting.amount>.55 && expressions['cast-expressions']) {
-    return expressions['cast-expressions'];
-  }
-  if(ritual)return ritual;
-  const {phase:castPhase}=acting;
-  if(castPhase==='impact')return rosterFaceFrame(f.ci,'attack')||expressions['ultimate-impact'];
-  if(castPhase==='windup')return rosterFaceFrame(f.ci,acting.amount>.54?'attack':'alert')||expressions['ultimate-windup'];
-  return null;
+  if(acting.phase==='recover')return null;
+  return rosterFaceFrame(f.ci,acting.phase==='impact'||acting.amount>.54?'attack':'alert');
 }
 
 function drawExpressionCell(atlas,ci,x,y,w,h,crop=.10) {

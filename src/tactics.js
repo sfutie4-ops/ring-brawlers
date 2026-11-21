@@ -123,7 +123,7 @@ function updateHold(f,opponent,controls,dt) {
 }
 function powerHit(f, attack, index=null) {
   if (f.st!=='power' || !f.chargedPower) return attack;
-  const boost=CHARGED_POWER[f.ci];
+  const boost=CHARGED_POWER[f.ci]??{damage:6,status:{stun:.42}};
   if (attack.volley && index!==attack.volley.length-1) return attack;
   return {...attack,powered:true,dmg:attack.dmg+boost.damage,status:{...attack.status,...boost.status},drain:boost.drain||attack.drain};
 }
@@ -298,8 +298,6 @@ function drawTacticalOverlay(f,x,y) {
     const mana=f.st==='chargeMana';
     const progress=mana?f.mt/100:clamp(f.t/POWER_WINDUP,0,1);
     const col=mana?'#ffd77a':COL[f.ci];
-    ctx.fillStyle='#0e1426de';ctx.fillRect(x-43,y-205,86,6);
-    ctx.fillStyle=col;ctx.fillRect(x-43,y-205,86*progress,6);
     const labelText=mana?(progress>=1?'FULL MANA':'CHARGING MANA'):f.chargeReady?'CHARGED · RELEASE':f.mt<CHARGED_POWER_COST?'STANDARD · NEED 60 MANA':'CHARGING POWER';
     text(labelText,x,y-212,10,col);
   }

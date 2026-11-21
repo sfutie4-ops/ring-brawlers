@@ -41,6 +41,11 @@ function drawEnvironmentBase(){const art=arenaImages[arenaId];if(!art)return;ctx
  if(arenaId===1&&!reduced){ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.035+Math.sin(vclock*6)*.012;for(const x of[200,700])ctx.drawImage(glow('#ff903b'),x-115,230,230,210);ctx.restore()}
  if(arenaId===2){ctx.save();ctx.globalCompositeOperation='lighter';for(const f of flashes){if(f.t<0)continue;const a=1-f.t/f.dur,r=12+a*15;ctx.globalAlpha=a*.7;ctx.drawImage(glow('#dfeeff'),f.x-r,260+f.y*.18-r,r*2,r*2)}ctx.restore()}
 }
+function drawPropArt(p){const state=p.hp===0?2:p.hp<3?1:0,row=Number(p.kind==='barrel'),w=state===2?80:row?58:72,wet=ARENAS[arenaId].wet,dt=vclock-(p.hitT??-9),wob=dt<1?Math.sin(dt*38)*Math.exp(-dt*7)*.09*(p.hitDir||1):0;
+  ctx.save();ctx.translate(p.x,GY-6);
+  ctx.save();ctx.globalCompositeOperation='multiply';const sh=ctx.createRadialGradient(4,2,2,4,2,46);sh.addColorStop(0,'rgba(0,0,0,.6)');sh.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=sh;ctx.scale(1.25,.24);ctx.beginPath();ctx.arc(4,8,46,0,TAU);ctx.fill();ctx.restore();
+  if(wet&&state<2&&!lowQ()){ctx.save();ctx.beginPath();ctx.rect(-50,0,100,60);ctx.clip();ctx.globalAlpha=.16;ctx.scale(1,-.55);ctx.drawImage(stageProps,state*160,row*160,160,160,-w/2,-w+6,w,w);ctx.restore()}
+  ctx.rotate(wob);ctx.drawImage(stageProps,state*160,row*160,160,160,-w/2,-w+6,w,w);ctx.restore()}
 // ---------- floor damage: baked once per impact, blended into the floor with multiply / screen ----------
 const SCAR_TINT=['#7fdcff','#ff8a3c','#ffe0a8'],AMBIENT=['#4a5fa8','#ff8a3c','#f5be58'];
 function makeScar(power,aid){const R=58+power*30,SQ=.34,w=Math.ceil(R*2.3),h=Math.ceil(R*1.1),k=lowQ()?1:2;
@@ -104,7 +109,7 @@ function propArt(kind,hp,aid){const key=kind+hp+aid+(lowQ()?'l':'h');if(propArtC
   propArtCache.set(key,c);return c}
 const PS=1.3;
 function makeDebris(p){const out=[];for(let i=0;i<9;i++)out.push({x:(rand()-.5)*86,y:rand()*7,w:p.kind==='barrel'?6+rand()*10:10+rand()*16,h:p.kind==='barrel'?3+rand()*4:4+rand()*3,r:(rand()-.5)*2.4,sh:.75+rand()*.35});return out}
-function drawProp(p){const art=propArt(p.kind,Math.max(1,p.hp),arenaId),wet=ARENAS[arenaId].wet,dt=vclock-(p.hitT??-9),wob=dt<1?Math.sin(dt*38)*Math.exp(-dt*7)*.09*(p.hitDir||1):0;
+function drawProp(p){if(typeof stageProps!=='undefined'&&stageProps)return drawPropArt(p);const art=propArt(p.kind,Math.max(1,p.hp),arenaId),wet=ARENAS[arenaId].wet,dt=vclock-(p.hitT??-9),wob=dt<1?Math.sin(dt*38)*Math.exp(-dt*7)*.09*(p.hitDir||1):0;
   ctx.save();ctx.translate(p.x,GY-6);
   // contact shadow, multiplied into the floor
   ctx.save();ctx.globalCompositeOperation='multiply';const sh=ctx.createRadialGradient(4,2,2,4,2,46);sh.addColorStop(0,'rgba(0,0,0,.6)');sh.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=sh;ctx.scale(1.25,.24);ctx.beginPath();ctx.arc(4,8,46,0,TAU);ctx.fill();ctx.restore();
@@ -126,7 +131,7 @@ function drawEnvironmentFX(){for(const e of envFx)drawAtlas(e.row,Math.floor(e.t
  if(arenaId===0&&!reduced){ctx.save();ctx.strokeStyle='#a6defb45';ctx.lineWidth=1;ctx.beginPath();for(let i=0;i<(lowQ()?35:95);i++){const x=(i*97+vclock*90)%1020-30,y=(i*61+vclock*560)%560;ctx.moveTo(x,y);ctx.lineTo(x-5,y+17)}ctx.stroke();ctx.restore()}
  if(P1)for(const f of[P1,P2])if(f.st==='sp'){const p=clamp(f.t/moveData(f).dur,0,1);for(let j=0;j<3;j++){ctx.save();ctx.strokeStyle=COL[f.ci];ctx.globalAlpha=(1-p)*.5;ctx.lineWidth=2-j*.4;ctx.beginPath();ctx.ellipse(f.x,GY-55-j*28,65+p*(230+j*40),18+p*30,-f.face*.15,Math.PI*(p+j*.5),Math.PI*(p+j*.5)+4.5);ctx.stroke();ctx.restore()}}
 }
-function drawDanger(){if(!dangerFX||!P1||P1.hp>28||P1.hp<=0||phase!=='fight')return;const intensity=1-P1.hp/28,pulse=reduced?.14:.12+(Math.sin(vclock*(4.5+intensity*2))*.5+.5)*.20;ctx.save();const g=ctx.createRadialGradient(480,280,155,480,280,540);g.addColorStop(0,'#c3152200');g.addColorStop(.5,'#c3152200');g.addColorStop(1,`rgba(230,20,47,${pulse+intensity*.24})`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='#ff687a';ctx.fillRect(0,0,3,H);ctx.fillRect(W-3,0,3,H);ctx.restore();text('LOW HEALTH',480,128,10,'#ff8492')}
+function drawDanger(){if(!dangerFX||!P1||P1.hp>MAX_HP*.28||P1.hp<=0||phase!=='fight')return;const intensity=1-P1.hp/(MAX_HP*.28),pulse=reduced?.14:.12+(Math.sin(vclock*(4.5+intensity*2))*.5+.5)*.20;ctx.save();const g=ctx.createRadialGradient(480,280,155,480,280,540);g.addColorStop(0,'#c3152200');g.addColorStop(.5,'#c3152200');g.addColorStop(1,`rgba(230,20,47,${pulse+intensity*.24})`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='#ff687a';ctx.fillRect(0,0,3,H);ctx.fillRect(W-3,0,3,H);ctx.restore();text('LOW HEALTH',480,128,10,'#ff8492')}
 function drawTrace(fr,x,y,face,sx,sy,angle,col,active){if(!traceFX||lowQ())return;ctx.save();ctx.globalCompositeOperation='lighter';const a=active?.44:.18;for(const dx of[-2,2])drawSprite(fr,x+dx,y,face,a,false,sx,sy,angle,col);drawSprite(fr,x,y-2,face,a,false,sx,sy,angle,col);ctx.restore()}
 // Back press gets a 120 ms parry window with a 420 ms re-arm cooldown.
 function updateDefense(f,o,dt){f.parryWindow=Math.max(0,(f.parryWindow||0)-dt);f.parryCooldown=Math.max(0,(f.parryCooldown||0)-dt);const dir=f.human?(held.r||0)-(held.l||0):f.ctl.dir||0;const toward=o.x>=f.x?1:-1,back=dir*toward<0;const eligible=f.air===0&&GUARD_STATES.has(f.st);if(back&&!f.backHeld&&eligible&&!f.parryCooldown){f.parryWindow=.12;f.parryCooldown=.42}if(!back||!eligible)f.parryWindow=0;f.backHeld=back;f.back=back;if(eligible)f.face=toward}

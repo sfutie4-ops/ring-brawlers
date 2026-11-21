@@ -10,6 +10,12 @@ const SUPER_LOOKS = [
   {ink:'#071449', main:'#537cfc', light:'#c0dcff', draw:meaningScreen},
   {ink:'#260b32', main:'#f644a8', light:'#ffc2eb', draw:lotusScreen}
 ];
+const SIGNATURE_LOOKS={
+  gold:{ink:'#2b1710',main:'#ffc52f',light:'#fff2a1',draw:crownScreen},
+  wall:{ink:'#111e21',main:'#68c0ae',light:'#fae0aa',draw:libertyScreen},
+  papaya:{ink:'#21100e',main:'#ff8628',light:'#fff0a2',draw:lotusScreen},
+  target:{ink:'#2b0710',main:'#ff4160',light:'#ffcfbd',draw:angleScreen}
+};
 const SCREEN_IMPACT_TAIL = .72;
 const SCREEN_INTERRUPT_TAIL = .22;
 let superScreen = null;
@@ -48,7 +54,7 @@ function screenHash(i, salt=0) {
 function readUltimateScreen(transform) {
   if (!superScreen || (phase!=='fight' && phase!=='ko')) return null;
   const s = superScreen;
-  const plan = ULTIMATE_PLANS[s.f.ci];
+  const {plan,visualCi}=s.cast;
   const worldY = plan.floor ? GY-35 : GY-138;
   const px = (transform.a*s.worldX+transform.c*worldY+transform.e)/RS;
   const py = (transform.b*s.worldX+transform.d*worldY+transform.f)/RS;
@@ -60,9 +66,12 @@ function readUltimateScreen(transform) {
   const projectX=wx=>(transform.a*wx+transform.c*GY+transform.e)/RS;
   const originX=projectX(s.cast.x);
   const slamX=plan.response ? clamp(projectX(ultimateBeatX(plan,s.cast,plan.beats[1],1)),100,W-100) : null;
+  const base=SUPER_LOOKS[visualCi]??SIGNATURE_LOOKS[plan.style]??{ink:'#140e20',main:'#b487ff',light:'#fff0de',draw:angleScreen};
+  const copied=visualCi!==s.f.ci;
+  const look=copied?{...base,ink:'#111629',main:'#72cef7',light:'#ead2ff'}:base;
   return {
     x:clamp(px,100,W-100),y:clamp(py,H*.39,H*.87),face:s.cast.face,
-    f:s.f,cast:s.cast,groundY,originX,slamX,t:s.age,since:s.since,beat:s.beat,progress,impact,amount,look:SUPER_LOOKS[s.f.ci]
+    f:s.f,cast:s.cast,groundY,originX,slamX,t:s.age,since:s.since,beat:s.beat,progress,impact,amount,look,copied
   };
 }
 
@@ -322,7 +331,8 @@ function drawUltimateAftershock(s) {
   const {x,y,impact:i,progress:p,look,face}=s;
   const cx=x, cy=y-36;
   const front=126+easeOut(p)*610;
-  const profile=AFTERSHOCKS[s.f.ci];
+  const profile=AFTERSHOCKS[s.cast.visualCi]??(s.cast.plan.style==='target'?'beam':
+    s.cast.plan.style==='wall'||s.cast.plan.style==='papaya'?'floor':'ring');
   ctx.save();
   ctx.globalCompositeOperation='screen';
   ctx.lineWidth=3+i*7;
@@ -360,30 +370,34 @@ function drawUltimateAftershock(s) {
 
 const AFTERSHOCKS=['floor','ring','beam','floor','ring','diamond','floor','diamond','floor'];
 
-function drawZaitoShadow(s) {
-  if (s?.f.ci!==6 || s.amount<.04) return;
+function drawZaitoCarabao(s) {
+  if(s?.cast.visualCi!==6||s.amount<.04||s.f.t<s.cast.intro)return;
   const {cast,amount,groundY,originX,slamX,face,beat,since}=s;
   const rise=ease((cast.elapsed-.06)/.36);
   const swing=ease((cast.elapsed-.64)/.34);
   const index=beat===1?3:cast.elapsed>=.67?2:cast.elapsed>=.37?1:0;
-  const frame=cinematicFrames['comic-effects']?.[index];
+  const frame=cinematicFrames['zaito-effects']?.[index];
   if (!frame || rise<.01) return;
   const from=clamp(originX-98*face,125,W-125);
   const travel=index===3?slamX:lerp(from,slamX-116*face,swing);
   const spread=index===3?easeOut(since/.24):0;
   const floor=groundY+15+(1-rise)*49;
   const linger=index===3?1-ease((since-.14)/.31):1;
-  const height=index===3?90-spread*24:index===2?286:314*(.70+rise*.30);
+  const height=index===3?90-spread*24:index===2?310:307*(.70+rise*.30);
   const width=Math.min(W*.76,height*frame.w/frame.h)*(1+spread*.41);
   const angle=index===2 && !reduced ? (swing-.53)*.36 : 0;
   ctx.save();
   ctx.setTransform(RS,0,0,RS,0,0);
-  if (index===2 && !reduced) {
-    for (let n=3;n>0;n--) drawCinematicTile('comic-effects',2,travel-face*n*21,floor-n*12,
-      width,height,face,amount*.08,angle-n*.12,.84);
+  if(s.copied)ctx.filter='hue-rotate(125deg)';
+  if(index<3 && backstageArt.carabao){
+    const step=cast.elapsed<.25?0:cast.elapsed<.40?1:swing>.92?5:2+Math.floor(cast.elapsed*12)%3;
+    const chargeX=lerp(from,slamX-60*face,ease((cast.elapsed-.35)/.65));
+    ctx.globalAlpha=amount*rise;
+    drawBackstageSprite(ctx,'carabao',step,chargeX,floor,height,face);
+  }else{
+    drawCinematicTile('zaito-effects',index,travel,floor,width,height,face,
+      amount*rise*linger,angle,index===2?.84:1);
   }
-  drawCinematicTile('comic-effects',index,travel,floor,width,height,face,
-    amount*rise*linger,angle,index===2?.84:1);
   ctx.restore();
 }
 
@@ -434,9 +448,9 @@ function drawMeteorTrail(x,y,face,size,alpha) {
 }
 
 function drawZaitoMeteors(s) {
-  if(s?.f.ci!==6 || s.beat<0 || s.amount<.04)return;
+  if(s?.cast.visualCi!==6||s.beat<0||s.amount<.04)return;
   const {slamX:x,groundY,face,since,beat,amount:a,cast}=s;
-  const beats=ULTIMATE_PLANS[6].beats;
+  const beats=cast.plan.beats;
   const flight=beats[1][0]-beats[0][0];
   const fallTime=beat===0?Math.max(0,cast.elapsed-beats[0][0]):flight+since;
   const fall=reduced?1:clamp(fallTime/flight,0,1);
@@ -445,6 +459,7 @@ function drawZaitoMeteors(s) {
   const linger=beat===0?1:1-ease((since-.115)/.31);
   ctx.save();
   ctx.setTransform(RS,0,0,RS,0,0);
+  if(s.copied)ctx.filter='hue-rotate(125deg)';
   ctx.globalCompositeOperation='source-over';
   const count=lowQ()?7:15;
   for(let n=0;n<count;n++){
@@ -460,18 +475,18 @@ function drawZaitoMeteors(s) {
     if(progress<=0||alpha<.02)continue;
     drawMeteorTrail(xx,yy,face,size,alpha*.63);
     const frame=progress<.54?0:progress<.97?1:2;
-    drawCinematicTile('poop-meteors',frame,xx,yy,size*1.15,size*.94,frame===1?-face:face,alpha,
+    drawCinematicTile('zaito-effects',4+frame,xx,yy,size*1.15,size*.94,frame===1?-face:face,alpha,
       reduced?0:progress*.20);
   }
   if (linger>.015) {
     if (beat===0) {
-      const size=148+fall*48;
+      const size=192+fall*94;
       drawMeteorTrail(mainX,mainY,face,size,a*linger);
-      drawCinematicTile('poop-meteors',1,mainX,mainY,size*1.33,size,-face,a*linger,
+      drawCinematicTile('zaito-effects',5,mainX,mainY,size*1.33,size,-face,a*linger,
         reduced?0:fall*.18);
     } else {
       drawZaitoImpact(x,groundY+10,since,a);
-      drawCinematicTile('poop-meteors',since<.19?2:3,x,groundY+21,322+easeOut(since/.25)*96,165,
+      drawCinematicTile('zaito-effects',since<.19?6:7,x,groundY+21,322+easeOut(since/.25)*96,165,
         face,a*linger,0,.97);
     }
   }
@@ -489,13 +504,19 @@ function drawUltimateBackdrop(s) {
   const {x,y,amount:a,impact:i,progress:p,look} = s;
   ctx.save();
   ctx.setTransform(RS,0,0,RS,0,0);
-  ctx.globalAlpha=(reduced?.27:.45)*a;
+  ctx.globalAlpha=(reduced?.27:.56)*a;
   ctx.fillStyle=look.ink;
   ctx.fillRect(0,0,W,H);
   ctx.globalCompositeOperation='screen';
-  screenBloom(x,y-34,540+p*245,look.main,(.19+i*.49)*a*(reduced?.57:1));
-  if(!reduced){look.draw(s);drawUltimateAftershock(s)}
-  drawUltimateCutIn(s);
+  screenBloom(W/2,H*.49,630+p*280,look.main,(.25+i*.50)*a*(reduced?.57:1));
+  if(!reduced&&s.f.t>=s.cast.intro){
+    ctx.save();
+    if(s.copied)ctx.filter='hue-rotate(125deg)';
+    look.draw(s.copied?{...s,look:SUPER_LOOKS[s.cast.visualCi]??SIGNATURE_LOOKS[s.cast.plan.style]??look}:s);
+    ctx.restore();
+    drawUltimateAftershock(s);
+  }
+  if(s.f.t>=s.cast.intro)drawUltimateCutIn(s);
   ctx.restore();
 }
 
@@ -506,13 +527,19 @@ function drawUltimateEdges(s) {
   // The vignette leaves the middle and UI areas readable even at the peak.
   const grade=ctx.createRadialGradient(x,y-32,92,W/2,H*.51,W*.64);
   grade.addColorStop(0,'#00000000');
-  grade.addColorStop(.53,'#00000000');
-  grade.addColorStop(1,look.main+'d0');
+  grade.addColorStop(.37,look.main+'20');
+  grade.addColorStop(1,look.main+'ea');
   ctx.fillStyle=grade;
   ctx.globalCompositeOperation='screen';
-  ctx.globalAlpha=(.31+i*.47)*a*(reduced?.66:1);
+  ctx.globalAlpha=(.41+i*.47)*a*(reduced?.66:1);
   ctx.fillRect(0,0,W,H);
   if(!reduced){
+    ctx.globalCompositeOperation='source-over';
+    ctx.globalAlpha=a*.83;
+    ctx.fillStyle='#0b0810';
+    ctx.fillRect(0,0,W,5);
+    ctx.fillRect(0,H-5,W,5);
+    ctx.globalCompositeOperation='screen';
     const count=lowQ()?18:43;
     for(let n=0;n<count;n++){
       const angle=screenHash(n,7)*TAU;

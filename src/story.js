@@ -5,10 +5,10 @@
 // ===================================================================
 var RANK_API='https://fliptapwars-api.vercel.app/api/board';
 var STAGES=[{d:'easy',tag:'OPENER'},{d:'easy',tag:'WARM-UP'},{d:'normal',tag:'RISING'},{d:'normal',tag:'CONTENDER'},{d:'hard',tag:'SEMIFINAL'},{d:'hard',tag:'FINAL BOSS',boss:true}];
-var BOSS_CI=0,BOSS_SHIELD=70,POST_COOLDOWN=120000;
+var BOSS_CI=0,BOSS_SHIELD=110,POST_COOLDOWN=120000;
 var story={on:false},loseT=null;
 
-function storyNew(){const pool=[1,2,3,4,5,6,7,8].filter(i=>i!==sel);for(let i=pool.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[pool[i],pool[j]]=[pool[j],pool[i]]}
+function storyNew(){const pool=CH.map((_,i)=>i).filter(i=>i!==sel&&i!==BOSS_CI);for(let i=pool.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[pool[i],pool[j]]=[pool[j],pool[i]]}
   story={on:true,stage:0,ladder:pool.slice(0,5).concat(BOSS_CI),retries:0,stageScores:[],t0:Date.now(),fighter:sel}}
 function storyEnemy(){return story.ladder[story.stage]}
 function storyDifficulty(){return STAGES[story.stage].d}
@@ -48,7 +48,7 @@ function storyWorld(){if(!loseT||!P1)return;const t=vclock;
 
 // ---------- end of a story match ----------
 function stageScore(){const hp=Math.max(0,Math.round(P1.hp)),tl=Math.max(0,Math.round(timer)),cb=maxCombo|0,mult=STAGES[story.stage].boss?2:1;
-  return{hp,tl,cb,mult,total:Math.round((1000+hp*30+tl*20+cb*150)*mult)}}
+  return{hp,tl,cb,mult,total:Math.round((1000+hp*15+tl*10+cb*150)*mult)}}
 function storyTotal(){return Math.max(0,story.stageScores.reduce((a,s)=>a+s.total,0)-story.retries*750+(story.champ?5000:0))}
 function storyMatchEnd(won){clearInput();if(won){const s=stageScore();story.stageScores[story.stage]=s;
     if(story.stage>=STAGES.length-1){story.champ=true;storyChampion()}else{confettiT=1.4;buzz([30,60,30]);showStageClear(s)}}
@@ -57,7 +57,7 @@ function ladderHTML(){return '<div class="ladder">'+story.ladder.map((ci,i)=>{co
   return '<div class="rung '+st+(boss?' boss':'')+'" style="--c:'+COL[ci]+';--d:'+i+'"><img src="'+portraitURL(ci)+'" alt=""><b>'+(boss?'👑 ':'')+CH[ci].name+'</b><small>'+STAGES[i].tag+'</small>'+(st==='done'?'<i class="ok">✓</i>':'')+'</div>'}).join('<span class="rarr">›</span>')+'</div>'}
 var portraitCache2={};function portraitURL(ci){if(portraitCache2[ci])return portraitCache2[ci];try{return portraitCache2[ci]=portrait(ci).toDataURL()}catch(e){return ''}}
 function showStageClear(s){const b=$('stageClear');b.querySelector('.scbox').innerHTML='<div class="eyebrow">STAGE '+(story.stage+1)+' / '+STAGES.length+' CLEARED</div><h3>YOU WON!</h3>'+
-  '<div class="breakdown">'+row('HP left',s.hp+' × 30')+row('Time left',s.tl+' × 20')+row('Best combo',s.cb+' × 150')+row('Stage bonus','1000'+(s.mult>1?' · ×2 BOSS':''))+'<div class="tot"><span>STAGE SCORE</span><b>'+s.total.toLocaleString()+'</b></div></div>'+
+  '<div class="breakdown">'+row('HP left',s.hp+' × 15')+row('Time left',s.tl+' × 10')+row('Best combo',s.cb+' × 150')+row('Stage bonus','1000'+(s.mult>1?' · ×2 BOSS':''))+'<div class="tot"><span>STAGE SCORE</span><b>'+s.total.toLocaleString()+'</b></div></div>'+
   '<div class="runscore">RUN TOTAL <b>'+storyTotal().toLocaleString()+'</b>'+(story.retries?' <small>(−'+story.retries*750+' retries)</small>':'')+'</div>';
   story.stage++;b.querySelector('.ladderwrap').innerHTML=ladderHTML();const nx=story.ladder[story.stage];$('scNext').textContent=STAGES[story.stage].boss?'👑 FACE THE BOSS':'NEXT: '+CH[nx].name.toUpperCase();openModal('stageClear');sfx.ui()}
 function row(k,v){return '<div class="br"><span>'+k+'</span><b>'+v+'</b></div>'}

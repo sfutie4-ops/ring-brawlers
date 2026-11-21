@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ring Brawlers · Antics Vol. 2</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0a101c;color:#e9effa;font:15px Arial,sans-serif}main{max-width:1050px;margin:auto;padding:24px 16px 50px}header{border-bottom:2px solid #bf9856;padding-bottom:14px;margin-bottom:14px}h1{font-size:clamp(28px,6vw,50px);margin:8px 0}strong{color:#f5ce84}p{color:#b4c2d8;line-height:1.5}canvas{display:block;background:#15223a;width:100%;height:auto;aspect-ratio:16/8;border:2px solid #465d80;border-radius:13px}.bar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}button,select,input{min-height:44px;border:1px solid #697f9d;border-radius:8px;background:#1e2d45;color:#f1f4fa;font:inherit;padding:10px}button{cursor:pointer}[aria-pressed=true],button:hover{border-color:#f5ce84}input{min-width:110px;width:min(260px,100%)}.accent{background:#edc16f;color:#10151f;font-weight:bold}#assets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(165px,100%),1fr));gap:7px}.clip{text-align:left;font-size:13px}.clip small{display:block;color:#a1b3d0;margin-top:4px}#description{min-height:50px;margin-top:5px}#count{margin-left:auto}
+</style>
+<main>
+<header><strong>RING BRAWLERS</strong><h1>Antics Vol. 2</h1><p>Choose any of the eighteen new match animations.</p></header>
+<div class="bar">
+<button id="replay" class="accent">Replay</button>
+<select id="category" aria-label="Category"><option value="">All categories</option></select>
+<input id="query" type="search" placeholder="Find an effect" aria-label="Find an effect">
+</div>
+<canvas id="view" width="960" height="480" aria-label="Effect preview"></canvas>
+<h2 id="title"></h2><p id="description" role="status"></p>
+<p id="count"></p><div id="assets"></div>
+</main>
+<script>
+'use strict';
+const data = {"version": 1, "rectOrder": ["x", "y", "width", "height"], "categories": {"crowd": "Crowd reactions", "stage": "Stage props", "cues": "Match cues"}, "animations": {"bara_freeze": {"title": "Bara Freeze", "visual": "three Filipino adult spectators in a cluster freeze mid-cheer, eyes wide, one cap pops up then lands", "category": "crowd", "png": "crowd/bara_freeze.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "heavy_bar_landed", "width": 0.12, "x": 0.145, "y": 0.64, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "laugh_delay": {"title": "Delayed Laugh", "visual": "a single Filipino adult spectator in orange cap stares blankly, cracks a smile, folds laughing, recovers", "category": "crowd", "png": "crowd/laugh_delay.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "comedy_hit", "width": 0.12, "x": 0.855, "y": 0.64, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "reaction_rewind": {"title": "Reaction Rewind", "visual": "Filipino adult spectator holding a tiny camcorder leans back in surprise, rewinds the dial, leans forward again", "category": "crowd", "png": "crowd/reaction_rewind.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "replay_start", "width": 0.12, "x": 0.145, "y": 0.64, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "sabay_turo": {"title": "Sabay Turo", "visual": "two Filipino adult fans lean forward, point toward the stage at the same time then pull their hands back", "category": "crowd", "png": "crowd/sabay_turo.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "counter_success", "width": 0.12, "x": 0.855, "y": 0.64, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "seat_swap": {"title": "Seat Swap", "visual": "two Filipino adults on low stools lean away from each other then scoot closer then settle, no chair loss", "category": "crowd", "png": "crowd/seat_swap.png", "frames": [[0, 0, 265, 264], [265, 0, 265, 264], [530, 0, 265, 264], [795, 0, 265, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "rival_intro", "width": 0.12, "x": 0.145, "y": 0.64, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "hype_towel": {"title": "Hype Towel", "visual": "one Filipino adult fan flicks a turquoise rally towel over their head then lowers it", "category": "crowd", "png": "crowd/hype_towel.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "round_win", "width": 0.12, "x": 0.855, "y": 0.64, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "monobloc_reset": {"title": "Monobloc Reset", "visual": "white Philippine plastic monobloc chair with small cartoon motion lines slides, tilts, lands then settles, no human", "category": "stage", "png": "stage/monobloc_reset.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "round_reset", "width": 0.105, "x": 0.145, "y": 0.43, "anchor": "ground", "pivotY": 251, "cooldown": 3}, "tape_reel_escape": {"title": "Tape Reel Escape", "visual": "an orange gaffer tape roll rolls, bumps into a little coil of cable, bounces back and settles", "category": "stage", "png": "stage/tape_reel_escape.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "idle_standoff", "width": 0.105, "x": 0.855, "y": 0.43, "anchor": "ground", "pivotY": 217, "cooldown": 3}, "kariton_squeak": {"title": "Kariton Squeak", "visual": "little Filipino snack pushcart with narrow amber canopy side profile rolls, wheel squeaks, tilts and steadies, no human", "category": "stage", "png": "stage/kariton_squeak.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "ambient_poll", "width": 0.105, "x": 0.145, "y": 0.43, "anchor": "ground", "pivotY": 234, "cooldown": 3}, "sampaguita_sway": {"title": "Sampaguita Sway", "visual": "small Filipino white jasmine garland hanging from a hook sways left, center, right, center", "category": "stage", "png": "stage/sampaguita_sway.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "ambient_poll", "width": 0.105, "x": 0.855, "y": 0.43, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "tokay_cable_tug": {"title": "Tokay Cable Tug", "visual": "small green orange-spotted tokay braces and playfully pulls a loose unplugged microphone cable, skids, then releases", "category": "stage", "png": "stage/tokay_cable_tug.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "idle_standoff", "width": 0.105, "x": 0.145, "y": 0.43, "anchor": "ground", "pivotY": 207, "cooldown": 3}, "sachet_rustle": {"title": "Sachet Rustle", "visual": "small row of colorful unbranded sachet packets clipped to one laundry cord bobs, flutters, then steadies", "category": "stage", "png": "stage/sachet_rustle.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [170, 135, 175, 320], "durationMs": 800, "layer": "back", "event": "ambient_poll", "width": 0.105, "x": 0.855, "y": 0.43, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "rebuttal_stamp": {"title": "Rebuttal Stamp", "visual": "wooden rubber stamp descends onto empty cream comic bubble, springs up leaving a bold teal return-arrow icon, icon glints", "category": "cues", "png": "cues/rebuttal_stamp.png", "frames": [[0, 0, 264, 266], [264, 0, 264, 266], [528, 0, 264, 266], [792, 0, 264, 266]], "frameMs": [105, 120, 135, 245], "durationMs": 605, "layer": "overlay", "event": "counter_success", "width": 0.14, "x": 0.5, "y": 0.307, "anchor": "screen", "pivotY": 133, "cooldown": 3}, "multis_metronome": {"title": "Multis Metronome", "visual": "gold mechanical metronome pendulum rocks, then two cyan beat traces burst sideways, then settles", "category": "cues", "png": "cues/multis_metronome.png", "frames": [[0, 0, 264, 262], [264, 0, 264, 262], [528, 0, 264, 262], [792, 0, 264, 262]], "frameMs": [105, 120, 135, 245], "durationMs": 605, "layer": "overlay", "event": "combo_three", "width": 0.14, "x": 0.5, "y": 0.307, "anchor": "screen", "pivotY": 131, "cooldown": 3}, "punchline_zip": {"title": "Punchline Zip", "visual": "closed purple comic bubble zipper zips open into a golden star, pauses, zips shut", "category": "cues", "png": "cues/punchline_zip.png", "frames": [[0, 0, 264, 254], [264, 0, 264, 254], [528, 0, 264, 254], [792, 0, 264, 254]], "frameMs": [105, 120, 135, 245], "durationMs": 605, "layer": "overlay", "event": "heavy_bar_landed", "width": 0.14, "x": 0.5, "y": 0.307, "anchor": "screen", "pivotY": 127, "cooldown": 3}, "closer_curtain": {"title": "Closer Curtain", "visual": "pair of tiny red stage curtains swing inward around a gold microphone silhouette then pull open", "category": "cues", "png": "cues/closer_curtain.png", "frames": [[0, 0, 265, 274], [265, 0, 265, 274], [530, 0, 265, 274], [795, 0, 265, 274]], "frameMs": [105, 120, 135, 245], "durationMs": 605, "layer": "overlay", "event": "round_end", "width": 0.14, "x": 0.5, "y": 0.307, "anchor": "screen", "pivotY": 137, "cooldown": 3}, "score_split": {"title": "Score Split", "visual": "two small dark judging paddles each bearing an abstract teal or orange icon tip opposite directions, cross and separate, no words", "category": "cues", "png": "cues/score_split.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [105, 120, 135, 245], "durationMs": 605, "layer": "overlay", "event": "judges_reveal", "width": 0.14, "x": 0.5, "y": 0.307, "anchor": "screen", "pivotY": 132, "cooldown": 3}, "mic_pass_arc": {"title": "Mic Pass Arc", "visual": "two simple microphones with cyan and gold highlights trade positions along a clean arcing glow, no hands", "category": "cues", "png": "cues/mic_pass_arc.png", "frames": [[0, 0, 264, 264], [264, 0, 264, 264], [528, 0, 264, 264], [792, 0, 264, 264]], "frameMs": [105, 120, 135, 245], "durationMs": 605, "layer": "overlay", "event": "partner_tag", "width": 0.14, "x": 0.5, "y": 0.307, "anchor": "screen", "pivotY": 132, "cooldown": 3}}};
+const $ = id => document.getElementById(id);
+const ctx = $('view').getContext('2d'), W=960,H=480;
+let selection='bara_freeze', started=performance.now();
+const imageCache = new Map();
+function imageFor(id) {
+ if (!imageCache.has(id)) {
+  const img=new Image(); img.src="assets/antics_vol2/"+data.animations[id].png;
+  img.onerror=()=>{$('description').textContent='Extract the full ZIP and keep preview.html next to the sprites folder.'};
+  imageCache.set(id,img);
+ }
+ return imageCache.get(id);
+}
+function paintSprite(id, elapsed, x, y, scale) {
+ const a=data.animations[id], img=imageFor(id);
+ if (!img.complete||!img.naturalWidth) return;
+ let offset=elapsed%a.durationMs;
+ let frame=0;
+ while (frame<a.frameMs.length-1&&offset>=a.frameMs[frame]) offset-=a.frameMs[frame++];
+ const [sx,sy,w,h]=a.frames[frame];
+ ctx.drawImage(img,sx,sy,w,h,x-w*scale/2,y-h*scale/2,w*scale,h*scale);
+}
+function show(time) {
+ const elapsed=Math.max(0,time-started);
+ const gradient=ctx.createRadialGradient(480,240,60,480,240,520);
+ gradient.addColorStop(0,'#222e49');gradient.addColorStop(1,'#0b111d');
+ ctx.fillStyle=gradient;ctx.fillRect(0,0,W,H);
+ const a=data.animations[selection], [, ,w,h]=a.frames[0];
+ const scale=Math.min(2.4,350/h,650/w);
+ paintSprite(selection,elapsed,480,240,scale,true);
+ requestAnimationFrame(show);
+}
+function select(id) {
+ selection=id;started=performance.now();
+ const a=data.animations[id];
+ $('title').textContent=a.title;
+ $('description').textContent=a.visual+'.  ·  '+data.categories[a.category]+'  ·  '+a.event.replaceAll('_',' ');
+ document.querySelectorAll('[data-asset]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.asset===id));
+}
+function refresh() {
+ const category=$('category').value,q=$('query').value.toLowerCase().trim();
+ $('assets').replaceChildren();
+ let count=0;
+ for (const [id,a] of Object.entries(data.animations)) {
+  if(category && category!==a.category)continue;
+  if(q && ![id,a.title,a.visual].join(' ').toLowerCase().includes(q))continue;
+  const b=document.createElement('button');b.className='clip';b.dataset.asset=id;b.textContent=a.title;
+  const small=document.createElement('small');small.textContent=data.categories[a.category];b.append(small);
+  b.setAttribute('aria-pressed',selection===id);b.onclick=()=>select(id);
+  $('assets').append(b);count++;
+ }
+ $('count').textContent=count+' of 18 animations';
+}
+for (const [id,label] of Object.entries(data.categories)) {
+ const opt=document.createElement('option');opt.value=id;opt.textContent=label;$('category').append(opt);
+}
+$('category').onchange=refresh;$('query').oninput=refresh;
+$('replay').onclick=()=>{started=performance.now();};
+select(selection);refresh();requestAnimationFrame(show);
+</script>
+</html>

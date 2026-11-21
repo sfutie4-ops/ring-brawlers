@@ -9,7 +9,8 @@ const EXTRA_NAMES=[
 ['Chaos Rise','Crooked Slide','Wild Dive','Rift Roll','Zigzag Burst'],
 ['Rebound Rise','Freestyle Slide','Bounce Drop','Rebuttal Roll','Poop Barrage'],
 ['Setup Rise','Double Slide','Payoff Dive','Pivot Roll','Triple Trigger'],
-['Punchline Rise','Crowd Slide','Mic Drop','Juke Roll','Laugh Wave']];
+['Punchline Rise','Crowd Slide','Mic Drop','Juke Roll','Laugh Wave'],
+...COMPLETE_ART.stats.map(f=>['Rise','Slide','Dive','Evade',f.wave+' Power'])];
 const extraImages=[];
 function configureExpansion(){
  const base={rise:{dur:.72,hit:.25,end:.40,reach:140,dmg:17,kb:160,cost:25,rank:3},slide:{dur:.62,hit:.25,end:.43,reach:145,dmg:12,kb:260,cost:12,rank:2,knockdown:true},dive:{dur:.82,hit:.38,end:.58,reach:155,dmg:19,kb:310,cost:22,rank:3},evade:{dur:.44,hit:.20,end:.25,reach:0,dmg:0,kb:0,cost:14,rank:1,counter:true},power:{dur:.95,hit:.38,end:.60,reach:195,dmg:23,kb:340,cost:45,rank:4}};
@@ -27,8 +28,21 @@ function configureExpansion(){
   if(i===8){m.power.reach=260;m.power.slow=1.7;m.slide.slow=.7}
  });
 }
-async function loadExtraArt(progress){for(let i=0;i<EXTRA_ART.length;i++){progress(i);if(!extraImages[i])extraImages[i]=await loadImage(EXTRA_ART[i]);const im=extraImages[i],w=im.width/6,h=im.height/6;
- CH[i].extra={};[...NEW_ACTIONS,'sp'].forEach((name,row)=>{CH[i].extra[name]=Array.from({length:6},(_,col)=>({im,x:col*w,y:row*h,w,h,ax:w*.48,ay:h*.96,scale:1.04}))});}}
+async function loadExtraArt(progress) {
+  for (let i=0;i<CH.length;i++) {
+    progress(i);
+    const fighter=CH[i];
+    const actions=[...NEW_ACTIONS,'sp'];
+    if (fighter.redraw||fighter.id) {
+      fighter.extra=Object.fromEntries(actions.map(name=>[name,fighter.f[name]]));
+      continue;
+    }
+    const im=extraImages[i] ||= await loadImage(EXTRA_ART[i]);
+    const w=im.width/6,h=im.height/6;
+    fighter.extra=Object.fromEntries(actions.map((name,row)=>[name,Array.from({length:6},(_,col)=>
+      ({im,x:col*w,y:row*h,w,h,ax:w*.48,ay:h*.96,scale:1.04}))]));
+  }
+}
 function extraStart(f,move){if(!NEW_ACTIONS.includes(move))return;const a=moveData(f,move);label(EXTRA_NAMES[f.ci][NEW_ACTIONS.indexOf(move)],f.x,GY-210,COL[f.ci],12);
  if(move==='evade'){f.inv=f.ci===1?.35:.23;f.vx=f.face*(f.ctl.dir*f.face<0?-1:1)*(f.ci===4?640:460);if(f.ci===5){f.x=clamp(f.x+f.face*95,65,895);f.prevX=f.x}if(f.ci===6)f.counter=.18}
  if(move==='slide')f.vx=f.face*(f.ci===4?640:f.ci===3?330:480);

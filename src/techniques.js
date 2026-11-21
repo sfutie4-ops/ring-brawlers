@@ -19,6 +19,7 @@ const TECHNIQUES = [
     onCleanHit:reelIn, detail:'Catch an opponent with a blue hook and pull them closer for a follow-up.'},
   {name:'Heckle', cost:30, hit:.33, dur:.70, reach:188, dmg:10, kb:140,
     status:{silence:1.65}, detail:'A clean hit locks the opponent’s mana spend and charge for 1.65 seconds.'},
+  ...COMPLETE_ART.stats.map(f=>({hit:.29,dur:.68,detail:'A close-range signature strike.',...completeMoves[f.id].technique})),
 ];
 
 const TECHNIQUE_ATLASES = ['unique-early','unique-mid','unique-late'];
@@ -85,7 +86,7 @@ function crossThrough(f,o) {
   const destination=o.x+f.face*62;
   if (f.root>0 || o.air>95 || gap<0 || gap>176 || destination<65 || destination>895) return;
   const oldX=f.x;
-  if (!reduced) ghosts.push({fr:techniqueFrame(f),x:oldX,air:f.air,face:f.face,col:COL[f.ci],t:0,dur:.34});
+  if (!reduced) ghosts.push({fr:selectFrame(f),x:oldX,air:f.air,face:f.face,col:COL[f.ci],t:0,dur:.34});
   f.x=f.prevX=destination;
   f.face=-f.face;
   f.inv=Math.max(f.inv,.11);
@@ -217,7 +218,7 @@ function techniqueAI(f,o,dist,controls,roll) {
     incoming&&!f.techniqueField, dist>230, dist>99&&dist<170&&!f.techniqueField,
     incoming, dist>135&&dist<210, dist<169&&o.mt>=20,
   ];
-  if (!openings[f.ci]) return false;
+  if (!(openings[f.ci]??(dist<moveData(f,'technique').reach*.92))) return false;
   controls.technique=true;
   return true;
 }

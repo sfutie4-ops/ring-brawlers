@@ -413,3 +413,25 @@
 .inbtns{display:flex;gap:8px;margin-top:6px}.inbtns .go,.inbtns .secondary{font-size:14px!important;padding:5px 12px!important}.inbtns .ok{background:#2fd67a!important}
 .addp{display:grid;grid-template-columns:1fr 90px auto;gap:6px;margin:8px 0}.addp input{background:#0e0a18;border:2px solid var(--ink);color:#fff;padding:7px;font:13px Arial;user-select:text;-webkit-user-select:text}.addp .go{font-size:14px!important;padding:6px 12px!important}
 .rtabs{flex-wrap:wrap}
+
+/* ---------- Complete Edition pieces: rival pick, bonus skits, cutscene controls, secret Lolo ---------- */
+.opponent-select,.bonus-antics{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-size:17px;letter-spacing:.06em;color:var(--paper);background:var(--ink);border:3px solid var(--ink);border-radius:6px;box-shadow:4px 4px 0 #000;transform:skewX(-10deg);padding:4px 10px}
+.opponent-select select{font-family:var(--disp);font-size:16px;letter-spacing:.04em;background:var(--ink3)!important;color:var(--yel)!important;border:2px solid #3a2f55!important;border-radius:4px!important;padding:6px 8px!important}
+.bonus-antics{cursor:pointer}.bonus-antics input{accent-color:var(--pink);width:18px;height:18px}
+.bonus-antics:has(input:checked){background:var(--pink);color:#fff}
+.animation-picker{position:absolute;left:10px;top:10px;z-index:2;display:flex;align-items:center;gap:6px;font-family:var(--disp);font-size:14px;letter-spacing:.06em;color:var(--yel)}
+.animation-picker select{font-family:var(--disp);font-size:14px;background:#0b0712d8;color:var(--paper);border:2px solid #3a2f55;border-radius:4px;padding:3px 6px}
+#preview{position:relative}
+#sceneControls{position:absolute;bottom:clamp(10px,3vh,22px);right:clamp(10px,2vw,24px);z-index:6;display:flex;gap:10px}
+#sceneControls[hidden]{display:none}
+#sceneControls button{font-family:var(--disp);font-size:17px;letter-spacing:.07em;padding:7px 16px;background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:5px;box-shadow:4px 4px 0 #000;transform:skewX(-10deg)}
+#sceneControls #skipScene{background:var(--yel);color:var(--ink)}
+#sceneControls button:active{transform:skewX(-10deg) translate(3px,3px);box-shadow:1px 1px 0 #000}
+.scene-title{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.match-line{margin:-4px 0 10px;font-family:var(--tag);color:var(--cyan);font-size:15px}
+#badangResult{display:block;width:auto;height:min(22vh,135px);max-width:100%;margin:0 auto}
+#badangResult[hidden],#resultMode[hidden]{display:none}
+#resultMode{font-family:var(--disp);color:var(--pink);letter-spacing:.08em;margin:0 0 6px}
+#secretLolo{position:absolute;width:100px;height:100px;right:4%;bottom:0;z-index:1;opacity:0;background:var(--lolo-art) 0 0 / 400% 300%;pointer-events:none;animation:loloPeek 41s var(--lolo-delay,12s) ease-in-out infinite}
+@keyframes loloPeek{0%,7%,100%{opacity:0;transform:translateY(100%)}1%,5%{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){#secretLolo{animation:none}}

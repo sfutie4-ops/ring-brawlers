@@ -1,5 +1,6 @@
 const CAST_SECONDS = 2.4;
 const CAST_WORLD_RATE = .22;
+const RELEASE_SECONDS = 2.48;
 const MOUNTAIN_HEIGHT = 365;
 const REDUCED_CLIMB_SCALE = .64;
 const cinematicImages = {};
@@ -12,15 +13,15 @@ const STREET_COMBAT_POSES = {
 };
 const REVISED_FIGHTERS = {
   0: {sheet:'loonie-priest', ...STREET_COMBAT_POSES,
-      wave:[17,8], power:[17,18], technique:[17,8,13], charge:[8,18], super:[18,19]},
+      punch:[13,20,21], kick:[14,22], dive:[23,7], rise:[15,20], wave:[30,29], power:[17,20,25], technique:[24,20,21], charge:[26,27], win:28, super:[18,19]},
   1: {sheet:'abra-renewed', ...STREET_COMBAT_POSES,
       wave:[17,8], power:[19,18], technique:[13,5,12], charge:[8,18], super:[18,19]},
   2: {sheet:'shehyee-replacement', ...STREET_COMBAT_POSES,
       wave:[17,8], power:[19,18], technique:[17,13,12], charge:[8,18], super:[18,19]},
   4: {sheet:'smugglaz-replacement', ...STREET_COMBAT_POSES,
       wave:[17,8], power:[19,18], technique:[18,19,17], charge:[8,17], super:[8,18]},
-  ...Object.fromEntries([[3,'batas-ink'],[5,'aklas-ink'],[8,'sinio-ink']].map(([ci,sheet])=>
-    [ci,{sheet,...STREET_COMBAT_POSES,wave:[17,8],power:[19,18],technique:[17,12,13],charge:[8,18],super:[18,19]}])),
+  8: {sheet:'sinio-ink',...STREET_COMBAT_POSES,wave:[17,8],power:[19,18],
+      technique:[17,12,13],charge:[8,18],super:[18,19]},
   7: {sheet:'apekz-replacement', dash:5, crouch:6, jump:8, block:10, hit:11, down:12, getup:13, evade:14,
       punch:[16,15], kick:[17,10], upper:[18,7], rise:[18,7], slide:[19,6], dive:[20,8],
       wave:[22,21], power:[24,23], technique:[26,25,22], charge:[10,23], climb:[27,28,29]},
@@ -31,18 +32,17 @@ async function loadCinematicArt(progress) {
   for (const [name,src] of Object.entries(CINEMATIC_ART)) {
     progress(index++);
     const im = cinematicImages[name] ||= await loadImage(src);
-    cinematicFrames[name] = CINEMATIC_FRAMES[name]?.map(([x,y,w,h,ax,ay,scale,faceCrop]) => {
-      const frame = {im,x,y,w,h,ax,ay,scale};
-      if (name==='roster-faces' || name==='priest-abra-faces') frame.faceCrop=[0,0,w,h];
-      else if (faceCrop) frame.faceCrop=faceCrop;
+    const fighter=Object.keys(REVISED_FIGHTERS).find(ci=>REVISED_FIGHTERS[ci].sheet===name);
+    cinematicFrames[name] = CINEMATIC_FRAMES[name]?.map(([x,y,w,h,ax,ay,scale,faceCrop,crownAnchor]) => {
+      const frame = {im,x,y,w,h,ax,ay,scale,crownAnchor};
+      if(faceCrop)frame.faceCrop=faceCrop;
       return frame;
     });
   }
 }
 
 function rosterFaceFrame(ci,pose) {
-  const index=ci*8+FACE_POSES[pose];
-  return cinematicFrames['priest-abra-faces']?.[index] || cinematicFrames['roster-faces']?.[index];
+  return modelFaces[ci]?.[FACE_POSES[pose] ?? 0];
 }
 
 function idleFacePose(ci,time) {
@@ -56,7 +56,49 @@ function idleFacePose(ci,time) {
   return 'neutral';
 }
 
+// Pose changes follow the actual move's hit or projectile release, including multi-hit volleys.
+function attackPoseAt(time,move){
+  const first=move.volley?.[0]?.at??move.hit;
+  const last=move.volley?.at(-1)?.at;
+  const recoil=last==null?(move.end??lerp(first,move.dur,.43)):Math.min(move.dur-.035,last+.065);
+  return time<first*.42?0:time<first?1:time<recoil?2:3;
+}
+
+function redesignedBody(ci,state,time,f){
+  const {redraw,frames}=CH[ci];
+  const choose=indices=>frames[indices[Math.floor(time*10)%indices.length]];
+  if(state==='idle')return frames[f?.land>.026?4:0];
+  if(state==='walk')return choose(f?.back?[1,3,2,0]:[1,0,2,3]);
+  if(state==='win')return frames[reduced||time>.55?redraw==='batas'?24:15:time>.15?3:0];
+  if(state==='jump')return frames[time<.035||f?.vy>280?4:6];
+  if(state==='dash')return frames[time<.032?4:time<.16?5:1];
+  if(state==='block'||state==='chargeRecover')return frames[time<(state==='block'?.15:.085)?3:0];
+  if(state==='crouch')return frames[4];
+  if(state==='hit'||state==='stunned'||state==='frozen')return frames[12];
+  if(state==='down')return frames[time<.12||f?.air>11?12:time>.72&&f?.hp>0&&(phase==='fight'||f.demo)?14:13];
+  if(state==='chargeMana'||state==='chargePower')return frames[time<.13?3:redraw==='badang'?22:11];
+  const contact={punch:7,kick:8,upper:9,rise:9,slide:10,dive:8,evade:5,power:11,
+    wave:redraw==='badang'?21:11,technique:redraw==='badang'?23:redraw==='batas'?16:7}[state];
+  const move=MOVES[ci][state];
+  if(contact===undefined||!move)return frames[0];
+  const stage=attackPoseAt(time,move);
+  if(redraw==='badang'&&state==='kick')return frames[[0,24,25,26][stage]];
+  const prep=state==='dive'?6:state==='slide'?4:redraw==='badang'&&state==='wave'?20:3;
+  return frames[[0,prep,contact,['dive','evade','slide'].includes(state)?4:3][stage]];
+}
+
 function revisedFighterFrame(ci,state,time,f) {
+  if(CH[ci].redraw)return redesignedBody(ci,state,time,f);
+  const motion=motionFrames[ci];
+  if(motion && state==='walk'){
+    const count=Math.floor(time*(f?.back?7:10))%4;
+    return motion[f?.back?(4-count)%4:count];
+  }
+  if(CH[ci].id && motion && (state==='kick'||state==='dive')){
+    const move=MOVES[ci][state];
+    const pose=attackPoseAt(time,move);
+    return motion[4+pose];
+  }
   const art=REVISED_FIGHTERS[ci];
   const frames=art && cinematicFrames[art.sheet];
   if (!frames) return null;
@@ -64,25 +106,43 @@ function revisedFighterFrame(ci,state,time,f) {
     const pose=idleFacePose(ci,time);
     return frames[pose==='breath'?2 : pose==='halfBlink'||pose==='blink'?1 : 0];
   }
-  if (state==='walk') return frames[3+Math.floor(time*8)%2];
+  if (state==='walk') return frames[3+Math.floor(time*8)%(ci===6?3:2)];
   if (state==='down') {
     if (f.air>=11 || time<.12) return frames[art.hit];
-    return frames[f.hp>0 && phase==='fight' && time>=.72 ? art.getup : art.down];
+    return frames[f.hp>0 && (phase==='fight'||f.demo) && time>=.72 ? art.getup : art.down];
   }
-  if (state==='jump' && ci===7 && f.vy>0) return frames[9];
-  if (state==='stunned'||state==='frozen') return frames[art.hit];
-  if (state==='chargeMana'||state==='chargePower') return frames[art.charge[Number(time>=.18)]];
-  if (state==='chargeRecover') return frames[art.block];
-  if (state==='win') return frames[0];
+  if(state==='jump'){
+    if(time<.035)return frames[art.crouch];
+    if(f.vy>550&&motion?.[5])return motion[5];
+    if(f.vy>=30)return frames[ci===6?10:ci===7?9:art.jump];
+    if(f.vy>-125)return frames[art.jump];
+    return frames[art.rise[1]];
+  }
+  if(state==='dash')return time<.027?frames[art.crouch]:time<.15?frames[art.dash]:motion[1];
+  if(state==='evade'&&motion?.[4]){
+    return time<.08?frames[art.block]:time<.28?motion[4]:motion[5];
+  }
+  if(state==='stunned'||state==='frozen')return frames[art.hit];
+  if(state==='hit')return frames[f.air<=0&&time>=.23?art.block:art.hit];
+  if(state==='chargeMana'||state==='chargePower'){
+    return frames[art.charge[Number(time>=.18)]];
+  }
+  if(state==='chargeRecover')return frames[time<.10?art.block:0];
+  if(state==='win'&&motion?.[7]){
+    return reduced?motion[7]:time<.15?frames[art.win??0]:motion[time<.95?6:7];
+  }
   const pose=art[state];
   if (Number.isInteger(pose)) return frames[pose];
+  if (state==='win') return frames[art.win??0];
   if (!Array.isArray(pose)) return null;
   const [active,windup,follow]=pose;
   const move=MOVES[ci][state];
   if (!move) return null;
-  if (time>=move.dur*.79) return frames[art.block];
-  if (follow!=null && time>=move.dur*.63) return frames[follow];
-  return frames[time>=move.hit*.72 ? active : windup];
+  const stage=attackPoseAt(time,move);
+  if(stage===0)return frames[art.block];
+  if(stage===1)return frames[windup];
+  if(stage===2)return frames[active];
+  return frames[follow??art.block];
 }
 
 function idleExpressionFrame(ci, time) {
@@ -105,8 +165,15 @@ function drawIdlePortrait(ci,time,g,x,y,size) {
 }
 
 function castTimeScale(f) {
-  if (f?.st!=='sp' || f.ultimate?.next!==0) return 1;
-  return ULTIMATE_PLANS[f.ci].beats[0][0]/CAST_SECONDS;
+  const cast=f?.ultimate;
+  if(f?.st!=='sp'||!cast)return 1;
+  const first=cast.plan.beats[0][0];
+  return cast.next===0?(first+cast.intro)/CAST_SECONDS:(cast.plan.duration-first)/RELEASE_SECONDS;
+}
+
+function ultimateWorldRate(){
+  const casters=[P1,P2].filter(f=>f?.st==='sp'&&f.ultimate);
+  return casters.some(f=>f.ultimate.next===0)?CAST_WORLD_RATE:casters.length?.48:1;
 }
 
 function stanceFrame(f) {
@@ -122,20 +189,19 @@ function stanceFrame(f) {
 }
 
 function cinematicBodyFrame(f, acting) {
-  const castSheet=ULTIMATE_PLANS[f.ci].castSheet;
-  const castFrames=cinematicFrames[castSheet];
-  if (castFrames && acting.phase!=='recover') {
-    const held=acting.amount>=.37?1:0;
-    const release=acting.phase==='impact' || (f.ci===8 && acting.amount>=.83);
-    return castFrames[release?2:held];
+  const {redraw,frames}=CH[f.ci];
+  if(redraw){
+    const timing={batas:[17,18,19,24],aklas:[24,11,26,23],zaito:[21,21,22,23],badang:[22,20,23,27]}[redraw];
+    const index=acting.phase==='impact'?2:acting.phase==='recover'?3:acting.amount>.55?1:0;
+    return frames[timing[index]];
   }
-  if (f.ci===5 && acting.phase==='windup' && acting.step===0)
-    return cinematicFrames['cast-actions'][acting.amount>=.58?5:acting.amount>=.27?4:3];
+  if(CH[f.ci].id)return completeUltimateFrame(f,acting);
   const art=REVISED_FIGHTERS[f.ci];
   const revised=art && cinematicFrames[art.sheet];
   if (revised) {
-    if (acting.phase==='recover') return revised[art.block];
-    if (f.ci===0) return revised[art.super[acting.amount>=.64||acting.phase==='impact'?1:0]];
+    if (acting.phase==='recover') return revised[f.ci===6?39:art.block];
+    if (f.ci===6 && acting.phase==='windup' && acting.step===0 && acting.amount<.26) return revised[36];
+    if (f.ci===0) return revised[acting.phase==='impact'||acting.amount>=.64?19:acting.amount>=.36?31:18];
     if (art.climb) {
       if (acting.step>0) return revised[art.power[acting.phase==='impact'?0:1]];
       if (acting.phase==='impact') return revised[art.climb[2]];
@@ -158,7 +224,7 @@ function cinematicBodyFrame(f, acting) {
 }
 
 function cinematicBodyMotion(f, acting, pose) {
-  if (f.ci===0 && acting.phase!=='recover') {
+  if(f.ultimate?.visualCi===0&&f.t>=f.ultimate.intro&&acting.phase!=='recover'){
     const lift = acting.phase==='windup' ? ease((acting.amount-.16)/.57) : acting.amount;
     const breath = reduced ? 0 : Math.sin(vclock*5.2)*4;
     pose.dy -= lift*((reduced?60:104)+breath);
@@ -178,17 +244,17 @@ function cinematicBodyMotion(f, acting, pose) {
 }
 
 function advanceCrownRhymes(f,cast,plan) {
-  const progress=f.t/plan.beats[0][0];
+  const progress=cast.elapsed/plan.beats[0][0];
   const rhyme=progress>=.78 ? 2 : progress>=.41 ? 1 : 0;
   if (!rhyme || cast.rhyme===rhyme) return;
   cast.rhyme=rhyme;
-  const col=rhyme===1?'#ffb62e':'#fff2a3';
+  const col=f.ci!==cast.visualCi?'#8dd5ff':rhyme===1?'#ffb62e':'#fff2a3';
   ringFx(cast.x,GY-94,col,104+rhyme*48,.50,1.25,3);
   sfx.cast(rhyme);
 }
 
 function drawCrownVerse(s) {
-  if (s?.f.ci!==0 || !s.cast.rhyme) return;
+  if(s?.cast.visualCi!==0||!s.cast.rhyme)return;
   const {rhyme,elapsed}=s.cast;
   const alpha=(1-ease((elapsed-1.10)/.28))*s.amount;
   if (alpha<=0) return;
@@ -198,8 +264,8 @@ function drawCrownVerse(s) {
   ctx.save();
   ctx.globalAlpha=alpha;
   ctx.fillStyle='#170d1ae6';ctx.fillRect(x,y,280,39);
-  ctx.fillStyle='#ffbf45';ctx.fillRect(side>0?x:x+277,y,3,39);
-  dtext(rhyme===1?'DIIN SA BIGKAS':'KORONA ANG WAKAS',x+140,y+29,21,'#fff1ad');
+  ctx.fillStyle=s.copied?'#83d8ff':'#ffbf45';ctx.fillRect(side>0?x:x+277,y,3,39);
+  dtext(rhyme===1?'DIIN SA BIGKAS':'KORONA ANG WAKAS',x+140,y+29,21,s.copied?'#eff3ff':'#fff1ad');
   ctx.restore();
 }
 
@@ -237,7 +303,7 @@ function drawCinematicFighterFX(f,x,y,frame) {
 }
 
 function isMountainClimbing(f) {
-  return f.ci===7 && f.st==='sp' && f.ultimate?.next===0;
+  return f.st==='sp'&&f.ultimate?.plan.mountain&&f.ultimate.next===0&&f.t>=f.ultimate.intro;
 }
 
 function mountainBase(cast) {
@@ -246,7 +312,7 @@ function mountainBase(cast) {
 
 function advanceMountainKick(f,cast,plan) {
   if (cast.next>0) return;
-  const p=clamp(f.t/plan.beats[0][0],0,1);
+  const p=clamp(cast.elapsed/plan.beats[0][0],0,1);
   const rise=ease((p-.055)/.565);
   const dive=clamp((p-.68)/.32,0,1);
   const center=mountainBase(cast);
@@ -285,16 +351,17 @@ function drawMountainSky() {
 
 function drawMountain(f) {
   const im=cinematicImages['mountain-climb'];
-  if (!im || f.ci!==7 || !f.ultimate || (f.st!=='sp' && !(phase==='ko'&&pt<.64))) return;
+  if (!im || !f.ultimate?.plan.mountain || (f.st!=='sp' && !(phase==='ko'&&pt<.64))) return;
   const {cast}=superScreen||{};
   if(cast!==f.ultimate && f.st!=='sp')return;
   const elapsed=f.ultimate.elapsed;
-  const p=elapsed/ULTIMATE_PLANS[7].beats[0][0];
+  const p=elapsed/f.ultimate.plan.beats[0][0];
   const rise=ease(p/.22);
   const fade=(1-ease((elapsed-.62)/.59))*(phase==='ko'?1-pt/.64:1);
   const height=(MOUNTAIN_HEIGHT+18)*(reduced?REDUCED_CLIMB_SCALE:1);
   const width=im.width/im.height*(MOUNTAIN_HEIGHT+18);
   ctx.save();
+  if(f.ultimate.visualCi!==f.ci)ctx.filter='hue-rotate(125deg)';
   ctx.globalAlpha=rise*fade;
   ctx.translate(mountainBase(f.ultimate),GY+6+(1-rise)*83);
   ctx.scale(f.ultimate.face,1);
