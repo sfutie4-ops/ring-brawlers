@@ -196,9 +196,13 @@ function createBackgroundStands(roster, atlas, frames, model, actionSprite) {
       const key=name.toLowerCase();
       return actors.has(key)&&!skip.has(key);
     }));
-    const count=Math.min(available.length,1+Number(random()>=.5));
+    // FliptapWars: always two skits, and at least one that can turn into a mid-fight cutscene when possible
+    const count=Math.min(available.length,2);
     firstLane=random()<.5?195:765;
-    selection=Array.from({length:count},()=>available.splice(Math.floor(random()*available.length),1)[0]);
+    const cut=available.filter(scene=>scene.id==='socks'||scene.id==='oddball');
+    const first=cut.length?cut[Math.floor(random()*cut.length)]:null;
+    if(first)available.splice(available.indexOf(first),1);
+    selection=(first?[first]:[]).concat(Array.from({length:count-(first?1:0)},()=>available.splice(Math.floor(random()*available.length),1)[0]));
     aklasRoutine=Math.floor(random()*aklasRoutines.length);
     return selection.map(scene=>scene.id);
   }

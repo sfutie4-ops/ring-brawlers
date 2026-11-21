@@ -287,7 +287,7 @@ function syncMusic(){
 }
 
 function completeMoveSet(ci){return completeMoves[CH[ci]?.id]}
-function completeEvent(name){if(!reduced)ringAntics.event(name)}
+function completeEvent(name){if(!reduced){ringAntics.event(name);bfEvent(name)}}
 function playCompleteFx(f,move){
   const id=completeMoveSet(f.ci)?.fx[move];
   if(id&&!reduced)featured.playFx(id,f.x+f.face*57,GY-f.air-98,f.face,vclock);
@@ -307,7 +307,9 @@ function updateCompleteRound(dt){
     }
     refereeX=lerp(refereeX,refereeMark,1-Math.exp(-dt*3.4));
   }
-  ringAntics.step(dt,{reducedMotion:reduced});
+  const calm=!!P1&&phase==='fight'&&[P1,P2].every(f=>['idle','walk','block'].includes(f.st)&&f.air===0);
+  ringAntics.step(dt,{ambient:phase==='fight',idle:calm,reducedMotion:reduced});
+  bfStep(dt);
 }
 
 function backgroundCast(){

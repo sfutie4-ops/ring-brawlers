@@ -102,6 +102,15 @@ for name, (columns, cell) in json.loads((antic_dir / "runtime.json").read_text()
         continue
     raw = (antic_dir / (name + ".webp")).read_bytes()
     antic_art[name] = ["data:image/webp;base64," + base64.b64encode(raw).decode("ascii"), columns, cell, antic_placements[name]]
+# Battlefield Antics 100 (WebP strips + manifest in addons/battlefield-antics)
+bf_dir = root / "addons/battlefield-antics"
+bf_manifest = json.loads((bf_dir / "manifest.json").read_text(encoding="utf-8"))
+bf_clips = {}
+for cid, clip in bf_manifest["animations"].items():
+    bf_clips[cid] = dict(src="data:image/webp;base64," + base64.b64encode((bf_dir / clip["png"]).read_bytes()).decode("ascii"),
+        frames=[f["rect"] + f["pivot"] for f in clip["frames"]], ms=clip["frameMs"], order=clip.get("replayOrder", [0, 1, 2, 3]), loop=clip["loop"], layer={"background": "back"}.get(clip["layer"], clip["layer"]),
+        event=clip["event"], cd=clip.get("cooldownMs", 6000) / 1000, title=clip["title"])
+data.append("const BF_ANTICS=" + json.dumps(dict(clips=bf_clips), separators=(",", ":")) + ";")
 data.append("const ANTIC_ART=" + json.dumps(antic_art, separators=(",", ":")) + ";")
 
 versus_art=[]
@@ -117,7 +126,7 @@ out = (root / "src/template.html").read_text(encoding="utf-8")
 for mark, text in (
     ("/*__CSS__*/", ":root{"+ ";".join(menu_css) + "}\n" + (root / "src/style.css").read_text(encoding="utf-8").strip() + "\n" + (root / "src/theme.css").read_text(encoding="utf-8").strip()),
     ("/*__DATA__*/", "\n".join(data)),
-    ("/*__JS__*/", ((root / "src/game.js").read_text(encoding="utf-8") + "\n" + (root / "src/story.js").read_text(encoding="utf-8")).replace("/*__TECHNIQUES__*/", (root / "src/techniques.js").read_text(encoding="utf-8")).replace("/*__CINEMATICS__*/", (root / "src/cinematics.js").read_text(encoding="utf-8")).replace("/*__TACTICS__*/", (root / "src/tactics.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_PERFORMANCE__*/", (root / "src/ultimate-performance.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_SCREEN__*/", (root / "src/ultimate-screen.js").read_text(encoding="utf-8")).replace("/*__ULTIMATES__*/", (root / "src/ultimates.js").read_text(encoding="utf-8")).replace("/*__EXPANSION__*/", (root / "src/expansion.js").read_text(encoding="utf-8")).replace("/*__ANTICS__*/", (root / "src/antics.js").read_text(encoding="utf-8")).replace("/*__ARENA__*/", (root / "src/arena.js").read_text(encoding="utf-8")).replace("/*__COMPLETE__*/", complete_players+"\n"+(root/"src/complete.js").read_text(encoding="utf-8")).strip()),
+    ("/*__JS__*/", ((root / "src/game.js").read_text(encoding="utf-8") + "\n" + (root / "src/bfantics.js").read_text(encoding="utf-8") + "\n" + (root / "src/story.js").read_text(encoding="utf-8")).replace("/*__TECHNIQUES__*/", (root / "src/techniques.js").read_text(encoding="utf-8")).replace("/*__CINEMATICS__*/", (root / "src/cinematics.js").read_text(encoding="utf-8")).replace("/*__TACTICS__*/", (root / "src/tactics.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_PERFORMANCE__*/", (root / "src/ultimate-performance.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_SCREEN__*/", (root / "src/ultimate-screen.js").read_text(encoding="utf-8")).replace("/*__ULTIMATES__*/", (root / "src/ultimates.js").read_text(encoding="utf-8")).replace("/*__EXPANSION__*/", (root / "src/expansion.js").read_text(encoding="utf-8")).replace("/*__ANTICS__*/", (root / "src/antics.js").read_text(encoding="utf-8")).replace("/*__ARENA__*/", (root / "src/arena.js").read_text(encoding="utf-8")).replace("/*__COMPLETE__*/", complete_players+"\n"+(root/"src/complete.js").read_text(encoding="utf-8")).strip()),
 ):
     if out.count(mark) != 1:
         sys.exit(f"template must contain {mark} exactly once")

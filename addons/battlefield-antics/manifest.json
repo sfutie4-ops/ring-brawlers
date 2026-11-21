@@ -1,0 +1,10304 @@
+{
+ "schema": 1,
+ "coordinateSpace": "pixels",
+ "rectOrder": [
+  "x",
+  "y",
+  "width",
+  "height"
+ ],
+ "pivotSpace": "relative to frame top-left",
+ "sourceType": "image-generated PNG strips",
+ "categories": {
+  "01_crowd": "Crowd",
+  "02_referee": "Referee",
+  "03_venue_mascots": "Venue Mascots",
+  "04_prop_beats": "Prop Beats",
+  "05_battle_terms": "Battle Terms",
+  "06_formats": "Formats",
+  "07_event_props": "Event Props",
+  "08_stage_crew": "Stage Crew",
+  "09_callback_gags": "Callback Gags",
+  "10_field_bits": "Field Bits"
+ },
+ "animations": {
+  "sabay_iling": {
+   "title": "Sabay Iling",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/sabay_iling.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      53,
+      26,
+      175,
+      126
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      49,
+      27,
+      173,
+      125
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      35,
+      28,
+      184,
+      124
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      28,
+      27,
+      187,
+      125
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "two big-headed Filipino spectators in streetwear turn to one another and slowly shake their heads in disbelief",
+   "event": "heavy_bar_landed",
+   "priority": 35,
+   "cooldownMs": 8000
+  },
+  "napaupo": {
+   "title": "Napaupo sa Bara",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/napaupo.webp",
+   "sheetSize": [
+    1056,
+    185
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      177
+     ],
+     "bounds": [
+      74,
+      12,
+      117,
+      164
+     ],
+     "pivot": [
+      128,
+      176
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      177
+     ],
+     "bounds": [
+      71,
+      24,
+      112,
+      152
+     ],
+     "pivot": [
+      128,
+      176
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      177
+     ],
+     "bounds": [
+      66,
+      18,
+      122,
+      158
+     ],
+     "pivot": [
+      128,
+      176
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      177
+     ],
+     "bounds": [
+      67,
+      15,
+      122,
+      161
+     ],
+     "pivot": [
+      128,
+      176
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "one standing fan clutches a tiny folding stool and drops onto it in comic shock",
+   "event": "ultimate_landed",
+   "priority": 45,
+   "cooldownMs": 12000
+  },
+  "tawa_tiklop": {
+   "title": "Tawa Tiklop",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/tawa_tiklop.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      71,
+      16,
+      118,
+      137
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      67,
+      18,
+      134,
+      135
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      63,
+      20,
+      124,
+      133
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      58,
+      18,
+      121,
+      135
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a hoodie fan bends over laughing and wipes one tear",
+   "event": "comedy_hit",
+   "priority": 35,
+   "cooldownMs": 8000
+  },
+  "hoodie_hide": {
+   "title": "Hoodie Hide",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/hoodie_hide.webp",
+   "sheetSize": [
+    1056,
+    133
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      125
+     ],
+     "bounds": [
+      72,
+      0,
+      113,
+      125
+     ],
+     "pivot": [
+      128,
+      125
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      125
+     ],
+     "bounds": [
+      66,
+      0,
+      122,
+      125
+     ],
+     "pivot": [
+      128,
+      125
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      125
+     ],
+     "bounds": [
+      66,
+      0,
+      114,
+      125
+     ],
+     "pivot": [
+      128,
+      125
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      125
+     ],
+     "bounds": [
+      61,
+      0,
+      128,
+      125
+     ],
+     "pivot": [
+      128,
+      125
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "an embarrassed fan pulls the hood over their eyes and peeks back out",
+   "event": "crowd_reaction"
+  },
+  "phone_drop_save": {
+   "title": "Phone Drop Save",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/phone_drop_save.webp",
+   "sheetSize": [
+    1056,
+    176
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      168
+     ],
+     "bounds": [
+      58,
+      0,
+      142,
+      168
+     ],
+     "pivot": [
+      128,
+      168
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      168
+     ],
+     "bounds": [
+      56,
+      0,
+      147,
+      168
+     ],
+     "pivot": [
+      128,
+      168
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      168
+     ],
+     "bounds": [
+      51,
+      0,
+      142,
+      168
+     ],
+     "pivot": [
+      128,
+      168
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      168
+     ],
+     "bounds": [
+      49,
+      0,
+      142,
+      168
+     ],
+     "pivot": [
+      128,
+      168
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a fan fumbles a vertical phone then catches it with both hands",
+   "event": "heavy_hit",
+   "priority": 20,
+   "cooldownMs": 12000
+  },
+  "one_person_clap": {
+   "title": "Late Clap",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/one_person_clap.webp",
+   "sheetSize": [
+    1056,
+    153
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      64,
+      0,
+      138,
+      145
+     ],
+     "pivot": [
+      128,
+      145
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      59,
+      0,
+      144,
+      145
+     ],
+     "pivot": [
+      128,
+      145
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      57,
+      0,
+      137,
+      145
+     ],
+     "pivot": [
+      128,
+      145
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      56,
+      0,
+      114,
+      145
+     ],
+     "pivot": [
+      128,
+      145
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a single awkward fan claps twice then realizes everyone is quiet",
+   "event": "combo_whiff",
+   "priority": 15,
+   "cooldownMs": 12000
+  },
+  "crowd_side_eye": {
+   "title": "Crowd Side-Eye",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/crowd_side_eye.webp",
+   "sheetSize": [
+    1056,
+    186
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      21,
+      0,
+      196,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      16,
+      0,
+      203,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      15,
+      0,
+      198,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      13,
+      0,
+      192,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "two fans exchange a look then stare back at stage",
+   "event": "crowd_reaction"
+  },
+  "silent_gasp": {
+   "title": "Silent Gasp",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/silent_gasp.webp",
+   "sheetSize": [
+    1056,
+    139
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      131
+     ],
+     "bounds": [
+      20,
+      0,
+      205,
+      131
+     ],
+     "pivot": [
+      128,
+      131
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      131
+     ],
+     "bounds": [
+      17,
+      0,
+      205,
+      131
+     ],
+     "pivot": [
+      128,
+      131
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      131
+     ],
+     "bounds": [
+      14,
+      0,
+      205,
+      131
+     ],
+     "pivot": [
+      128,
+      131
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      131
+     ],
+     "bounds": [
+      11,
+      0,
+      209,
+      131
+     ],
+     "pivot": [
+      128,
+      131
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "fan with giant eyes covers their mouth with both hands",
+   "event": "crowd_reaction"
+  },
+  "point_to_friend": {
+   "title": "Point at Your Friend",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/point_to_friend.webp",
+   "sheetSize": [
+    1056,
+    134
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      24,
+      0,
+      207,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      22,
+      0,
+      206,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      13,
+      0,
+      213,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      11,
+      0,
+      213,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "laughing fan points at friend who sheepishly ducks",
+   "event": "crowd_reaction"
+  },
+  "wave_pocket": {
+   "title": "Mini Crowd Wave",
+   "category": "01_crowd",
+   "layer": "crowd",
+   "png": "sprites/wave_pocket.webp",
+   "sheetSize": [
+    1056,
+    187
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      18,
+      0,
+      215,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      13,
+      0,
+      217,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      9,
+      0,
+      219,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      5,
+      0,
+      236,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    }
+   ],
+   "frameMs": [
+    135,
+    120,
+    150,
+    250
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a 3-person cluster passes a hand wave left to right",
+   "event": "round_win",
+   "priority": 25
+  },
+  "oras_clock": {
+   "title": "Oras Na",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/oras_clock.webp",
+   "sheetSize": [
+    1056,
+    171
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      163
+     ],
+     "bounds": [
+      45,
+      64,
+      160,
+      98
+     ],
+     "pivot": [
+      128,
+      162
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      163
+     ],
+     "bounds": [
+      36,
+      34,
+      160,
+      126
+     ],
+     "pivot": [
+      128,
+      162
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      163
+     ],
+     "bounds": [
+      57,
+      14,
+      145,
+      146
+     ],
+     "pivot": [
+      128,
+      162
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      163
+     ],
+     "bounds": [
+      23,
+      15,
+      199,
+      145
+     ],
+     "pivot": [
+      128,
+      162
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "chubby orange stopwatch with a face pops upright and rings, no numbers or words",
+   "event": "time_up",
+   "priority": 90
+  },
+  "round_coin": {
+   "title": "Round Coin",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/round_coin.webp",
+   "sheetSize": [
+    1056,
+    167
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      71,
+      38,
+      122,
+      119
+     ],
+     "pivot": [
+      128,
+      158
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      44,
+      34,
+      146,
+      116
+     ],
+     "pivot": [
+      128,
+      158
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      58,
+      32,
+      137,
+      117
+     ],
+     "pivot": [
+      128,
+      158
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      53,
+      29,
+      159,
+      129
+     ],
+     "pivot": [
+      128,
+      158
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "navy and gold round token tumbles in the air, microphone symbol in center",
+   "event": "battle_cue"
+  },
+  "judge_pencil": {
+   "title": "Judge\u2019s Pencil",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/judge_pencil.webp",
+   "sheetSize": [
+    1056,
+    172
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      39,
+      30,
+      200,
+      134
+     ],
+     "pivot": [
+      128,
+      164
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      41,
+      29,
+      163,
+      135
+     ],
+     "pivot": [
+      128,
+      164
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      35,
+      15,
+      169,
+      149
+     ],
+     "pivot": [
+      128,
+      164
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      28,
+      14,
+      213,
+      150
+     ],
+     "pivot": [
+      128,
+      164
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "big pencil makes one quick tally on a tiny blank score sheet, no letters",
+   "event": "battle_cue"
+  },
+  "tie_scale": {
+   "title": "Split Decision",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/tie_scale.webp",
+   "sheetSize": [
+    1056,
+    156
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      34,
+      0,
+      189,
+      148
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      27,
+      0,
+      202,
+      148
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      15,
+      0,
+      213,
+      148
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      29,
+      0,
+      188,
+      148
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "cute gold balance scale teeters both ways before settling horizontal",
+   "event": "draw",
+   "priority": 90
+  },
+  "coin_toss": {
+   "title": "Coin Toss",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/coin_toss.webp",
+   "sheetSize": [
+    1056,
+    117
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      109
+     ],
+     "bounds": [
+      64,
+      0,
+      107,
+      109
+     ],
+     "pivot": [
+      128,
+      109
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      109
+     ],
+     "bounds": [
+      63,
+      0,
+      104,
+      105
+     ],
+     "pivot": [
+      128,
+      109
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      109
+     ],
+     "bounds": [
+      63,
+      0,
+      105,
+      109
+     ],
+     "pivot": [
+      128,
+      109
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      109
+     ],
+     "bounds": [
+      81,
+      0,
+      113,
+      109
+     ],
+     "pivot": [
+      128,
+      109
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "one gold coin flips above an open hand, gold and teal heads and tails icons",
+   "event": "match_intro",
+   "priority": 35
+  },
+  "no_reaction": {
+   "title": "No Reaction",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/no_reaction.webp",
+   "sheetSize": [
+    1056,
+    212
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      204
+     ],
+     "bounds": [
+      51,
+      0,
+      155,
+      203
+     ],
+     "pivot": [
+      128,
+      203
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      204
+     ],
+     "bounds": [
+      50,
+      0,
+      154,
+      202
+     ],
+     "pivot": [
+      128,
+      203
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      204
+     ],
+     "bounds": [
+      50,
+      1,
+      154,
+      202
+     ],
+     "pivot": [
+      128,
+      203
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      204
+     ],
+     "bounds": [
+      49,
+      0,
+      174,
+      203
+     ],
+     "pivot": [
+      128,
+      203
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "flat expression emoji shaped like a mini round stage light slowly blinks",
+   "event": "battle_cue"
+  },
+  "ballot_slide": {
+   "title": "Ballot Slide",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/ballot_slide.webp",
+   "sheetSize": [
+    1056,
+    158
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      59,
+      14,
+      140,
+      135
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      59,
+      24,
+      141,
+      125
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      58,
+      37,
+      141,
+      112
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      48,
+      29,
+      165,
+      120
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "closed cream envelope is pushed into a tiny ballot box and sparkles",
+   "event": "judges_reveal",
+   "priority": 85
+  },
+  "reset_fader": {
+   "title": "Reset the Fader",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/reset_fader.webp",
+   "sheetSize": [
+    1056,
+    163
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      78,
+      19,
+      101,
+      135
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      55,
+      19,
+      124,
+      134
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      50,
+      19,
+      158,
+      135
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      56,
+      19,
+      145,
+      135
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "large audio mixer slider clicks down and then back up by itself",
+   "event": "battle_cue"
+  },
+  "buzzer_button": {
+   "title": "Overtime Button",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/buzzer_button.webp",
+   "sheetSize": [
+    1056,
+    160
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      53,
+      15,
+      151,
+      136
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      51,
+      24,
+      152,
+      127
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      22,
+      42,
+      213,
+      109
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      49,
+      9,
+      166,
+      142
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "giant red arcade button is pressed by a white glove and glows amber",
+   "event": "overtime_start",
+   "priority": 85
+  },
+  "stop_hand": {
+   "title": "Hold the Floor",
+   "category": "02_referee",
+   "layer": "overlay",
+   "png": "sprites/stop_hand.webp",
+   "sheetSize": [
+    1056,
+    140
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      55,
+      45,
+      138,
+      83
+     ],
+     "pivot": [
+      128,
+      128
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      40,
+      13,
+      162,
+      114
+     ],
+     "pivot": [
+      128,
+      128
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      23,
+      9,
+      210,
+      117
+     ],
+     "pivot": [
+      128,
+      128
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      54,
+      11,
+      146,
+      114
+     ],
+     "pivot": [
+      128,
+      128
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "goofy giant glove raises a palm to signal pause and tilts back",
+   "event": "battle_cue"
+  },
+  "tokay_cable": {
+   "title": "Cable Tokay",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/tokay_cable.webp",
+   "sheetSize": [
+    1056,
+    163
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      29,
+      72,
+      217,
+      82
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      38,
+      42,
+      194,
+      112
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      29,
+      21,
+      180,
+      134
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      12,
+      29,
+      221,
+      123
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "tiny green orange-spotted tokay gecko hops over a coiled mic cable, looks back",
+   "event": "ambient_poll"
+  },
+  "taho_cup": {
+   "title": "Taho Cup Shuffle",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/taho_cup.webp",
+   "sheetSize": [
+    1056,
+    166
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      80,
+      28,
+      114,
+      129
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      59,
+      28,
+      135,
+      129
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      64,
+      22,
+      108,
+      135
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      53,
+      28,
+      141,
+      129
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "adorable tiny taho cup character with lid and tapioca pearls shuffles then bounces",
+   "event": "ambient_poll"
+  },
+  "jeepney_light": {
+   "title": "Jeepney Blink",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/jeepney_light.webp",
+   "sheetSize": [
+    1056,
+    164
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      31,
+      30,
+      200,
+      125
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      24,
+      30,
+      206,
+      125
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      25,
+      32,
+      210,
+      121
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      22,
+      31,
+      200,
+      124
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "pocket-size colorful Philippine jeepney with friendly headlights idles and blinks one light",
+   "event": "ambient_poll"
+  },
+  "pandesal_scoot": {
+   "title": "Pandesal Scoot",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/pandesal_scoot.webp",
+   "sheetSize": [
+    1056,
+    165
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      157
+     ],
+     "bounds": [
+      64,
+      26,
+      125,
+      128
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      157
+     ],
+     "bounds": [
+      66,
+      22,
+      119,
+      134
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      157
+     ],
+     "bounds": [
+      73,
+      18,
+      109,
+      137
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      157
+     ],
+     "bounds": [
+      76,
+      16,
+      110,
+      140
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "a tiny bread roll in a paper bag grows little legs and tiptoes",
+   "event": "ambient_poll"
+  },
+  "tin_can_beat": {
+   "title": "Tin Can Beat",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/tin_can_beat.webp",
+   "sheetSize": [
+    1056,
+    169
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      71,
+      25,
+      128,
+      135
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      76,
+      24,
+      104,
+      136
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      69,
+      9,
+      137,
+      151
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      47,
+      25,
+      154,
+      134
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small soda can character taps its tab like a hi-hat then sways",
+   "event": "ambient_poll"
+  },
+  "sari_sari_cat": {
+   "title": "Sari-Sari Cat",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/sari_sari_cat.webp",
+   "sheetSize": [
+    1056,
+    160
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      31,
+      9,
+      188,
+      141
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      25,
+      9,
+      191,
+      141
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      20,
+      9,
+      193,
+      141
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      24,
+      9,
+      187,
+      142
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "calico street cat paws a dangling snack packet then settles",
+   "event": "ambient_poll"
+  },
+  "tricycle_bell": {
+   "title": "Tricycle Bell",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/tricycle_bell.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      32,
+      24,
+      184,
+      128
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      37,
+      24,
+      179,
+      128
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      30,
+      23,
+      205,
+      130
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      22,
+      23,
+      191,
+      129
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "colorful tiny Philippine tricycle mascot rings handlebar bell and rocks",
+   "event": "ambient_poll"
+  },
+  "tokay_peek": {
+   "title": "Tokay Peek",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/tokay_peek.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      52,
+      20,
+      164,
+      133
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      26,
+      20,
+      191,
+      133
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      41,
+      20,
+      174,
+      133
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      63,
+      20,
+      154,
+      133
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small tokay gecko peeks around a speaker edge then hides",
+   "event": "ambient_poll"
+  },
+  "tsinelas_hop": {
+   "title": "Tsinelas Hop",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/tsinelas_hop.webp",
+   "sheetSize": [
+    1056,
+    144
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      45,
+      27,
+      161,
+      105
+     ],
+     "pivot": [
+      128,
+      135
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      44,
+      26,
+      161,
+      109
+     ],
+     "pivot": [
+      128,
+      135
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      31,
+      14,
+      181,
+      115
+     ],
+     "pivot": [
+      128,
+      135
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      38,
+      27,
+      177,
+      103
+     ],
+     "pivot": [
+      128,
+      135
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "pair of tiny rubber slippers hops in sync like dancers",
+   "event": "ambient_poll"
+  },
+  "broom_shuffle": {
+   "title": "Stage Broom Shuffle",
+   "category": "03_venue_mascots",
+   "layer": "background",
+   "png": "sprites/broom_shuffle.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      56,
+      12,
+      162,
+      129
+     ],
+     "pivot": [
+      128,
+      141
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      43,
+      14,
+      161,
+      127
+     ],
+     "pivot": [
+      128,
+      141
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      67,
+      11,
+      115,
+      130
+     ],
+     "pivot": [
+      128,
+      141
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      62,
+      21,
+      124,
+      120
+     ],
+     "pivot": [
+      128,
+      141
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "miniature broom with eyes sweeps two confetti crumbs and bows",
+   "event": "ambient_poll"
+  },
+  "mic_bounce": {
+   "title": "Mic Bounce",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/mic_bounce.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      90,
+      11,
+      93,
+      142
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      67,
+      26,
+      135,
+      127
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      83,
+      6,
+      118,
+      124
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      64,
+      15,
+      125,
+      138
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "cute handheld microphone with tiny feet bounces in place",
+   "event": "ambient_poll"
+  },
+  "speaker_sneeze": {
+   "title": "Speaker Sneeze",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/speaker_sneeze.webp",
+   "sheetSize": [
+    1056,
+    172
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      51,
+      28,
+      152,
+      135
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      50,
+      27,
+      165,
+      135
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      46,
+      29,
+      180,
+      132
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      27,
+      31,
+      212,
+      128
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small vintage speaker face expands then sneezes a cloud of music notes",
+   "event": "ambient_poll"
+  },
+  "cassette_waddle": {
+   "title": "Cassette Waddle",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/cassette_waddle.webp",
+   "sheetSize": [
+    1056,
+    163
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      51,
+      29,
+      159,
+      125
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      51,
+      32,
+      158,
+      120
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      51,
+      16,
+      179,
+      138
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      49,
+      20,
+      154,
+      134
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small cassette with thin legs waddles and adjusts its magnetic ribbon",
+   "event": "ambient_poll"
+  },
+  "equalizer_crab": {
+   "title": "Equalizer Crab",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/equalizer_crab.webp",
+   "sheetSize": [
+    1056,
+    170
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      33,
+      36,
+      193,
+      125
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      33,
+      35,
+      191,
+      126
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      33,
+      21,
+      194,
+      140
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      32,
+      37,
+      195,
+      124
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small music mixer with crab legs scuttles using two faders like claws",
+   "event": "ambient_poll"
+  },
+  "vinyl_spin": {
+   "title": "Vinyl Spin",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/vinyl_spin.webp",
+   "sheetSize": [
+    1056,
+    145
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      137
+     ],
+     "bounds": [
+      37,
+      34,
+      178,
+      102
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      137
+     ],
+     "bounds": [
+      39,
+      30,
+      177,
+      106
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      137
+     ],
+     "bounds": [
+      39,
+      15,
+      177,
+      121
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      137
+     ],
+     "bounds": [
+      39,
+      34,
+      177,
+      102
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "mini record on a turntable spins and jerks to a stop then resumes",
+   "event": "ambient_poll"
+  },
+  "cord_snake": {
+   "title": "Cord Snake",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/cord_snake.webp",
+   "sheetSize": [
+    1056,
+    158
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      49,
+      59,
+      180,
+      81
+     ],
+     "pivot": [
+      128,
+      140
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      47,
+      22,
+      168,
+      118
+     ],
+     "pivot": [
+      128,
+      140
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      48,
+      14,
+      178,
+      126
+     ],
+     "pivot": [
+      128,
+      140
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      47,
+      60,
+      172,
+      80
+     ],
+     "pivot": [
+      128,
+      140
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "orange cable with dot eyes uncoils and shakes the plug in a friendly wave",
+   "event": "ambient_poll"
+  },
+  "amp_yawn": {
+   "title": "Amp Yawn",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/amp_yawn.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      40,
+      10,
+      176,
+      142
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      42,
+      10,
+      185,
+      142
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      40,
+      10,
+      176,
+      142
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      43,
+      10,
+      178,
+      142
+     ],
+     "pivot": [
+      128,
+      152
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small amplifier with sleepy eyes yawns then its power light wakes up",
+   "event": "ambient_poll"
+  },
+  "headphone_groove": {
+   "title": "Headphone Groove",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/headphone_groove.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      54,
+      15,
+      149,
+      137
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      43,
+      15,
+      166,
+      138
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      58,
+      15,
+      171,
+      138
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      56,
+      14,
+      148,
+      139
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "round teal headphones bob and tap one ear cup",
+   "event": "ambient_poll"
+  },
+  "mic_stand_bow": {
+   "title": "Mic Stand Bow",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/mic_stand_bow.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      83,
+      15,
+      93,
+      134
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      76,
+      27,
+      101,
+      122
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      82,
+      36,
+      123,
+      113
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      83,
+      15,
+      95,
+      134
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "empty microphone stand bends forward in a bow then returns upright",
+   "event": "ambient_poll"
+  },
+  "boom_box_steps": {
+   "title": "Boombox Two-Step",
+   "category": "04_prop_beats",
+   "layer": "background",
+   "png": "sprites/boom_box_steps.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      41,
+      17,
+      173,
+      126
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      43,
+      9,
+      175,
+      134
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      42,
+      17,
+      172,
+      126
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      39,
+      9,
+      177,
+      134
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "gold and charcoal boombox character rocks left foot then right foot",
+   "event": "ambient_poll"
+  },
+  "rebuttal_boomerang": {
+   "title": "Rebuttal Boomerang",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/rebuttal_boomerang.webp",
+   "sheetSize": [
+    1056,
+    179
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      26,
+      45,
+      186,
+      116
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      15,
+      29,
+      221,
+      132
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      22,
+      37,
+      218,
+      133
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      16,
+      41,
+      222,
+      126
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "gold speech bubble flies out turns back like boomerang and snaps into teal wave",
+   "event": "successful_rebuttal",
+   "priority": 75
+  },
+  "angle_fold": {
+   "title": "Angle Fold",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/angle_fold.webp",
+   "sheetSize": [
+    1056,
+    169
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      20,
+      28,
+      206,
+      133
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      34,
+      33,
+      169,
+      128
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      25,
+      32,
+      196,
+      128
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      161
+     ],
+     "bounds": [
+      32,
+      31,
+      178,
+      129
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "green origami angle made of comic speech panels unfolds then sharply folds another way",
+   "event": "mark_consumed",
+   "priority": 65
+  },
+  "haymaker_bell": {
+   "title": "Haymaker Bell",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/haymaker_bell.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      68,
+      0,
+      127,
+      154
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      21,
+      0,
+      203,
+      154
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      21,
+      35,
+      216,
+      119
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      34,
+      32,
+      184,
+      122
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "gold cartoon bell wobbles hard from a comic star-shaped sound impact",
+   "event": "heavy_bar_landed",
+   "priority": 65
+  },
+  "multis_domino": {
+   "title": "Multis Domino",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/multis_domino.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      17,
+      0,
+      221,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      19,
+      0,
+      219,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      18,
+      0,
+      223,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      16,
+      0,
+      224,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "four small cyan panels with repeating abstract glyphs fall like dominoes",
+   "event": "combo_threshold",
+   "minCombo": 3,
+   "priority": 55
+  },
+  "stumble_tiles": {
+   "title": "Stumble Tiles",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/stumble_tiles.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      20,
+      0,
+      215,
+      154
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      10,
+      0,
+      226,
+      154
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      18,
+      0,
+      222,
+      154
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      23,
+      0,
+      207,
+      152
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "three cream abstract syllable blocks tumble and sheepishly rebuild",
+   "event": "whiff",
+   "priority": 25
+  },
+  "punchline_pop": {
+   "title": "Punchline Pop",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/punchline_pop.webp",
+   "sheetSize": [
+    1056,
+    159
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      76,
+      73,
+      104,
+      78
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      13,
+      0,
+      222,
+      151
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      12,
+      0,
+      227,
+      151
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      21,
+      61,
+      209,
+      90
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "pink speech bubble swells then bursts to confetti and collapses",
+   "event": "battle_cue"
+  },
+  "set_up_payoff": {
+   "title": "Setup and Payoff",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/set_up_payoff.webp",
+   "sheetSize": [
+    1056,
+    115
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      107
+     ],
+     "bounds": [
+      81,
+      0,
+      95,
+      107
+     ],
+     "pivot": [
+      128,
+      107
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      107
+     ],
+     "bounds": [
+      23,
+      0,
+      206,
+      107
+     ],
+     "pivot": [
+      128,
+      107
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      107
+     ],
+     "bounds": [
+      22,
+      0,
+      182,
+      107
+     ],
+     "pivot": [
+      128,
+      107
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      107
+     ],
+     "bounds": [
+      16,
+      0,
+      222,
+      107
+     ],
+     "pivot": [
+      128,
+      107
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a tiny wrapped gift unfolds into a giant glowing sound ring",
+   "event": "battle_cue"
+  },
+  "freestyle_doodle": {
+   "title": "Freestyle Doodle",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/freestyle_doodle.webp",
+   "sheetSize": [
+    1056,
+    202
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      194
+     ],
+     "bounds": [
+      50,
+      0,
+      142,
+      194
+     ],
+     "pivot": [
+      128,
+      194
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      194
+     ],
+     "bounds": [
+      31,
+      0,
+      178,
+      193
+     ],
+     "pivot": [
+      128,
+      194
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      194
+     ],
+     "bounds": [
+      30,
+      0,
+      188,
+      194
+     ],
+     "pivot": [
+      128,
+      194
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      194
+     ],
+     "bounds": [
+      10,
+      0,
+      233,
+      194
+     ],
+     "pivot": [
+      128,
+      194
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a pencil draws a little squiggle that becomes a hopping sound creature",
+   "event": "battle_cue"
+  },
+  "double_time_meter": {
+   "title": "Double-Time Meter",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/double_time_meter.webp",
+   "sheetSize": [
+    1056,
+    158
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      44,
+      0,
+      175,
+      149
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      34,
+      33,
+      187,
+      114
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      29,
+      0,
+      201,
+      144
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      25,
+      0,
+      198,
+      147
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "four rows of sound bars speed up into a cyan blur and settle",
+   "event": "battle_cue"
+  },
+  "dead_air_moth": {
+   "title": "Dead Air Moth",
+   "category": "05_battle_terms",
+   "layer": "overlay",
+   "png": "sprites/dead_air_moth.webp",
+   "sheetSize": [
+    1056,
+    149
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      141
+     ],
+     "bounds": [
+      57,
+      38,
+      144,
+      96
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      141
+     ],
+     "bounds": [
+      11,
+      21,
+      197,
+      115
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      141
+     ],
+     "bounds": [
+      52,
+      14,
+      149,
+      121
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      141
+     ],
+     "bounds": [
+      35,
+      12,
+      208,
+      121
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "tiny moth visits an empty speech bubble and flutters off",
+   "event": "idle_standoff",
+   "minIdleMs": 3500,
+   "cooldownMs": 20000
+  },
+  "dos_por_dos_tag": {
+   "title": "Dos Por Dos Tag",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/dos_por_dos_tag.webp",
+   "sheetSize": [
+    1056,
+    164
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      50,
+      20,
+      163,
+      135
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      43,
+      20,
+      167,
+      133
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      49,
+      21,
+      154,
+      131
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      39,
+      20,
+      174,
+      135
+     ],
+     "pivot": [
+      128,
+      155
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "two pairs of small cartoon microphones face each other; one pair swaps front and back positions",
+   "event": "partner_tag",
+   "mode": "dos_por_dos",
+   "priority": 75
+  },
+  "dos_por_dos_dual_wave": {
+   "title": "Dos Por Dos Dual Wave",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/dos_por_dos_dual_wave.webp",
+   "sheetSize": [
+    1056,
+    159
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      34,
+      38,
+      188,
+      108
+     ],
+     "pivot": [
+      128,
+      146
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      23,
+      46,
+      204,
+      98
+     ],
+     "pivot": [
+      128,
+      146
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      19,
+      48,
+      206,
+      95
+     ],
+     "pivot": [
+      128,
+      146
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      17,
+      42,
+      212,
+      101
+     ],
+     "pivot": [
+      128,
+      146
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a blue and gold microphone launch sound ribbons that link then bounce apart",
+   "event": "assist_chain",
+   "mode": "dos_por_dos",
+   "priority": 70
+  },
+  "royal_rumble_shuffle": {
+   "title": "Royal Rumble Shuffle",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/royal_rumble_shuffle.webp",
+   "sheetSize": [
+    1056,
+    187
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      56,
+      28,
+      149,
+      141
+     ],
+     "pivot": [
+      128,
+      179
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      48,
+      28,
+      155,
+      146
+     ],
+     "pivot": [
+      128,
+      179
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      51,
+      33,
+      156,
+      146
+     ],
+     "pivot": [
+      128,
+      179
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      179
+     ],
+     "bounds": [
+      51,
+      28,
+      147,
+      145
+     ],
+     "pivot": [
+      128,
+      179
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "three bronze microphone icons shuffle around a small rotating ring",
+   "event": "entrance",
+   "mode": "royal_rumble",
+   "priority": 80
+  },
+  "five_on_five_lights": {
+   "title": "Five-on-Five Lights",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/five_on_five_lights.webp",
+   "sheetSize": [
+    1056,
+    141
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      133
+     ],
+     "bounds": [
+      24,
+      52,
+      207,
+      80
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      133
+     ],
+     "bounds": [
+      24,
+      24,
+      207,
+      108
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      133
+     ],
+     "bounds": [
+      23,
+      0,
+      208,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      133
+     ],
+     "bounds": [
+      22,
+      34,
+      210,
+      98
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "two rows of five stage-light bulbs flash in reply across a tiny platform",
+   "event": "match_intro",
+   "mode": "five_on_five",
+   "priority": 80
+  },
+  "three_way_triangle": {
+   "title": "Three-Way Triangle",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/three_way_triangle.webp",
+   "sheetSize": [
+    1056,
+    155
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      147
+     ],
+     "bounds": [
+      35,
+      43,
+      186,
+      104
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      147
+     ],
+     "bounds": [
+      25,
+      46,
+      205,
+      101
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      147
+     ],
+     "bounds": [
+      53,
+      50,
+      150,
+      97
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      147
+     ],
+     "bounds": [
+      50,
+      44,
+      157,
+      103
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "three chibi mic icons tip inward around a triangular spotlight",
+   "event": "match_intro",
+   "mode": "three_way",
+   "priority": 80
+  },
+  "beatbox_bubbles": {
+   "title": "Beatbox Bubbles",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/beatbox_bubbles.webp",
+   "sheetSize": [
+    1056,
+    189
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      181
+     ],
+     "bounds": [
+      31,
+      0,
+      167,
+      181
+     ],
+     "pivot": [
+      128,
+      181
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      181
+     ],
+     "bounds": [
+      32,
+      0,
+      170,
+      181
+     ],
+     "pivot": [
+      128,
+      181
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      181
+     ],
+     "bounds": [
+      30,
+      0,
+      177,
+      181
+     ],
+     "pivot": [
+      128,
+      181
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      181
+     ],
+     "bounds": [
+      28,
+      0,
+      211,
+      181
+     ],
+     "pivot": [
+      128,
+      181
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "a little beatboxing speaker mouth puffs rhythmic colored bubbles",
+   "event": "beatbox_break",
+   "priority": 55
+  },
+  "flip_tournament_bracket": {
+   "title": "Isabuhay Bracket",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/flip_tournament_bracket.webp",
+   "sheetSize": [
+    1056,
+    153
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      37,
+      0,
+      180,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      38,
+      0,
+      178,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      37,
+      0,
+      179,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      145
+     ],
+     "bounds": [
+      37,
+      0,
+      179,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "mini gold tournament tree lights progress through forks toward one trophy",
+   "event": "bracket_advance",
+   "priority": 70
+  },
+  "tryout_spotlight": {
+   "title": "Tryout Spotlight",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/tryout_spotlight.webp",
+   "sheetSize": [
+    1056,
+    168
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      46,
+      34,
+      165,
+      125
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      50,
+      32,
+      159,
+      127
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      49,
+      32,
+      162,
+      127
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      44,
+      33,
+      172,
+      126
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "unbranded audition badge rises through a spotlight and tilts upright",
+   "event": "audition_enter",
+   "priority": 55
+  },
+  "won_minutes_bell": {
+   "title": "Won Minutes Bell",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/won_minutes_bell.webp",
+   "sheetSize": [
+    1056,
+    144
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      79,
+      25,
+      92,
+      110
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      79,
+      27,
+      89,
+      109
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      78,
+      29,
+      116,
+      106
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      34,
+      25,
+      173,
+      110
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "small teal hourglass runs through sand then flicks on a mic light",
+   "event": "round_start",
+   "mode": "won_minutes",
+   "priority": 80
+  },
+  "freestyle_cypher_loop": {
+   "title": "Freestyle Cypher Loop",
+   "category": "06_formats",
+   "layer": "overlay",
+   "png": "sprites/freestyle_cypher_loop.webp",
+   "sheetSize": [
+    1056,
+    156
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      61,
+      28,
+      135,
+      110
+     ],
+     "pivot": [
+      128,
+      142
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      41,
+      21,
+      171,
+      120
+     ],
+     "pivot": [
+      128,
+      142
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      41,
+      21,
+      172,
+      121
+     ],
+     "pivot": [
+      128,
+      142
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      47,
+      22,
+      164,
+      119
+     ],
+     "pivot": [
+      128,
+      142
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "four small cartoon mics circle each other under a rotating beat pulse",
+   "event": "battle_cue"
+  },
+  "ahon_stage_rise": {
+   "title": "Ahon Stage Rise",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/ahon_stage_rise.webp",
+   "sheetSize": [
+    1056,
+    172
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      38,
+      81,
+      187,
+      82
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      37,
+      61,
+      187,
+      102
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      35,
+      42,
+      187,
+      121
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      164
+     ],
+     "bounds": [
+      33,
+      13,
+      187,
+      150
+     ],
+     "pivot": [
+      128,
+      163
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "tiny gold microphone elevator emerges from a miniature dark stage and stops atop rising stairs",
+   "event": "ambient_poll"
+  },
+  "aspakan_beats": {
+   "title": "Aspakan Beat Lights",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/aspakan_beats.webp",
+   "sheetSize": [
+    1056,
+    168
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      46,
+      78,
+      170,
+      81
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      47,
+      25,
+      167,
+      134
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      45,
+      24,
+      166,
+      135
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      21,
+      20,
+      216,
+      139
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "two orange patio stage lights ping-pong and beam up like an outdoor venue",
+   "event": "ambient_poll"
+  },
+  "gapo_banner": {
+   "title": "Gapo de Gulat Pennant",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/gapo_banner.webp",
+   "sheetSize": [
+    1056,
+    163
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      48,
+      24,
+      185,
+      130
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      52,
+      25,
+      177,
+      129
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      54,
+      25,
+      156,
+      129
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      57,
+      25,
+      119,
+      129
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "tiny illustrated seaside pennant with lighthouse motif flaps then curls",
+   "event": "ambient_poll"
+  },
+  "bara_barako_cup": {
+   "title": "Barako Cup Beat",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/bara_barako_cup.webp",
+   "sheetSize": [
+    1056,
+    168
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      54,
+      11,
+      155,
+      149
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      41,
+      11,
+      180,
+      149
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      54,
+      20,
+      163,
+      140
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      53,
+      17,
+      156,
+      143
+     ],
+     "pivot": [
+      128,
+      160
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "little steaming cup of dark barako coffee in golden brown taps its saucer",
+   "event": "ambient_poll"
+  },
+  "second_sight_lens": {
+   "title": "Second Sight Lens",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/second_sight_lens.webp",
+   "sheetSize": [
+    1056,
+    146
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      138
+     ],
+     "bounds": [
+      31,
+      0,
+      201,
+      138
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      138
+     ],
+     "bounds": [
+      31,
+      0,
+      200,
+      138
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      138
+     ],
+     "bounds": [
+      30,
+      0,
+      200,
+      138
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      138
+     ],
+     "bounds": [
+      28,
+      0,
+      201,
+      138
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "two blue stage camera lenses refocus and flash a brief gleam",
+   "event": "ambient_poll"
+  },
+  "bwelta_turntable": {
+   "title": "Bwelta Turntable",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/bwelta_turntable.webp",
+   "sheetSize": [
+    1056,
+    178
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      170
+     ],
+     "bounds": [
+      37,
+      0,
+      188,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      170
+     ],
+     "bounds": [
+      41,
+      0,
+      180,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      170
+     ],
+     "bounds": [
+      29,
+      0,
+      196,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      170
+     ],
+     "bounds": [
+      39,
+      0,
+      176,
+      170
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "mini vinyl disc spins back the other direction in a comical rewind",
+   "event": "ambient_poll"
+  },
+  "unibersikulo_planet": {
+   "title": "Unibersikulo Orbit",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/unibersikulo_planet.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      36,
+      0,
+      181,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      33,
+      0,
+      181,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      50,
+      0,
+      179,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      48,
+      0,
+      157,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "mini globe with one mic satellite orbiting then hopping into position",
+   "event": "ambient_poll"
+  },
+  "zoning_beam": {
+   "title": "Zoning Beam",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/zoning_beam.webp",
+   "sheetSize": [
+    1056,
+    156
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      29,
+      0,
+      200,
+      125
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      28,
+      0,
+      201,
+      132
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      28,
+      0,
+      202,
+      147
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      148
+     ],
+     "bounds": [
+      27,
+      0,
+      202,
+      125
+     ],
+     "pivot": [
+      128,
+      147
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "two teal rectangular floor projectors sweep a stripe in and out",
+   "event": "ambient_poll"
+  },
+  "down_n_south_pass": {
+   "title": "Down N\u2019 South Pass",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/down_n_south_pass.webp",
+   "sheetSize": [
+    1056,
+    142
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      134
+     ],
+     "bounds": [
+      21,
+      26,
+      201,
+      93
+     ],
+     "pivot": [
+      128,
+      130
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      134
+     ],
+     "bounds": [
+      19,
+      27,
+      202,
+      92
+     ],
+     "pivot": [
+      128,
+      130
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      134
+     ],
+     "bounds": [
+      18,
+      27,
+      202,
+      103
+     ],
+     "pivot": [
+      128,
+      130
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      134
+     ],
+     "bounds": [
+      17,
+      27,
+      201,
+      92
+     ],
+     "pivot": [
+      128,
+      130
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "cute festival wristband with compass needle swings down toward its south mark, no text",
+   "event": "ambient_poll"
+  },
+  "process_lantern": {
+   "title": "Process Lantern",
+   "category": "07_event_props",
+   "layer": "background",
+   "png": "sprites/process_lantern.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      79,
+      10,
+      98,
+      134
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      45,
+      10,
+      165,
+      134
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      42,
+      10,
+      166,
+      134
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      71,
+      10,
+      139,
+      134
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "warm lantern fades on, grows a cheerful face and winks",
+   "event": "ambient_poll"
+  },
+  "gaffer_tape_fetch": {
+   "title": "Gaffer Tape Fetch",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/gaffer_tape_fetch.webp",
+   "sheetSize": [
+    1056,
+    179
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      55,
+      8,
+      152,
+      162
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      60,
+      9,
+      148,
+      161
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      48,
+      26,
+      160,
+      141
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      171
+     ],
+     "bounds": [
+      49,
+      26,
+      159,
+      142
+     ],
+     "pivot": [
+      128,
+      170
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small big-head stagehand with navy cap pulls a roll of gaffer tape from belt and seals a cable",
+   "event": "ambient_poll"
+  },
+  "cable_coil": {
+   "title": "Cable Coil",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/cable_coil.webp",
+   "sheetSize": [
+    1056,
+    152
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      62,
+      11,
+      111,
+      133
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      63,
+      11,
+      121,
+      133
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      63,
+      12,
+      115,
+      132
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      61,
+      12,
+      136,
+      132
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "big-head stagehand nimbly coils one long microphone cable then thumbs up",
+   "event": "ambient_poll"
+  },
+  "water_pass": {
+   "title": "Water Pass",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/water_pass.webp",
+   "sheetSize": [
+    1056,
+    152
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      49,
+      0,
+      170,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      49,
+      0,
+      170,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      50,
+      0,
+      181,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      144
+     ],
+     "bounds": [
+      53,
+      0,
+      167,
+      144
+     ],
+     "pivot": [
+      128,
+      144
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "tiny staffer in hoodie slides a water bottle across a stage box and nods",
+   "event": "ambient_poll"
+  },
+  "light_fix": {
+   "title": "Fix the Light",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/light_fix.webp",
+   "sheetSize": [
+    1056,
+    140
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      34,
+      0,
+      185,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      34,
+      0,
+      185,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      36,
+      0,
+      185,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      48,
+      0,
+      174,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "short big-head stage tech taps a tiny stage light until it flickers on",
+   "event": "ambient_poll"
+  },
+  "phone_tripod": {
+   "title": "Phone Tripod",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/phone_tripod.webp",
+   "sheetSize": [
+    1056,
+    208
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      200
+     ],
+     "bounds": [
+      39,
+      0,
+      169,
+      200
+     ],
+     "pivot": [
+      128,
+      200
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      200
+     ],
+     "bounds": [
+      42,
+      0,
+      180,
+      200
+     ],
+     "pivot": [
+      128,
+      200
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      200
+     ],
+     "bounds": [
+      38,
+      0,
+      171,
+      200
+     ],
+     "pivot": [
+      128,
+      200
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      200
+     ],
+     "bounds": [
+      30,
+      0,
+      192,
+      200
+     ],
+     "pivot": [
+      128,
+      200
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "little content camera operator opens a tiny tripod and sets a phone on top",
+   "event": "ambient_poll"
+  },
+  "stagehand_trip": {
+   "title": "Stagehand Recovery",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/stagehand_trip.webp",
+   "sheetSize": [
+    1056,
+    164
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      52,
+      0,
+      100,
+      156
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      36,
+      0,
+      161,
+      156
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      38,
+      0,
+      164,
+      156
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      62,
+      0,
+      152,
+      156
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "tiny crew member stumbles over an empty cable mat then stands and bows playfully",
+   "event": "ambient_poll"
+  },
+  "quick_soundcheck": {
+   "title": "Quick Soundcheck",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/quick_soundcheck.webp",
+   "sheetSize": [
+    1056,
+    140
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      53,
+      0,
+      182,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      65,
+      0,
+      170,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      60,
+      0,
+      176,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      132
+     ],
+     "bounds": [
+      55,
+      0,
+      182,
+      132
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "cute stage tech holds a mic to ear then adjusts a small mixer",
+   "event": "ambient_poll"
+  },
+  "sweep_confetti": {
+   "title": "Sweep Confetti",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/sweep_confetti.webp",
+   "sheetSize": [
+    1056,
+    134
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      46,
+      0,
+      161,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      42,
+      0,
+      165,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      45,
+      0,
+      162,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      126
+     ],
+     "bounds": [
+      30,
+      0,
+      179,
+      126
+     ],
+     "pivot": [
+      128,
+      126
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "young adult crew member sweeps colorful confetti into a dustpan then points to clean spot",
+   "event": "ambient_poll"
+  },
+  "stool_delivery": {
+   "title": "Stool Delivery",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/stool_delivery.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      44,
+      0,
+      176,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      42,
+      0,
+      170,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      34,
+      0,
+      116,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      21,
+      0,
+      186,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "chibi helper rushes a brown stool onto stage and proudly pats it",
+   "event": "ambient_poll"
+  },
+  "headset_yes": {
+   "title": "Headset Yes",
+   "category": "08_stage_crew",
+   "layer": "background",
+   "png": "sprites/headset_yes.webp",
+   "sheetSize": [
+    1056,
+    186
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      23,
+      0,
+      167,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      43,
+      0,
+      167,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      46,
+      0,
+      148,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      178
+     ],
+     "bounds": [
+      43,
+      0,
+      155,
+      178
+     ],
+     "pivot": [
+      128,
+      178
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small side-stage coordinator hears a cue touches headset and nods twice",
+   "event": "ambient_poll"
+  },
+  "subtitle_chase": {
+   "title": "Subtitle Chase",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/subtitle_chase.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      25,
+      22,
+      200,
+      117
+     ],
+     "pivot": [
+      128,
+      139
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      32,
+      22,
+      203,
+      117
+     ],
+     "pivot": [
+      128,
+      139
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      50,
+      29,
+      183,
+      104
+     ],
+     "pivot": [
+      128,
+      139
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      46,
+      28,
+      183,
+      106
+     ],
+     "pivot": [
+      128,
+      139
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "three floating empty comic subtitle strips chase a tiny teal microphone, abstract bars only",
+   "event": "rival_intro",
+   "fighters": [
+    "zaito",
+    "charron"
+   ],
+   "priority": 80
+  },
+  "subtitle_flip": {
+   "title": "Subtitle Flip",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/subtitle_flip.webp",
+   "sheetSize": [
+    1056,
+    161
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      45,
+      21,
+      166,
+      112
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      33,
+      21,
+      175,
+      128
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      18,
+      21,
+      216,
+      112
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      153
+     ],
+     "bounds": [
+      43,
+      21,
+      185,
+      111
+     ],
+     "pivot": [
+      128,
+      149
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "hanging white subtitle panel turns upside down then flips back with a gold sparkle, no letters",
+   "event": "successful_rebuttal",
+   "fighters": [
+    "zaito",
+    "charron"
+   ],
+   "priority": 78
+  },
+  "alter_ego_mask": {
+   "title": "Alter-Ego Mask",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/alter_ego_mask.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      53,
+      20,
+      143,
+      128
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      47,
+      12,
+      168,
+      136
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      45,
+      14,
+      158,
+      134
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      43,
+      16,
+      189,
+      132
+     ],
+     "pivot": [
+      128,
+      148
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "navy theatrical half-mask jumps from behind a purple comedy mask and winks",
+   "event": "rare_entrance",
+   "fighters": [
+    "tipsy_d"
+   ],
+   "probability": 0.08,
+   "priority": 65
+  },
+  "rebuttal_receipt": {
+   "title": "Rebuttal Receipt",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/rebuttal_receipt.webp",
+   "sheetSize": [
+    1056,
+    163
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      57,
+      23,
+      147,
+      112
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      52,
+      20,
+      146,
+      112
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      52,
+      12,
+      175,
+      141
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      155
+     ],
+     "bounds": [
+      33,
+      16,
+      195,
+      138
+     ],
+     "pivot": [
+      128,
+      154
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "tiny thermal printer spits a long ivory receipt with abstract lines and recoils",
+   "event": "battle_cue"
+  },
+  "bar_blueprint_roll": {
+   "title": "Blueprint Roll",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/bar_blueprint_roll.webp",
+   "sheetSize": [
+    1056,
+    160
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      51,
+      44,
+      155,
+      81
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      31,
+      40,
+      182,
+      89
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      19,
+      23,
+      214,
+      109
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      51,
+      40,
+      148,
+      90
+     ],
+     "pivot": [
+      128,
+      132
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "rolled blue paper unfurls into comic waveform then retracts",
+   "event": "power_windup",
+   "fighters": [
+    "blkd"
+   ],
+   "priority": 65
+  },
+  "wordplay_magnet": {
+   "title": "Wordplay Magnet",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/wordplay_magnet.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      22,
+      13,
+      209,
+      124
+     ],
+     "pivot": [
+      128,
+      137
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      24,
+      22,
+      201,
+      110
+     ],
+     "pivot": [
+      128,
+      137
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      27,
+      18,
+      194,
+      112
+     ],
+     "pivot": [
+      128,
+      137
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      32,
+      19,
+      191,
+      111
+     ],
+     "pivot": [
+      128,
+      137
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "chunky gold horseshoe magnet pulls tiny abstract speech tiles together",
+   "event": "battle_cue"
+  },
+  "tokay_scorecard": {
+   "title": "Tokay Scorecard",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/tokay_scorecard.webp",
+   "sheetSize": [
+    1056,
+    159
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      49,
+      9,
+      157,
+      127
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      44,
+      9,
+      158,
+      126
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      40,
+      9,
+      168,
+      124
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      151
+     ],
+     "bounds": [
+      38,
+      8,
+      174,
+      128
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "tiny green spotted tokay holds a blank judges\u2019 scorecard then flips it",
+   "event": "judges_reveal",
+   "fighters": [
+    "dello",
+    "zaito"
+   ],
+   "priority": 88
+  },
+  "tokay_stand_in": {
+   "title": "Tokay Stand-In",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/tokay_stand_in.webp",
+   "sheetSize": [
+    1056,
+    158
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      46,
+      11,
+      138,
+      138
+     ],
+     "pivot": [
+      128,
+      150
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      49,
+      15,
+      144,
+      134
+     ],
+     "pivot": [
+      128,
+      150
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      46,
+      2,
+      145,
+      147
+     ],
+     "pivot": [
+      128,
+      150
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      150
+     ],
+     "bounds": [
+      37,
+      11,
+      198,
+      139
+     ],
+     "pivot": [
+      128,
+      150
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "tiny gecko in a bow tie holds a miniature mic, gulps and shrugs",
+   "event": "idle_standoff",
+   "fighters": [
+    "dello",
+    "zaito"
+   ],
+   "probability": 0.07,
+   "cooldownMs": 25000
+  },
+  "old_school_tape": {
+   "title": "Old-School Tape",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/old_school_tape.webp",
+   "sheetSize": [
+    1056,
+    167
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      32,
+      38,
+      207,
+      109
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      30,
+      21,
+      187,
+      129
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      29,
+      17,
+      190,
+      132
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      159
+     ],
+     "bounds": [
+      26,
+      0,
+      212,
+      153
+     ],
+     "pivot": [
+      128,
+      153
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "mini tape is rewound by a pencil and pops a gold lightning bolt",
+   "event": "battle_cue"
+  },
+  "rhyme_bubble_duel": {
+   "title": "Rhyme Bubble Duel",
+   "category": "09_callback_gags",
+   "layer": "overlay",
+   "png": "sprites/rhyme_bubble_duel.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      22,
+      20,
+      207,
+      107
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      15,
+      42,
+      225,
+      77
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      40,
+      12,
+      163,
+      126
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      13,
+      23,
+      225,
+      103
+     ],
+     "pivot": [
+      128,
+      138
+     ]
+    }
+   ],
+   "frameMs": [
+    105,
+    105,
+    120,
+    230
+   ],
+   "loop": false,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "collision": false,
+   "visual": "one amber and one purple empty speech bubble face off bump and spring apart",
+   "event": "battle_cue"
+  },
+  "paper_plane_in": {
+   "title": "Paper Plane Flyby",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/paper_plane_in.webp",
+   "sheetSize": [
+    1056,
+    166
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      36,
+      56,
+      186,
+      65
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      40,
+      41,
+      172,
+      93
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      34,
+      36,
+      175,
+      93
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      158
+     ],
+     "bounds": [
+      37,
+      75,
+      185,
+      82
+     ],
+     "pivot": [
+      128,
+      157
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small paper plane with cyan stripes banks from left to right and dips",
+   "event": "ambient_poll"
+  },
+  "ticket_stubs": {
+   "title": "Ticket Stub Hop",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/ticket_stubs.webp",
+   "sheetSize": [
+    1056,
+    168
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      38,
+      73,
+      186,
+      86
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      37,
+      23,
+      184,
+      135
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      38,
+      56,
+      182,
+      102
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      160
+     ],
+     "bounds": [
+      38,
+      79,
+      185,
+      80
+     ],
+     "pivot": [
+      128,
+      159
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "two little event ticket stubs with dot eyes do a synchronized hop, no letters",
+   "event": "ambient_poll"
+  },
+  "umbrella_shake": {
+   "title": "Umbrella Shake",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/umbrella_shake.webp",
+   "sheetSize": [
+    1056,
+    144
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      96,
+      37,
+      51,
+      99
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      29,
+      36,
+      198,
+      100
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      27,
+      33,
+      204,
+      103
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      136
+     ],
+     "bounds": [
+      32,
+      33,
+      191,
+      103
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small deep purple umbrella opens and shakes a few raindrops",
+   "event": "ambient_poll"
+  },
+  "neon_mic_sign": {
+   "title": "Neon Mic Sign",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/neon_mic_sign.webp",
+   "sheetSize": [
+    1056,
+    193
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      185
+     ],
+     "bounds": [
+      45,
+      0,
+      167,
+      185
+     ],
+     "pivot": [
+      128,
+      185
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      185
+     ],
+     "bounds": [
+      44,
+      0,
+      167,
+      185
+     ],
+     "pivot": [
+      128,
+      185
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      185
+     ],
+     "bounds": [
+      44,
+      0,
+      168,
+      185
+     ],
+     "pivot": [
+      128,
+      185
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      185
+     ],
+     "bounds": [
+      41,
+      0,
+      186,
+      185
+     ],
+     "pivot": [
+      128,
+      185
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "gold outline microphone in a navy neon frame flickers to life then pulses",
+   "event": "ambient_poll"
+  },
+  "puddle_reflection": {
+   "title": "Beat in a Puddle",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/puddle_reflection.webp",
+   "sheetSize": [
+    1056,
+    160
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      30,
+      0,
+      192,
+      150
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      30,
+      0,
+      192,
+      151
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      29,
+      0,
+      197,
+      151
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      152
+     ],
+     "bounds": [
+      28,
+      0,
+      201,
+      151
+     ],
+     "pivot": [
+      128,
+      151
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small blue puddle with gold stage light reflections ripples from center",
+   "event": "ambient_poll"
+  },
+  "cap_flip": {
+   "title": "Loose Cap Flip",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/cap_flip.webp",
+   "sheetSize": [
+    1056,
+    164
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      36,
+      70,
+      164,
+      86
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      35,
+      54,
+      186,
+      102
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      45,
+      47,
+      168,
+      109
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      156
+     ],
+     "bounds": [
+      45,
+      55,
+      172,
+      101
+     ],
+     "pivot": [
+      128,
+      156
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "black snapback cap with red trim flips in place then settles upright",
+   "event": "ambient_poll"
+  },
+  "crowd_fan": {
+   "title": "Crowd Fan Breeze",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/crowd_fan.webp",
+   "sheetSize": [
+    1056,
+    151
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      143
+     ],
+     "bounds": [
+      37,
+      0,
+      148,
+      143
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      143
+     ],
+     "bounds": [
+      30,
+      0,
+      197,
+      143
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      143
+     ],
+     "bounds": [
+      27,
+      0,
+      188,
+      143
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      143
+     ],
+     "bounds": [
+      47,
+      0,
+      180,
+      143
+     ],
+     "pivot": [
+      128,
+      143
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "tiny handheld woven fan waves side to side, scattering two stars",
+   "event": "ambient_poll"
+  },
+  "confetti_spiral": {
+   "title": "Confetti Spiral",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/confetti_spiral.webp",
+   "sheetSize": [
+    1056,
+    170
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      75,
+      0,
+      90,
+      152
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      40,
+      0,
+      147,
+      158
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      23,
+      0,
+      193,
+      161
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      162
+     ],
+     "bounds": [
+      35,
+      0,
+      173,
+      150
+     ],
+     "pivot": [
+      128,
+      161
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "spiral of teal violet and gold confetti ribbons arcs outward then settles",
+   "event": "ambient_poll"
+  },
+  "lantern_swing": {
+   "title": "Alley Lantern Swing",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/lantern_swing.webp",
+   "sheetSize": [
+    1056,
+    138
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      130
+     ],
+     "bounds": [
+      33,
+      25,
+      190,
+      98
+     ],
+     "pivot": [
+      128,
+      123
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      130
+     ],
+     "bounds": [
+      34,
+      24,
+      189,
+      94
+     ],
+     "pivot": [
+      128,
+      123
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      130
+     ],
+     "bounds": [
+      34,
+      25,
+      191,
+      97
+     ],
+     "pivot": [
+      128,
+      123
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      130
+     ],
+     "bounds": [
+      33,
+      26,
+      192,
+      97
+     ],
+     "pivot": [
+      128,
+      123
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small warm street bulb strung on a cord swings gently then stills",
+   "event": "ambient_poll"
+  },
+  "rooftop_pigeon": {
+   "title": "Rooftop Pigeon",
+   "category": "10_field_bits",
+   "layer": "background",
+   "png": "sprites/rooftop_pigeon.webp",
+   "sheetSize": [
+    1056,
+    162
+   ],
+   "frames": [
+    {
+     "rect": [
+      4,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      45,
+      13,
+      142,
+      123
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      268,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      41,
+      14,
+      147,
+      122
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      532,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      23,
+      43,
+      181,
+      92
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    },
+    {
+     "rect": [
+      796,
+      4,
+      256,
+      154
+     ],
+     "bounds": [
+      30,
+      47,
+      185,
+      88
+     ],
+     "pivot": [
+      128,
+      136
+     ]
+    }
+   ],
+   "frameMs": [
+    180,
+    120,
+    140,
+    235,
+    140,
+    120
+   ],
+   "loop": true,
+   "replayOrder": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "collision": false,
+   "visual": "small gray city pigeon with orange feet struts then pecks a crumb",
+   "event": "ambient_poll"
+  }
+ },
+ "counts": {
+  "pngs": 100,
+  "frames": 400,
+  "layers": {
+   "crowd": 10,
+   "overlay": 40,
+   "background": 50
+  }
+ }
+}

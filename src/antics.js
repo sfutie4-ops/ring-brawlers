@@ -1,5 +1,6 @@
 // Cutscenes own presentation while the match simulation is suspended.
 const FIGHTER = {LOONIE:0, ABRA:1, SHEHYEE:2, BATAS:3, SMUGGLAZ:4, AKLAS:5, ZAITO:6, APEKZ:7, SINIO:8};
+const BASE_ROSTER = 9;
 const anticArt = {};
 let antic = null;
 let lastAntic = null;
@@ -204,12 +205,19 @@ function finaleClips(winner,loser) {
   if([winner.ci,loser.ci].includes(FIGHTER.ZAITO)){
     scenes.push({...clip('loloPickpocket','LOLO, ANO ’YAN?',3.85),cues:[1.17,1.61,2.84]});
   }
+  // Every winner gets a gag: fighters without their own victory skit get a random one, and now and then
+  // a bonus gag plays on top (Anygma's batok, the surprise turtle or a crown shower).
+  const gags=[['batok','ANYGMA HAS A WORD',5.4],['turtle','TURTLE SURPRISE',5.3],['praise','CROWN SHOWER',4.0]]
+    .filter(([kind])=>!scenes.some(s=>s.kind===kind));
+  const hasOwn=scenes.length>0||CH[winner.ci].id==='badang'||winner.ci>=BASE_ROSTER;
+  if(gags.length&&(!hasOwn||Math.random()<.4))scenes.push(clip(...gags[Math.floor(Math.random()*gags.length)]));
   return scenes;
 }
 
 function completeMatch() {
   const winner=P1.wins?P1:P2.wins?P2:null;
   const won=winner===P1;
+  if(story.on){phase='end';clearInput();storyMatchEnd(won);return}
   if (!resultAwarded) {
     resultAwarded=true;
     if (won && !bonusAntics) {
@@ -643,7 +651,7 @@ function drawSockCat(){
 
 $('skipScene').onclick=endAntic;
 $('replayScene').onclick=$('replayResultScene').onclick=$('replayLastScene').onclick=replayAntic;
-$('bonusAntics').checked=store.get('bonusAntics',false);
+$('bonusAntics').checked=store.get('bonusAntics',true);
 $('bonusAntics').onchange=()=>store.set('bonusAntics',$('bonusAntics').checked);
 
 for(const [ci,fighter] of ROSTER.entries()){
