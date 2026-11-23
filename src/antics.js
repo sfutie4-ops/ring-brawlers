@@ -676,6 +676,7 @@ $('bonusAntics').checked=store.get('bonusAntics',true);
 $('bonusAntics').onchange=()=>store.set('bonusAntics',$('bonusAntics').checked);
 
 for(const [ci,fighter] of ROSTER.entries()){
+  if(MENU_HIDDEN.has(ci))continue;
   const choice=document.createElement('option');
   choice.value=String(ci);choice.textContent=fighter.name;
   $('rivalSelect').append(choice);

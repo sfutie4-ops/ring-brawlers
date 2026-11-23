@@ -10,7 +10,7 @@ distribution can also rebuild from the artwork already embedded in index.html.
 
 Usage:  python3 build.py
 """
-import pathlib, sys, base64, json
+import pathlib, sys, base64, json, hashlib, re, io, shutil
 from scripts.complete_assets import BASE_FIGHTERS, load_complete
 
 root = pathlib.Path(__file__).parent
@@ -124,7 +124,7 @@ for key,name in [('lobby','stage-story-lobby'),('cup','flip-coffee'),('props','f
     menu_css.append('--'+key+'-art:url(data:image/webp;base64,'+art+')')
 out = (root / "src/template.html").read_text(encoding="utf-8")
 for mark, text in (
-    ("/*__CSS__*/", ":root{"+ ";".join(menu_css) + "}\n" + (root / "src/style.css").read_text(encoding="utf-8").strip() + "\n" + (root / "src/theme.css").read_text(encoding="utf-8").strip()),
+    ("/*__CSS__*/", (root / "src/style.css").read_text(encoding="utf-8").strip() + "\n" + (root / "src/theme.css").read_text(encoding="utf-8").strip()),
     ("/*__DATA__*/", "\n".join(data)),
     ("/*__JS__*/", ((root / "src/game.js").read_text(encoding="utf-8") + "\n" + (root / "src/bfantics.js").read_text(encoding="utf-8") + "\n" + (root / "src/story.js").read_text(encoding="utf-8")).replace("/*__TECHNIQUES__*/", (root / "src/techniques.js").read_text(encoding="utf-8")).replace("/*__CINEMATICS__*/", (root / "src/cinematics.js").read_text(encoding="utf-8")).replace("/*__TACTICS__*/", (root / "src/tactics.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_PERFORMANCE__*/", (root / "src/ultimate-performance.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_SCREEN__*/", (root / "src/ultimate-screen.js").read_text(encoding="utf-8")).replace("/*__ULTIMATES__*/", (root / "src/ultimates.js").read_text(encoding="utf-8")).replace("/*__EXPANSION__*/", (root / "src/expansion.js").read_text(encoding="utf-8")).replace("/*__ANTICS__*/", (root / "src/antics.js").read_text(encoding="utf-8")).replace("/*__ARENA__*/", (root / "src/arena.js").read_text(encoding="utf-8")).replace("/*__COMPLETE__*/", complete_players+"\n"+(root/"src/complete.js").read_text(encoding="utf-8")).strip()),
 ):
@@ -138,6 +138,39 @@ for mark, name in (("__LOADER_BG__", "bg.webp"), ("__LOADER_LINEUP__", "lineup.w
 # fonts (OFL / Apache, see assets/fonts) and the coffee QR
 for mark, path, mime in (("__FONT_BANGERS__", "assets/fonts/bangers.woff2", "font/woff2"), ("__FONT_MARKER__", "assets/fonts/permanent-marker.woff2", "font/woff2"), ("__COFFEE_QR__", "assets/coffee/qr.png", "image/png")):
     out = out.replace(mark, "data:" + mime + ";base64," + base64.b64encode((root / path).read_bytes()).decode("ascii"))
+
+# ---------- web build: assets as separate cacheable files ----------
+# The page itself stays small (code + frame data). Every embedded image, font and music track is written to
+# a/<content-hash>.<ext> and referenced by URL, so the browser downloads them in parallel, only when needed
+# (music, cutscene sheets and gag clips load on first use) and caches them for the next visit.
+# Heavy PNG sprite sheets are re-encoded as WebP. "python3 build.py --single" keeps the old one-file build.
+if "--single" not in sys.argv:
+    from PIL import Image
+    adir = root / "a"
+    if adir.exists():
+        shutil.rmtree(adir)
+    adir.mkdir()
+    ext = {"image/webp": "webp", "image/png": "png", "image/jpeg": "jpg", "audio/ogg": "ogg", "audio/mpeg": "mp3", "font/woff2": "woff2"}
+    seen = {}
+    def externalize(m):
+        mime, b64 = m.group(1), m.group(2)
+        if len(b64) < 6000 or mime not in ext:
+            return m.group(0)
+        if b64 in seen:
+            return seen[b64]
+        raw = base64.b64decode(b64)
+        if mime == "image/png" and len(raw) > 150000:
+            buf = io.BytesIO()
+            Image.open(io.BytesIO(raw)).save(buf, "WEBP", quality=90, alpha_quality=100, method=5)
+            if buf.tell() < len(raw) * .8:
+                raw, mime = buf.getvalue(), "image/webp"
+        name = "a/" + hashlib.sha1(raw).hexdigest()[:14] + "." + ext[mime]
+        (root / name).write_bytes(raw)
+        seen[b64] = name
+        return name
+    out = re.sub(r"data:([a-z]+/[a-z0-9.+-]+);base64,([A-Za-z0-9+/=]+)", externalize, out)
+    total = sum(p.stat().st_size for p in adir.iterdir())
+    print(f"assets: {len(list(adir.iterdir()))} files, {total / 1e6:.1f} MB")
 
 (root / "index.html").write_text(out, encoding="utf-8")
 print(f"index.html written ({len(out) / 1e6:.1f} MB)")

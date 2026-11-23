@@ -251,7 +251,17 @@ function ambience(on){const key=on&&AOK()?String(arenaId):'';if(key===ambKey)ret
   ambNodes={srcs,gains}}
 
 // ---------- loading ----------
-function loadImage(src){return new Promise((yes,no)=>{const i=new Image();let done=false;const timeout=setTimeout(()=>finish(new Error('Artwork decode timed out')),20000);function finish(error){if(done)return;done=true;clearTimeout(timeout);i.onload=i.onerror=null;error?no(error):yes(i)}i.onload=()=>finish();i.onerror=()=>finish(new Error('Artwork could not be decoded'));i.src=src})}
+function loadImageNow(src){return new Promise((yes,no)=>{const i=new Image();let done=false;const timeout=setTimeout(()=>finish(new Error('Artwork decode timed out')),20000);function finish(error){if(done)return;done=true;clearTimeout(timeout);i.onload=i.onerror=null;error?no(error):yes(i)}i.onload=()=>finish();i.onerror=()=>finish(new Error('Artwork could not be decoded'));i.src=src})}
+// Art is served as separate files: every request is shared (the same file is never fetched twice) and a
+// background queue downloads up to 6 files at once, in priority order, while the boot sequence decodes them.
+const imgPromises=new Map();
+function loadImage(src){let p=imgPromises.get(src);if(!p){p=loadImageNow(src);imgPromises.set(src,p);p.catch(()=>imgPromises.delete(src))}return p}
+function prefetchImages(list,lanes=6){const q=list.filter(s=>typeof s==='string'&&s);let i=0;const next=()=>{if(i<q.length)loadImage(q[i++]).catch(()=>{}).finally(next)};for(let k=0;k<lanes;k++)next()}
+const menuArt=()=>[...CH.map(c=>c.img),FX_SRC,...ARENA_ART.map(a=>a.src)];
+const fightArt=()=>[...EXTRA_ART,...ULTIMATE_ART.map(a=>a.src),...EXPRESSION_ART.map(a=>a.src),...Object.values(CINEMATIC_ART),...VERSUS_ART,
+  ...Object.values(ANTIC_ART).map(a=>a[0]),...Object.values(MOTION_ART.signatures).map(a=>a.src),...Object.values(MOTION_ART.backstage).map(a=>a.src),
+  MOTION_ART.lobby,MOTION_ART.props,MOTION_ART.gestures,MOTION_ART.mascots,MOTION_ART.faces,...MOTION_ART.fighters.map(f=>f.src),COMPLETE_ART.standsImage];
+let fullReady=false;
 const versusImages=[];
 let booting=false;
 function loadPct(f){const b=$('go');b.textContent='LOADING '+Math.round(f*100)+'%';try{window.rbLoader&&rbLoader.progress(f)}catch(e){}}
@@ -259,39 +269,38 @@ async function boot(){
  if(booting)return;booting=true;ready=false;window.rbReady=false;
  const button=$('go'),status=$('status'),assetCount=CH.length+1+ARENA_ART.length+EXTRA_ART.length+ULTIMATE_ART.length+EXPRESSION_ART.length+Object.keys(CINEMATIC_ART).length+Object.keys(ANTIC_ART).length;button.disabled=true;button.onclick=()=>{goLandscape();newMatch(false)};
  try{
-  // Load sequentially to avoid a simultaneous image-decode memory spike.
-  for(let n=0;n<CH.length;n++){const c=CH[n];loadPct(n/assetCount*100);status.textContent='Loading '+c.name+' · '+(n+1)+' / '+assetCount;
+  // Stage 1 (menu): fighter sheets, effects and arenas. The menu opens as soon as these are in.
+  // Stage 2 (fights): moves, ultimates, cutscenes, crowd. Loads in the background while you pick a fighter.
+  prefetchImages(menuArt());
+  const menuCount=CH.length+1+ARENA_ART.length;
+  for(let n=0;n<CH.length;n++){const c=CH[n];loadPct(n/menuCount);status.textContent='Loading '+c.name+' · '+(n+1)+' / '+CH.length;
    if(!c.im)c.im=await loadImage(c.img);c.frames.forEach(fr=>{fr.im=c.im;fr.scale=c.scale});c.f={};for(const [name,indices] of Object.entries(c.animations))c.f[name]=indices.map(i=>c.frames[i]);c.upper=c.f.upper;
   }
-  loadPct(CH.length/assetCount*100);status.textContent='Loading combat effects…';if(!fxImage)fxImage=await loadImage(FX_SRC);
-  await loadArenaArt(i=>{loadPct((CH.length+1+i)/assetCount*100);status.textContent='Loading '+ARENAS[i].name+' artwork · '+(CH.length+2+i)+' / '+assetCount});
-  await loadExtraArt(i=>{loadPct((13+i)/assetCount*100);status.textContent='Loading '+ROSTER[i].name+' new moves'});
-  await loadUltimateArt((i,name)=>{
-    loadPct((CH.length+1+ARENA_ART.length+EXTRA_ART.length+i)/assetCount*100);
-    const id=ULTIMATE_PLANS.findIndex(plan=>plan.art===name);
-    status.textContent=name==='anygma'?'Loading referee Anygma':id<0?'Loading casting poses':'Loading '+ROSTER[id].name+' ultimate';
-  });
+  loadPct(CH.length/menuCount);status.textContent='Loading combat effects…';if(!fxImage)fxImage=await loadImage(FX_SRC);
+  await loadArenaArt(i=>{loadPct((CH.length+1+i)/menuCount);status.textContent='Loading '+ARENAS[i].name+' artwork'});
+  // menu is usable now
+  buildCards();ready=true;status.textContent='';try{window.rbLoader&&rbLoader.ready()}catch(e){}
+  const stage2=(f,label)=>{const pct=Math.round(f*100);button.textContent='LOADING FIGHT ART '+pct+'%';const sb=$('storyBtn');if(sb)sb.dataset.wait=pct+'%'};
+  prefetchImages(fightArt());loadStandsArt();
+  await loadExtraArt(i=>stage2((CH.length+1+ARENA_ART.length+i)/assetCount));
+  await loadUltimateArt((i,name)=>stage2((CH.length+1+ARENA_ART.length+EXTRA_ART.length+i)/assetCount));
   const cinematicCount=Object.keys(CINEMATIC_ART).length;
-  await loadExpressions(i=>{
-    loadPct((assetCount-cinematicCount-EXPRESSION_ART.length+i)/assetCount*100);
-    status.textContent='Loading fighter expressions';
-  });
-  await loadCinematicArt(i=>{
-    loadPct((assetCount-cinematicCount+i)/assetCount*100);
-    status.textContent='Loading fighter actions and effects';
-  });
+  await loadExpressions(i=>stage2((assetCount-cinematicCount-EXPRESSION_ART.length+i)/assetCount));
+  await loadCinematicArt(i=>stage2((assetCount-cinematicCount+i)/assetCount));
   versusImages[0] ||= await loadImage(VERSUS_ART[0]);
-  status.textContent='Loading secret cutscenes…';
+  stage2(.97);
   await loadAnticArt();
   await loadModelArt();
-  buildCards();ready=true;window.rbReady=true;button.disabled=false;button.textContent='ENTER THE RING';status.textContent='';try{window.rbLoader&&rbLoader.ready()}catch(e){}
+  fullReady=true;buildCards();window.rbReady=true;button.disabled=false;button.textContent='ENTER THE RING';status.textContent='';{const sb=$('storyBtn');if(sb)delete sb.dataset.wait}
  }catch(e){status.textContent='Loading failed: '+e.message+'. Download this HTML and open it directly in Chrome or Edge, then retry.';button.disabled=false;button.textContent='RETRY LOADING';button.onclick=()=>boot();console.error(e)}finally{booting=false}
 }
-function buildCards(){const box=$('cards');box.innerHTML='';CH.forEach((c,i)=>{const b=document.createElement('button');b.className='card'+(i===sel?' sel':'');b.style.setProperty('--c',COL[i]);b.setAttribute('aria-pressed',i===sel);const cn=document.createElement('canvas');cn.width=180;cn.height=195;let g=cn.getContext('2d'),fr=idleExpressionFrame(i,0)||c.f.idle[0],bb=fr.bounds||{x:0,y:0,w:fr.w,h:fr.h},s=165/bb.h;g.drawImage(fr.im,fr.x+bb.x,fr.y+bb.y,bb.w,bb.h,(180-bb.w*s)/2,188-bb.h*s,bb.w*s,bb.h*s);b.append(cn);let name=document.createElement('div');name.className='name';name.textContent=c.name;let role=document.createElement('div');role.className='role';role.textContent=ROSTER[i].role;b.append(name,role);b.onclick=()=>{sel=i;previewStartedAt=vclock;store.set('sel',i);buildCards();sfx.ui()};box.append(b)});
+// Fighters hidden from the main menu (not pickable, not in the rival list). Zaito (6) still appears in the stands and cutaways.
+const MENU_HIDDEN=new Set([6]);
+function buildCards(){if(MENU_HIDDEN.has(sel)){sel=0;store.set('sel',0)}const box=$('cards');box.innerHTML='';CH.forEach((c,i)=>{if(MENU_HIDDEN.has(i))return;const b=document.createElement('button');b.className='card'+(i===sel?' sel':'');b.style.setProperty('--c',COL[i]);b.setAttribute('aria-pressed',i===sel);const cn=document.createElement('canvas');cn.width=180;cn.height=195;let g=cn.getContext('2d'),fr=idleExpressionFrame(i,0)||c.f.idle[0],bb=fr.bounds||{x:0,y:0,w:fr.w,h:fr.h},s=165/bb.h;g.drawImage(fr.im,fr.x+bb.x,fr.y+bb.y,bb.w,bb.h,(180-bb.w*s)/2,188-bb.h*s,bb.w*s,bb.h*s);b.append(cn);let name=document.createElement('div');name.className='name';name.textContent=c.name;let role=document.createElement('div');role.className='role';role.textContent=ROSTER[i].role;b.append(name,role);b.onclick=()=>{sel=i;previewStartedAt=vclock;store.set('sel',i);buildCards();sfx.ui()};box.append(b)});
   const skill=TECHNIQUES[sel],r=ROSTER[sel],sp=clamp((r.speed-170)/(285-170),.08,1),pw=clamp((r.power-.86)/(1.14-.86),.08,1);$('preview').style.setProperty('--c',r.color);
   $('fighterInfo').innerHTML='<h3>'+r.name+'</h3><div class="tag">'+r.role+'</div><div class="stat">SPEED<i><b style="width:'+Math.round(sp*100)+'%"></b></i></div><div class="stat">POWER<i><b style="width:'+Math.round(pw*100)+'%"></b></i></div><div class="mv"><span><b>←↑□</b>'+r.upper+'</span><span><b>↓→□</b>'+r.wave+'</span><span><b>↓↓□</b>'+skill.name+' · '+skill.cost+'</span><span><b>L2</b>'+r.super+'</span></div><p class="pas">'+r.passive+'</p><p class="det">'+ULTIMATE_PLANS[sel].detail+'</p><p class="det"><strong>○ '+EXTRA_NAMES[sel][4]+'</strong> '+ULTIMATE_PLANS[sel].signature+'</p><p class="det"><strong>HOLD ○</strong> '+(CHARGED_POWER[sel]?.note||'Charged power adds damage and briefly stuns on a clean hit.')+'</p><p class="det"><strong>↓↓□ '+skill.name+'</strong> '+skill.detail+'</p><p class="det keyhint">PC: J □ · K △ · Space ✕ · L ○ · Q L1 · E L2 · Esc › Settings for the command list</p>'}
 function mk(ci,x,face,human){return{...tacticsState(),ci,x,face,human,slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,hp:MAX_HP,shownHP:MAX_HP,mt:40,st:'idle',t:0,air:0,vy:0,vx:0,wins:0,hit:false,connected:false,back:false,backHeld:false,parryWindow:0,parryCooldown:0,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ghostTime:0,ctl:{dir:0},land:0,stepT:0,auraT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false}}
-function newMatch(same){if(!ready)return;const inStory=storyPre(same);difficulty=inStory?storyDifficulty():$('difficulty').value;const requested=$('rivalSelect')?.value,pick=requested===''||requested===undefined?NaN:Number(requested);const enemy=inStory?storyEnemy():same&&P2?P2.ci:Number.isInteger(pick)&&pick>=0&&pick<CH.length&&pick!==sel?pick:(sel+1+Math.floor(Math.random()*(CH.length-1)))%CH.length;resetAntics();standTime=0;featured.resetFx();P1=mk(sel,300,1,true);P2=mk(enemy,660,-1,false);if(inStory)storySetup();stands.select(backgroundCast());resetCameraPrank();stats={dealt:0,taken:0,parries:0,blocks:0,supers:0,t0:performance.now()};totalHits=0;maxCombo=0;round=1;paused=false;confettiT=0;$('menu').style.display='none';$('result').style.display='none';$('pauseScreen').style.display='none';startRound();phase='versus';syncMusic();refreshMoveLabels();buzz(15)}
+function newMatch(same){if(!ready||!fullReady)return;const inStory=storyPre(same);difficulty=inStory?storyDifficulty():$('difficulty').value;const requested=$('rivalSelect')?.value,pick=requested===''||requested===undefined?NaN:Number(requested);const enemy=inStory?storyEnemy():same&&P2?P2.ci:Number.isInteger(pick)&&pick>=0&&pick<CH.length&&pick!==sel?pick:(sel+1+Math.floor(Math.random()*(CH.length-1)))%CH.length;resetAntics();standTime=0;featured.resetFx();P1=mk(sel,300,1,true);P2=mk(enemy,660,-1,false);if(inStory)storySetup();stands.select(backgroundCast());resetCameraPrank();stats={dealt:0,taken:0,parries:0,blocks:0,supers:0,t0:performance.now()};totalHits=0;maxCombo=0;round=1;paused=false;confettiT=0;$('menu').style.display='none';$('result').style.display='none';$('pauseScreen').style.display='none';startRound();phase='versus';syncMusic();refreshMoveLabels();buzz(15)}
 function refreshMoveLabels(){
   const r=ROSTER[P1.ci], skill=TECHNIQUES[P1.ci];
   const skillButton=document.querySelector('[data-k=technique]');
@@ -994,7 +1003,7 @@ function loop(n){const real=clamp((n-last)/1000,0,.1);last=n;if(real>0)fpsEma+=(
   if(!paused){slowT=Math.max(0,slowT-real);const el=real*(slowT>0?lerp(1,SLOW,clamp(slowT/.25,0,1)):1);accumulator+=el;let guard=0;
     while(accumulator>=FIXED_DT&&guard++<30){if(P1&&phase!=='menu'&&phase!=='end'){for(const f of[P1,P2]){f.prevX=f.x;f.prevAir=f.air}for(const s of shots){s.px=s.x;s.py=s.y}step(FIXED_DT)}accumulator-=FIXED_DT}
     if(guard>=30)accumulator=0;renderAlpha=accumulator/FIXED_DT;if(phase!=='antic'&&!cameraPrank&&!sockCutaway)fxUpdate(el,real)}else{accumulator=0;renderAlpha=1}
-  draw();if(phase==='menu')drawPreview();requestAnimationFrame(loop)}
+  draw();if(phase==='menu'){try{drawPreview()}catch(e){if(fullReady)console.error(e)}}requestAnimationFrame(loop)}
 {const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}orientTick();$('rotTap').onclick=goLandscape;padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
 // Local diagnostics for smoke tests and frame inspection.
 window.ringDebug={get state(){return{phase,paused,round:1,timer,P1,P2,shots,effects,ready,parts:parts.length,fps:fpsEma,renderScale:RS,lowQuality:lowQ(),cam,hitstop,msg}},arenas:ARENAS,get arenaImages(){return arenaImages},setArena,atlas:()=>atlasCanvas,hit,step,updateDefense,floorDamage,resetEnvironment,get environment(){return{floorScars,props,envFx}},moves:ATK,press,held,start:(f,m)=>start(f,m)};

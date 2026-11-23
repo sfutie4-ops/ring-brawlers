@@ -53,7 +53,8 @@ const completeMoves = {
 const featured=createFeaturedArt(COMPLETE_ART.scenes,COMPLETE_ART.vfx,COMPLETE_ART.sources);
 const ringAntics=createRingAntics(COMPLETE_ART.antics,'',COMPLETE_ART.anticImages);
 const standTexture=new Image();
-standTexture.src=COMPLETE_ART.standsImage;
+// the crowd-stands atlas is fetched in boot stage 2, after the menu is up
+function loadStandsArt(){if(!standTexture.src)standTexture.src=COMPLETE_ART.standsImage}
 const stands=createBackgroundStands(CH,standTexture,COMPLETE_ART.stands,(ci,pose,index)=>({
   frame:sceneBody(ci,pose,pose==='walk'?index/10:index*.09),height:standingHeight(ci)
 }),drawBackstageSprite);

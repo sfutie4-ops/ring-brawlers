@@ -70,7 +70,7 @@ def load_complete(root):
     music = {title:_url(audio/file) for title,file in [
         ("Offline","Offline.ogg"),("Try Me","Try_Me.ogg")]}  # CC0 tracks only, see addons/complete/bgm/BGM_SOURCES.md
     data = dict(stats=stats,scenes=scenes,vfx=vfx,sources=sources,antics=antics,music=music,
-                anticImages={key:_url(arena/clip["png"]) for key,clip in antics["animations"].items()},
+                anticImages={},  # Vol. 2 antics are not drawn in FliptapWars (story antics replace them)
                 stands=_read(assets/"stands/assets/stands-atlas.json"),
                 standsImage=_url(assets/"stands/assets/stands-atlas.png"))
     scripts = "\n".join((assets/path).read_text(encoding="utf-8") for path in (

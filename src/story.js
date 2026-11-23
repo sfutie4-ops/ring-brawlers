@@ -158,7 +158,7 @@ sfx.laugh=()=>{for(let i=0;i<5;i++){const d=i*.13;tone(330-i*18,.09,'sawtooth',.
   const sl=document.querySelector('#settings .setlinks');if(sl)sl.insertAdjacentHTML('afterbegin','<button id="setRanks" class="chip big">🏆 Rankings</button>');
   document.querySelectorAll('#storyLadder .closeModal,#stageClear .closeModal,#champ .closeModal,#runOver .closeModal,#ranks .closeModal').forEach(b=>b.onclick=()=>{b.closest('.modal').style.display='none'});
   document.querySelectorAll('#storyLadder,#champ,#runOver,#ranks').forEach(m=>m.onclick=e=>{if(e.target===m)m.style.display='none'});
-  $('storyBtn').onclick=()=>{if(!ready)return;goLandscape&&goLandscape();storyNew();storyBanner();showLadder()};
+  $('storyBtn').onclick=()=>{if(!ready||!fullReady)return;goLandscape&&goLandscape();storyNew();storyBanner();showLadder()};
   $('slFight').onclick=storyFight;$('scNext').onclick=()=>{$('stageClear').style.display='none';showLadder()};
   $('lRematch').onclick=loseRematch;$('lChoose').onclick=loseChoose;
   $('quitStory').onclick=()=>{story={on:false};storyBanner()};
