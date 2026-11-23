@@ -435,3 +435,33 @@
 #secretLolo{position:absolute;width:100px;height:100px;right:4%;bottom:0;z-index:1;opacity:0;background:var(--lolo-art) 0 0 / 400% 300%;pointer-events:none;animation:loloPeek 41s var(--lolo-delay,12s) ease-in-out infinite}
 @keyframes loloPeek{0%,7%,100%{opacity:0;transform:translateY(100%)}1%,5%{opacity:1;transform:translateY(0)}}
 @media (prefers-reduced-motion:reduce){#secretLolo{animation:none}}
+
+/* ---------- UI pass: cleaner menu bar, phone layout fixes ---------- */
+.matchopts{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin:14px 0 6px}
+.options{flex-wrap:nowrap!important;gap:14px!important}
+#resultMode{display:none!important}
+#cards .card .name{text-shadow:2px 2px 0 #000}
+#cards .card.sel{animation:cardSel .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes cardSel{0%{transform:rotate(var(--rot)) scale(.92)}100%{transform:rotate(var(--rot)) scale(1)}}
+@media(max-height:520px) and (orientation:landscape){
+  #cards{grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:8px!important}
+  .animation-picker{display:none}
+  .options{padding:6px 8px!important;gap:10px!important}
+  .options .go{font-size:18px!important;padding:8px 20px!important}
+  .storybtn{font-size:18px!important;padding:8px 18px!important}
+  .seg button{font-size:14px!important;padding:6px 10px!important}
+  .opponent-select,.bonus-antics{font-size:14px;padding:3px 8px}.opponent-select select{font-size:13px;padding:4px 6px!important}
+  .pmoves{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+  .pmoves .pm{min-width:0}.pmoves .pm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #pauseScreen .sheet{width:min(760px,94vw)!important}
+}
+@media(max-height:520px) and (orientation:landscape){
+  #pauseScreen .sheet{padding:10px 16px 12px!important;max-height:calc(100dvh - 12px);overflow-y:auto}
+  #pauseScreen h2{font-size:28px!important;margin:0!important;line-height:1}
+  #pauseScreen .match-line{margin:2px 0 6px;font-size:12px}
+  #pauseScreen .pfighter{margin:0 0 6px!important;transform:scale(.8);transform-origin:center}
+  .pmoves .pm{padding:3px 8px!important}
+  #pauseScreen .menuBtns{display:inline-block;margin:6px 4px 0!important;vertical-align:middle}
+  #pauseScreen .menuBtns .chip{padding:7px 12px!important;font-size:14px!important}
+  #pauseScreen button.go,#pauseScreen button.secondary{font-size:16px!important;padding:8px 16px!important;margin:6px 4px 0!important;vertical-align:middle}
+}

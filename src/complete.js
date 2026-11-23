@@ -58,23 +58,39 @@ const stands=createBackgroundStands(CH,standTexture,COMPLETE_ART.stands,(ci,pose
   frame:sceneBody(ci,pose,pose==='walk'?index/10:index*.09),height:standingHeight(ci)
 }),drawBackstageSprite);
 let standTime=0;
-let sockCutaway=false,sockCutawayPlayed=false;
+let sockCutaway=false,sockCutawayPlayed=false,catPause=false,catCaption=false;
 const SOCK_RETURN=10.3;
-const SOCK_CUT_END=14.5;
+// The cutaway keeps rolling until the stray cat that followed them back has run off the deck.
+const SOCK_CUT_END=16.1;
 
 function stepSockCutaway(dt){
   if(phase!=='fight'||reduced||!stands.laneFor('socks'))return false;
   if(!sockCutaway){
     if(sockCutawayPlayed||standTime<SOCK_RETURN||sockCat||cameraPrank||superScreen)return false;
-    sockCutaway=sockCutawayPlayed=true;
+    sockCutaway=sockCutawayPlayed=true;catCaption=false;
     standTime=SOCK_RETURN;
     clearInput();
+    cutTransition();
+    setStoryCaption('MEANWHILE, IN THE STANDS…','Smugglaz & Zaito come back… sharing ONE pair of socks',4.2);
   }
   standTime=Math.min(SOCK_CUT_END,standTime+dt);
+  if(!catCaption&&standTime>=14.6){catCaption=true;setStoryCaption('WAIT… WHOSE CAT IS THAT?','a dirty stray followed them back from the street',1.6)}
   if(standTime>=SOCK_CUT_END){
-    sockCutaway=false;
+    // back to the ring, still paused: the cat leaps down from the stands and swipes a fighter
+    sockCutaway=false;catPause=true;sockCatAt=standTime;cutTransition();
     clearInput();
   }
+  return true;
+}
+// Fight stays frozen while the stray cat jumps into the ring; play resumes the moment it swipes.
+function stepCatPause(dt){
+  if(!catPause)return false;
+  if(phase!=='fight'||reduced){catPause=false;return false}
+  const before=!!sockCat;
+  updateSockCat(dt);
+  if(sockCat&&!before){cam.focus=sockCat.target;cam.focusT=reduced?0:1.3}
+  if(sockCat&&!before)setStoryCaption('STRAY CAT ATTACK!','it jumps into the ring and swipes '+CH[sockCat.target.ci].name,2.4);
+  if(!sockCat||sockCat.elapsed>=CAT_SWIPE_AT+.04){catPause=false;clearInput()}
   return true;
 }
 let cameraPrank=null,cameraPrankAt=Infinity,lensTilt=0,lensTiltLeft=0;
@@ -188,7 +204,7 @@ function drawSignatureUltimate(f,cast,plan,alpha){
 
 function resetCameraPrank(){
   cameraPrank=null;
-  sockCutaway=sockCutawayPlayed=false;
+  sockCutaway=sockCutawayPlayed=catPause=catCaption=false;
   cameraPrankAt=stands.laneFor('oddball')==null?Infinity:13+Math.random()*10;
   lensTilt=lensTiltLeft=0;
 }
@@ -219,6 +235,7 @@ function stepCameraPrank(dt){
   if(lane==null)return false;
   cameraPrank={time:0,lane,direction:lane<W/2?1:-1};
   cameraPrankAt=Infinity;
+  setStoryCaption('AKLAS GRABS THE CAMERA','he left his seat in the stands to make faces for the stream',4.4);
   clearInput();
   return true;
 }
@@ -287,7 +304,7 @@ function syncMusic(){
 }
 
 function completeMoveSet(ci){return completeMoves[CH[ci]?.id]}
-function completeEvent(name){if(!reduced){ringAntics.event(name);bfEvent(name)}}
+function completeEvent(name){if(!reduced)bfEvent(name)}
 function playCompleteFx(f,move){
   const id=completeMoveSet(f.ci)?.fx[move];
   if(id&&!reduced)featured.playFx(id,f.x+f.face*57,GY-f.air-98,f.face,vclock);
@@ -308,7 +325,7 @@ function updateCompleteRound(dt){
     refereeX=lerp(refereeX,refereeMark,1-Math.exp(-dt*3.4));
   }
   const calm=!!P1&&phase==='fight'&&[P1,P2].every(f=>['idle','walk','block'].includes(f.st)&&f.air===0);
-  ringAntics.step(dt,{ambient:phase==='fight',idle:calm,reducedMotion:reduced});
+  ringAntics.step(dt,{ambient:false,idle:false,reducedMotion:true});
   bfStep(dt);
 }
 

@@ -205,12 +205,14 @@ function finaleClips(winner,loser) {
   if([winner.ci,loser.ci].includes(FIGHTER.ZAITO)){
     scenes.push({...clip('loloPickpocket','LOLO, ANO ’YAN?',3.85),cues:[1.17,1.61,2.84]});
   }
-  // Every winner gets a gag: fighters without their own victory skit get a random one, and now and then
-  // a bonus gag plays on top (Anygma's batok, the surprise turtle or a crown shower).
-  const gags=[['batok','ANYGMA HAS A WORD',5.4],['turtle','TURTLE SURPRISE',5.3],['praise','CROWN SHOWER',4.0]]
-    .filter(([kind])=>!scenes.some(s=>s.kind===kind));
-  const hasOwn=scenes.length>0||CH[winner.ci].id==='badang'||winner.ci>=BASE_ROSTER;
-  if(gags.length&&(!hasOwn||Math.random()<.4))scenes.push(clip(...gags[Math.floor(Math.random()*gags.length)]));
+  // Extra gags only when the match gives them a reason (shown under the title):
+  //  - a flawless win (winner kept 90%+ HP) earns a crown shower
+  //  - a loser who barely fought back (dealt under 20% HP) or ran out the clock gets Anygma's batok
+  const dealtByLoser=MAX_HP-winner.hp;
+  if(!scenes.some(s=>s.kind==='praise')&&winner.hp>=MAX_HP*.9)
+    scenes.push({...clip('praise','FLAWLESS!',4.0),why:CH[winner.ci].name+' barely got touched: the crowd throws crowns'});
+  else if(!scenes.some(s=>s.kind==='batok')&&(dealtByLoser<MAX_HP*.2||loser.hp>0))
+    scenes.push({...clip('batok','ANYGMA HAS A WORD',5.4),why:loser.hp>0?'time ran out and '+CH[loser.ci].name+' was behind':CH[loser.ci].name+' barely fought back'});
   return scenes;
 }
 
@@ -469,6 +471,22 @@ function drawLooniePilot({lead,other},t,x,y){
   drawBackstageSprite(ctx,'pilotrun',jump<1?1:2+Math.floor(t*13)%2,xx,yy,52,face);
 }
 
+// one line under each skit's title that says why it is happening
+const ANTIC_WHY={
+  praise:c=>CH[c.lead.ci].name+' won: the crowd crowns the king',
+  batok:c=>'Loonie beat Zaito, so Anygma steps in',
+  doubleCrown:c=>'Batas won: one crown is not enough',
+  magician:c=>'Abra won: time for his disappearing trick',
+  ufo:c=>'Aklas won: his ride home just arrived',
+  turtle:c=>'Smugglaz won: his pet turtle wants to celebrate',
+  rose:c=>'Apekz won: he brought a rose for the crowd',
+  push:c=>'Apekz lost: the host walks him off the stage',
+  looniePilot:c=>'Loonie lost: he escapes in his alien pod',
+  loloPickpocket:c=>'Lolo sneaks in while everyone watches Zaito',
+  duel:c=>'Batas and Loonie have history',
+  postBattle:c=>'the emcees trade one last line',
+  badangWin:c=>'Badang won: papaya party'
+};
 const ANTIC_RENDERERS = {
   featured:drawFeaturedClip, badangWin:drawBadangWin, postBattle:drawPostBattle,
   loloPickpocket:drawLoloPickpocket,looniePilot:drawLooniePilot,
@@ -507,6 +525,9 @@ function drawAntic() {
     clip.kind==='turtle'&&t>2.8?'HAHAHAHA!':clip.title;
   const headerY=clip.kind==='prank'?44:59;
   if(headline)dtext(headline,480,headerY,clip.kind==='prank'?31:38,'#f5ff9b');
+  const why=clip.why||ANTIC_WHY[clip.kind]?.(clip);
+  if(why&&clip.kind!=='prank'){const k=reduced?1:clamp(t/.4,0,1);ctx.save();ctx.globalAlpha=k;ctx.font='700 13px Arial,sans-serif';const w=ctx.measureText(why).width+28;
+    ctx.fillStyle='#0b0712d8';para(480-w/2,headerY+12,w,24,6);ctx.fill();ctx.fillStyle='#ffd23f';ctx.fillRect(480-w/2,headerY+12,4,24);text(why,480,headerY+29,13,'#f4efe6');ctx.restore()}
   if(clip.kind==='prank')text('BONUS ANTICS',480,126,12,'#f9e9ff');
 }
 
@@ -602,7 +623,7 @@ let sockCat=null,sockCatAt=Infinity,sockCatDeparted=false;
 
 function resetSockCat(){
   sockCat=null;
-  sockCatAt=15.94+Math.random()*1.04;
+  sockCatAt=Infinity; // set by the sock cutaway: the cat only appears after the story shows where it came from
   sockCatDeparted=false;
 }
 
