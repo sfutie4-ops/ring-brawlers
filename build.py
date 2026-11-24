@@ -106,10 +106,26 @@ for name, (columns, cell) in json.loads((antic_dir / "runtime.json").read_text()
 bf_dir = root / "addons/battlefield-antics"
 bf_manifest = json.loads((bf_dir / "manifest.json").read_text(encoding="utf-8"))
 bf_clips = {}
+def bf_cut(clip):
+    """True when a clip's art runs into the top of its frames: those strips were sliced through the middle of the
+    figures (a chopped head, or the feet of the row above poking in), so the clip is left out of the game."""
+    from PIL import Image
+    alpha = Image.open(bf_dir / clip["png"]).convert("RGBA").getchannel("A")
+    for f in clip["frames"]:
+        x, y, w, h = f["rect"]
+        if sum(alpha.getpixel((x + i, y)) > 128 for i in range(w)) > w * .02:
+            return True
+    return False
+bf_skipped = []
 for cid, clip in bf_manifest["animations"].items():
+    if bf_cut(clip):
+        bf_skipped.append(cid)
+        continue
     bf_clips[cid] = dict(src="data:image/webp;base64," + base64.b64encode((bf_dir / clip["png"]).read_bytes()).decode("ascii"),
         frames=[f["rect"] + f["pivot"] for f in clip["frames"]], ms=clip["frameMs"], order=clip.get("replayOrder", [0, 1, 2, 3]), loop=clip["loop"], layer={"background": "back"}.get(clip["layer"], clip["layer"]),
         event=clip["event"], cd=clip.get("cooldownMs", 6000) / 1000, title=clip["title"])
+if bf_skipped:
+    print(f"battlefield antics: left out {len(bf_skipped)} clips whose art is cut off: " + ", ".join(bf_skipped))
 data.append("const BF_ANTICS=" + json.dumps(dict(clips=bf_clips), separators=(",", ":")) + ";")
 data.append("const ANTIC_ART=" + json.dumps(antic_art, separators=(",", ":")) + ";")
 

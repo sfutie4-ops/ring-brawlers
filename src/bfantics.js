@@ -8,11 +8,12 @@
 // Story captions also explain the cutaways (the sock cutaway, the cat attack, Aklas grabbing the camera).
 const bfImg=new Map();
 function bfImage(id){let i=bfImg.get(id);if(!i){i=new Image();i.src=BF_ANTICS.clips[id].src;bfImg.set(id,i)}return i}
-// event → which clip, which layer behaviour, and the caption that explains it
+// event → which clip, which layer behaviour, and the caption that explains it. Clips whose art is cut off are left
+// out by build.py, and pickFree() skips them, so each list also names a clip that is in the game
 const BF_BEATS={
   parry:{overlay:['rebuttal_boomerang','rebuttal_receipt'],title:'REBUTTAL!',sub:f=>bfName(f)+' turned the bar around',col:'#29c8ff',crowd:['point_to_friend'],shout:['TINURO!','BALIK!']},
   combo3:{overlay:['multis_domino'],title:'MULTIS!',sub:f=>bfName(f)+' chains 3 hits',col:'#ffd23f'},
-  combo5:{crowd:['silent_gasp','crowd_side_eye'],shout:['GRABE!','5 HITS?!','SHEESH!']},
+  combo5:{crowd:['silent_gasp','crowd_side_eye','sabay_iling','tawa_tiklop'],shout:['GRABE!','5 HITS?!','SHEESH!']},
   heavy:{crowd:['sabay_iling','phone_drop_save','hoodie_hide','tawa_tiklop'],shout:['OOF!','SAKIT!','OHHH!','AWIT!']},
   ultimate:{crowd:['napaupo'],shout:['ANO YON?!','PATAY!']},
   whiff:{overlay:['stumble_tiles'],title:'WHIFF!',sub:f=>bfName(f)+' hit nothing but air',col:'#ff8f96'},
@@ -20,7 +21,7 @@ const BF_BEATS={
   last10:{overlay:['buzzer_button'],title:'LAST 10 SECONDS!',sub:()=>'finish it',col:'#ff5a4e'},
   timeup:{overlay:['oras_clock'],title:'TIME!',sub:()=>'the clock ran out',col:'#ffd23f'},
   draw:{overlay:['tie_scale'],title:'DRAW',sub:()=>'same HP on both sides',col:'#fff3d6'},
-  win:{crowd:['wave_pocket','one_person_clap'],shout:['WOOO!','PANALO!','AYOS!']}
+  win:{crowd:['wave_pocket','one_person_clap','napaupo','tawa_tiklop'],shout:['WOOO!','PANALO!','AYOS!']}
 };
 const bfName=f=>f&&CH[f.ci]?CH[f.ci].name:'';
 const BF_FLOOR=402;
@@ -50,7 +51,7 @@ function bfHit(a,d,at,dmg,blocking){if(blocking||at.assist||!P1)return;bfWhiffs[
   if(dmg>=13&&Math.random()<.6)bfBeat('heavy',a)}
 function bfParry(def){bfBeat('parry',def)}
 // a crate or barrel was smashed: a stagehand comes to sweep it up a little later
-function bfCrateBroken(p){if(!reduced)bfCrewQueue.push({prop:p,at:bfT+2.6})}
+function bfCrateBroken(p){if(!reduced&&BF_ANTICS.clips.sweep_confetti)bfCrewQueue.push({prop:p,at:bfT+2.6})}   // the sweep clip is left out while its art is cut off
 function bfStep(dt){bfT+=dt;bfActive=bfActive.filter(a=>bfT-a.t0<a.life);
   if(!P1||reduced)return;
   stepCrew(dt);
