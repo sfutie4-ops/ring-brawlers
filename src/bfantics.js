@@ -112,7 +112,9 @@ let storyCap=null,cutT=-1e9;
 // a quick dip to black when the camera cuts between the ring and the stands
 function cutTransition(){if(!reduced)cutT=performance.now()}
 function setStoryCaption(title,sub,dur=3.2){storyCap={title,sub,t0:performance.now(),dur}}
-function drawStoryCaption(){const ca=1-(performance.now()-cutT)/240;if(ca>0){ctx.fillStyle=`rgba(5,4,12,${ca.toFixed(3)})`;ctx.fillRect(0,0,W,H)}if(!storyCap)return;
+// the dip-to-black part of a cut, drawn over the finished frame
+function drawCutDip(){const ca=1-(performance.now()-cutT)/240;if(ca>0){ctx.save();ctx.setTransform(RS,0,0,RS,0,0);ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';ctx.fillStyle=`rgba(5,4,12,${ca.toFixed(3)})`;ctx.fillRect(0,0,W,H);ctx.restore()}}
+function drawStoryCaption(){drawCutDip();if(!storyCap)return;
   const age=(performance.now()-storyCap.t0)/1000;if(age>storyCap.dur){storyCap=null;return}
   // cutaways have no HUD, so the caption sits top-left; during the fight it hangs centred under the timer
   const hud=!sockCutaway&&!cameraPrank,k=reduced?1:easeOut(clamp(age/.35,0,1)),out=clamp((storyCap.dur-age)/.35,0,1);
