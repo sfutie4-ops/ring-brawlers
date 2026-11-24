@@ -552,7 +552,7 @@ function fxUpdate(dt,real){showtimeUpdate(dt,real);advanceUltimateScreen(real);e
 // ---------- sprite drawing ----------
 
 const outlineCache=new WeakMap();
-function outlined(fr){let map=outlineCache.get(fr.im);if(!map){map=new Map();outlineCache.set(fr.im,map)}const key=fr.x+','+fr.y+','+fr.w+','+fr.h;let out=map.get(key);if(out)return out;const mask=tintScratch(fr,'#090d17',0,0);out=artCanvas(fr.w+6,fr.h+6);const o=out.getContext('2d');for(const [x,y] of OUTLINE_OFFSETS)o.drawImage(mask,0,0,fr.w,fr.h,3+x,3+y,fr.w,fr.h);o.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,3,3,fr.w,fr.h);map.set(key,out);return out}
+function outlined(fr){let map=outlineCache.get(fr.im);if(!map){map=new Map();outlineCache.set(fr.im,map)}const key=fr.x+','+fr.y+','+fr.w+','+fr.h;let out=map.get(key);if(out)return out;const mask=tintScratch(fr,'#090d17',0,0);out=artCanvas(fr.w+6,fr.h+6);const o=out.getContext('2d');for(const [x,y] of OUTLINE_OFFSETS)o.drawImage(mask,0,0,fr.w,fr.h,3+x,3+y,fr.w,fr.h);drawFrame(o,fr,3,3);map.set(key,out);return out}
 // Cached art (fighter skins, shadows, glows, silhouettes, HUD faces, floor cracks) is painted once on a CPU-backed
 // canvas and from then on only drawn. Painting hundreds of small GPU canvases in a row froze Chrome's GPU pipeline
 // for seconds in testing; a CPU canvas is copied to the GPU once, the first time the game canvas draws it (the
@@ -566,6 +566,62 @@ function artSrc(im){return sheetBits.get(im)||im}
 const cachedFrames=new Set();
 function dropArt(keep){const recs=new Set();for(const fr of cachedFrames)if(!keep.has(fr)){const r=skinMap.get(fr);if(r)recs.add(r);skinMap.delete(fr);shadowMap.delete(fr);softMap.delete(fr);traceMap.delete(fr);for(const m of silCache.values())m.delete(fr);cachedFrames.delete(fr)}
   if(recs.size)for(let i=skinOrder.length;i--;)if(recs.has(skinOrder[i][0]))skinOrder.splice(i,1)}
+// ---------- sprite clean-up: once per pose, before its cached art is baked ----------
+// Some poses on the older sheets were drawn bigger than their cell, so the art stops in a hard straight line at the
+// side or top of the frame, and a few frames carry bits of the neighbouring cell. Before a pose is baked, small
+// pieces touching the frame edge are removed, art cut flat at a side or the top fades out over a few pixels (the
+// bottom is left alone: the feet stand on it), and the pose gets a light sharpen, as fighters are drawn about 1.6x
+// their pixel size. frameArt() keeps the last few cleaned poses, so the builders of one pose share the work.
+const cleanLRU=new Map();
+function frameArt(fr){let a=cleanLRU.get(fr);if(a){cleanLRU.delete(fr);cleanLRU.set(fr,a);return a}
+  a=cleanFrame(fr);cleanLRU.set(fr,a);if(cleanLRU.size>8)cleanLRU.delete(cleanLRU.keys().next().value);return a}
+// draw pose fr, cleaned, into g at (dx,dy)
+function drawFrame(g,fr,dx,dy,dw=fr.w,dh=fr.h){const a=frameArt(fr);g.drawImage(a.im,a.x,a.y,fr.w,fr.h,dx,dy,dw,dh)}
+function cleanFrame(fr){const w=fr.w,h=fr.h,c=artCanvas(w,h),g=c.getContext('2d');g.drawImage(artSrc(fr.im),fr.x,fr.y,w,h,0,0,w,h);
+  let im;try{im=g.getImageData(0,0,w,h)}catch(e){return {im:artSrc(fr.im),x:fr.x,y:fr.y}}
+  const d=im.data;let edge=false;for(let x=0;x<w&&!edge;x++)edge=d[x*4+3]>24;for(let y=0;y<h&&!edge;y++)edge=d[y*w*4+3]>24||d[(y*w+w-1)*4+3]>24;
+  if(edge)removeStrays(d,w,h);
+  fadeCuts(d,w,h);if(!lowQ())sharpenArt(d,w,h,.5);
+  g.putImageData(im,0,0);return {im:c,x:0,y:0}}
+// clear opaque pieces that touch the frame edge and are under a fifth the size of the figure (8-connected)
+function removeStrays(d,w,h){const lab=new Int32Array(w*h).fill(-1),stack=new Int32Array(w*h),comps=[];
+  for(let i=0;i<w*h;i++){if(lab[i]>=0||d[i*4+3]<=24)continue;const id=comps.length;let sp=0,n=0,border=false;stack[sp++]=i;lab[i]=id;
+    while(sp){const j=stack[--sp];n++;const x=j%w,y=(j-x)/w;if(x===0||y===0||x===w-1||y===h-1)border=true;
+      for(let dy=-1;dy<=1;dy++){const yy=y+dy;if(yy<0||yy>=h)continue;for(let dx=-1;dx<=1;dx++){const xx=x+dx;if(xx<0||xx>=w)continue;const k=yy*w+xx;if(lab[k]<0&&d[k*4+3]>24){lab[k]=id;stack[sp++]=k}}}}
+    comps.push({n,border})}
+  let main=0;for(let k=1;k<comps.length;k++)if(comps[k].n>comps[main].n)main=k;
+  const drop=comps.map((c,k)=>k!==main&&c.border&&c.n<comps[main].n*.2);if(!drop.some(Boolean))return;
+  for(let i=0;i<w*h;i++)if(lab[i]>=0&&drop[lab[i]])d[i*4]=d[i*4+1]=d[i*4+2]=d[i*4+3]=0}
+// art that runs flat into the top, left or right edge fades out over F px instead of stopping in a straight line
+function fadeCuts(d,w,h){const F=Math.max(6,Math.min(14,Math.round(Math.min(w,h)*.07)));
+  const cut=(n,at)=>{let k=0;for(let i=0;i<n;i++)if(d[at(i)*4+3]>128)k++;return k>Math.max(3,n*.03)};
+  const top=cut(w,i=>i),left=cut(h,i=>i*w),right=cut(h,i=>i*w+w-1);if(!top&&!left&&!right)return;
+  const ramp=k=>{const t=Math.min(1,(k+.5)/F);return t*t*(3-2*t)};
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){let f=1;if(top&&y<F)f*=ramp(y);if(left&&x<F)f*=ramp(x);if(right&&x>=w-F)f*=ramp(w-1-x);if(f<1){const i=(y*w+x)*4+3;d[i]=d[i]*f}}}
+// unsharp mask on the colour; transparent neighbours do not count, so the silhouette edge gets no light or dark fringe
+function sharpenArt(d,w,h,amt){const o=new Uint8ClampedArray(d),R=w*4,a=1+amt;
+  for(let y=1;y<h-1;y++){let i=(y*w+1)*4;for(let x=1;x<w-1;x++,i+=4){if(o[i+3]<8)continue;
+    const a1=o[i-1],a2=o[i+7],a3=o[i-R+3],a4=o[i+R+3],n=a1+a2+a3+a4;if(!n)continue;const k=amt/n;
+    d[i]=a*o[i]-k*(o[i-4]*a1+o[i+4]*a2+o[i-R]*a3+o[i+R]*a4);
+    d[i+1]=a*o[i+1]-k*(o[i-3]*a1+o[i+5]*a2+o[i-R+1]*a3+o[i+R+1]*a4);
+    d[i+2]=a*o[i+2]-k*(o[i-2]*a1+o[i+6]*a2+o[i-R+2]*a3+o[i+R+2]*a4)}}}
+// idle and walk loops: some sheets place the body a few pixels left or right from frame to frame, so the fighter
+// seems to slide while standing still. The loop's anchors are moved so the torso stays put (once per fighter)
+const steadied=new Set();
+function steadyLoops(ci){if(steadied.has(ci)||!CH[ci])return;steadied.add(ci);const a=mk(ci,480,1,true);a.demo=true;const loops={};
+  for(const [st,span] of [['idle',3],['walk',.8]]){const set=[];for(let t=0;t<span;t+=.02){a.st=st;a.t=t;a.air=0;a.vy=0;a.land=0;let fr;try{fr=selectFrame(a)}catch(e){continue}if(fr&&fr.im&&fr.w&&!set.includes(fr))set.push(fr)}loops[st]=set}
+  const frames=[...new Set([...loops.idle,...loops.walk])].filter(fr=>fr.ax0===undefined);if(frames.length<2)return;
+  const ims=[...new Set(frames.map(fr=>fr.im))],own=[];
+  Promise.all(ims.map(im=>sheetBits.get(im)||(window.createImageBitmap&&im.complete&&im.naturalWidth?createImageBitmap(im).then(b=>(own.push(b),b)):im))).then(bits=>{
+    const src=new Map(ims.map((im,i)=>[im,bits[i]])),c=artCanvas(8,8),g=c.getContext('2d'),torso=new Map();
+    for(const fr of frames){c.width=fr.w;c.height=fr.h;g.drawImage(src.get(fr.im),fr.x,fr.y,fr.w,fr.h,0,0,fr.w,fr.h);const d=g.getImageData(0,0,fr.w,fr.h).data;
+      let y0=-1,y1=-1;for(let y=0;y<fr.h;y++)for(let x=0;x<fr.w;x+=2)if(d[(y*fr.w+x)*4+3]>128){if(y0<0)y0=y;y1=y;break}
+      if(y0<0)continue;let sx=0,n=0;for(let y=Math.round(y0+(y1-y0)*.3);y<y0+(y1-y0)*.55;y++)for(let x=0;x<fr.w;x++)if(d[(y*fr.w+x)*4+3]>128){sx+=x;n++}
+      if(n)torso.set(fr,(sx/n-fr.ax)*(fr.scale||1))}
+    for(const b of own)b.close();
+    const ref=loops.idle.filter(fr=>torso.has(fr)).map(fr=>torso.get(fr)).sort((p,q)=>p-q),all=[...torso.values()];if(!all.length)return;
+    const target=ref.length?ref[ref.length>>1]:all.sort((p,q)=>p-q)[all.length>>1];if(Math.max(...all)-Math.min(...all)<=3)return;
+    for(const [fr,v] of torso)if(Math.abs(v-target)>1){fr.ax0=fr.ax;fr.ax+=(v-target)/(fr.scale||1)}},()=>{})}
 // ---------- fighter skins: one baked image per pose and facing ----------
 // The dark outline, the arena's ambient light and a crisp inner rim light (the two stage lights, e.g. pink from
 // the left and cyan from the right on the rooftop) are baked into one canvas per pose and facing. A fighter then
@@ -575,13 +631,13 @@ const OUTLINE_OFFSETS=[[-2,0],[2,0],[0,-2],[0,2],[-1,-1],[1,-1],[-1,1],[1,1]];
 let scratchCv=null;
 // sprite pixels of fr in one flat colour, in a shared scratch canvas at (dx,dy); valid until the next call
 function tintScratch(fr,color,dx,dy,w=fr.w,h=fr.h){if(!scratchCv||scratchCv.width<w||scratchCv.height<h){scratchCv=artCanvas(Math.max(w,scratchCv?scratchCv.width:0,256),Math.max(h,scratchCv?scratchCv.height:0,256))}
-  const g=scratchCv.getContext('2d');g.globalCompositeOperation='source-over';g.globalAlpha=1;g.clearRect(0,0,w,h);g.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,dx,dy,fr.w,fr.h);g.globalCompositeOperation='source-in';g.fillStyle=color;g.fillRect(0,0,w,h);g.globalCompositeOperation='source-over';return scratchCv}
+  const g=scratchCv.getContext('2d');g.globalCompositeOperation='source-over';g.globalAlpha=1;g.clearRect(0,0,w,h);drawFrame(g,fr,dx,dy);g.globalCompositeOperation='source-in';g.fillStyle=color;g.fillRect(0,0,w,h);g.globalCompositeOperation='source-over';return scratchCv}
 const SKIN_MAX=isTouch?130:200,skinMap=new WeakMap(),skinOrder=[];   // pose pairs kept (a match needs about 60-110)
 function skinVariant(outline){return (outline?'o':'-')+arenaId+(lowQ()?'q':'h')+(traceFX?'t':'-')}
 // both facings at once: they share the outline and ambient work, only the rim light side differs
 function buildSkins(fr,outline){const pad=outline?3:0,w=fr.w+pad*2,h=fr.h+pad*2,base=artCanvas(w,h);const g=base.getContext('2d');
   if(outline){const m=tintScratch(fr,'#090d17',pad,pad,w,h);for(const [x,y] of OUTLINE_OFFSETS)g.drawImage(m,0,0,w,h,x,y,w,h)}
-  g.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,pad,pad,fr.w,fr.h);
+  drawFrame(g,fr,pad,pad);
   if(lowQ())return {r:base,l:base};
   const L=LIGHTS[arenaId]||LIGHTS[0];
   g.globalCompositeOperation='multiply';g.globalAlpha=.22;g.drawImage(tintScratch(fr,L.amb,pad,pad,w,h),0,0,w,h,0,0,w,h);g.globalCompositeOperation='source-over';g.globalAlpha=1;   // ambient grade
@@ -590,7 +646,7 @@ function buildSkins(fr,outline){const pad=outline?3:0,w=fr.w+pad*2,h=fr.h+pad*2,
   // inner rim light: a band on the edges that face each stage light (sprite space is mirrored when facing left)
   const k=Math.max(2,Math.round(fr.h/105));
   for(const [cv,toLeft] of [[base,-1],[other,1]]){const cg=cv.getContext('2d');
-    for(const [col,d] of [[L.l,toLeft],[L.r,-toLeft]]){const m=tintScratch(fr,col,pad,pad,w,h),mg=m.getContext('2d');mg.globalCompositeOperation='destination-out';mg.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,pad-d*k,pad,fr.w,fr.h);mg.globalCompositeOperation='source-over';
+    for(const [col,d] of [[L.l,toLeft],[L.r,-toLeft]]){const m=tintScratch(fr,col,pad,pad,w,h),mg=m.getContext('2d');mg.globalCompositeOperation='destination-out';drawFrame(mg,fr,pad-d*k,pad);mg.globalCompositeOperation='source-over';
       cg.globalCompositeOperation='screen';cg.globalAlpha=.62;cg.drawImage(m,0,0,w,h,0,0,w,h)}
     cg.globalCompositeOperation='source-over';cg.globalAlpha=1}
   return {r:base,l:other}}
@@ -601,10 +657,10 @@ function drawSkin(fr,x,y,face,alpha,sx,sy,rot,outline){const c=skin(fr,face,outl
   ctx.drawImage(c,-(fr.ax+pad)*s,-((fr.ay??fr.h)+pad)*s,(fr.w+pad*2)*s,(fr.h+pad*2)*s);ctx.restore()}
 // soft cast shadow: a quarter-resolution silhouette (the upscale blurs it like a real shadow)
 const shadowMap=new WeakMap();
-function shadowSkin(fr){let c=shadowMap.get(fr);if(c)return c;const w=Math.max(8,Math.ceil(fr.w/4)),h=Math.max(8,Math.ceil(fr.h/4));c=artCanvas(w,h);const g=c.getContext('2d');g.imageSmoothingQuality='high';g.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,0,0,w,h);g.globalCompositeOperation='source-in';g.fillStyle='#05040c';g.fillRect(0,0,w,h);shadowMap.set(fr,c);cachedFrames.add(fr);return c}
+function shadowSkin(fr){let c=shadowMap.get(fr);if(c)return c;const w=Math.max(8,Math.ceil(fr.w/4)),h=Math.max(8,Math.ceil(fr.h/4));c=artCanvas(w,h);const g=c.getContext('2d');g.imageSmoothingQuality='high';drawFrame(g,fr,0,0,w,h);g.globalCompositeOperation='source-in';g.fillStyle='#05040c';g.fillRect(0,0,w,h);shadowMap.set(fr,c);cachedFrames.add(fr);return c}
 // soft glow copy of a pose (mana aura, guard glow): third resolution, so it is light on memory and reads as a glow
 const softMap=new WeakMap();
-function softSil(fr,col){let m=softMap.get(fr);if(!m){m=new Map();softMap.set(fr,m);cachedFrames.add(fr)}let c=m.get(col);if(c)return c;const w=Math.max(8,Math.ceil(fr.w/3)),h=Math.max(8,Math.ceil(fr.h/3));c=artCanvas(w,h);const g=c.getContext('2d');g.imageSmoothingQuality='high';g.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,0,0,w,h);g.globalCompositeOperation='source-in';g.fillStyle=col;g.fillRect(0,0,w,h);m.set(col,c);return c}
+function softSil(fr,col){let m=softMap.get(fr);if(!m){m=new Map();softMap.set(fr,m);cachedFrames.add(fr)}let c=m.get(col);if(c)return c;const w=Math.max(8,Math.ceil(fr.w/3)),h=Math.max(8,Math.ceil(fr.h/3));c=artCanvas(w,h);const g=c.getContext('2d');g.imageSmoothingQuality='high';drawFrame(g,fr,0,0,w,h);g.globalCompositeOperation='source-in';g.fillStyle=col;g.fillRect(0,0,w,h);m.set(col,c);return c}
 function drawSoft(fr,x,y,face,alpha,sx,sy,rot,col){const c=softSil(fr,col),s=fr.scale||1;ctx.save();ctx.translate(x,y);ctx.scale(face*sx,sy);ctx.rotate(rot);ctx.globalAlpha*=alpha;ctx.imageSmoothingEnabled=true;ctx.drawImage(c,-fr.ax*s,-(fr.ay??fr.h)*s,fr.w*s,fr.h*s);ctx.restore()}
 // attack / dash trail: the three offset glow copies baked into one image per pose and colour
 const traceMap=new WeakMap();
@@ -642,7 +698,7 @@ function queueMatchWarmup(){warmQueue.length=0;if(!P1||!P2)return;const token=++
   // drop cached art for poses this match does not use, and decoded sheets it does not read
   const keep=new Set(),sheets=new Set();for(const [,m] of frames)for(const fr of m.keys()){keep.add(fr);sheets.add(fr.im)}
   for(const f of [P1,P2]){const fc=modelFaces[f.ci];if(fc&&fc[0]&&fc[0].im)sheets.add(fc[0].im)}for(const im of Object.values(expressions))if(im&&im.width)sheets.add(im);
-  dropArt(keep);for(const [im,b] of sheetBits)if(!sheets.has(im)){b.close();sheetBits.delete(im)}
+  steadyLoops(P1.ci);steadyLoops(P2.ci);dropArt(keep);for(const [im,b] of sheetBits)if(!sheets.has(im)){b.close();sheetBits.delete(im)}
   // decoding runs off the main thread, so no image is decoded mid-fight: the sheets the cache builders read become
   // ImageBitmaps, the other images get decode()
   const jobs=imgs.filter(im=>!sheets.has(im)).map(im=>im.decode?im.decode().catch(()=>{}):null);
@@ -658,7 +714,7 @@ function queueMatchWarmup(){warmQueue.length=0;if(!P1||!P2)return;const token=++
     warmQueue.push(()=>{if(!ready)return;for(const [f,right] of [[P1,false],[P2,true]]){const mv=Object.keys(MOVES[f.ci]||{})[0],probes=[['win',0],['hit',0],['chargeMana',.1],['chargeMana',.5],['block',0]];for(let t=0;t<3.6;t+=.2)probes.push(['idle',t]);if(mv)probes.push([mv,0],[mv,MOVES[f.ci][mv].hit||.2]);
       for(const [st,t] of probes)try{drawPortraitCached(Object.assign({},f,{st,t,ultimate:null}),right?910:50,50,31,right)}catch(e){}}});
     warmScars();
-    for(const [f,m] of frames){const col=COL[f.ci];for(const [fr,{outlines,states}] of m){const outline=outlines.has(true);warmQueue.push(()=>{for(const o of outlines){warmImage(skin(fr,1,o));warmImage(skin(fr,-1,o))}warmImage(shadowSkin(fr));warmImage(softSil(fr,'#ffd673'));warmImage(softSil(fr,col))});
+    for(const [f,m] of frames){const col=COL[f.ci];for(const [fr,{outlines,states}] of m){const outline=outlines.has(true);warmQueue.push(()=>frameArt(fr));for(const o of outlines)warmQueue.push(()=>{warmImage(skin(fr,1,o));warmImage(skin(fr,-1,o))});warmQueue.push(()=>{warmImage(shadowSkin(fr));warmImage(softSil(fr,'#ffd673'));warmImage(softSil(fr,col))});
       const atk=[...states].some(st=>ATK[st]||st==='dash'),hurt=[...states].some(st=>st==='hit'||st==='stunned'||st==='down');
       if(outline&&atk)warmQueue.push(()=>{warmImage(traceSkin(fr,col));warmImage(silhouette(fr,col))});   // attack trail + impact-frame attacker
       if(hurt)warmQueue.push(()=>warmImage(silhouette(fr,'#ffffff')));                  // impact-frame victim
@@ -669,7 +725,7 @@ function releaseMatchArt(){warmToken++;warmQueue.length=0;warmPending=false;for(
 // run queued warm-up work: always one job, then more while this frame's slice (ms) lasts
 function runWarm(ms){const t0=performance.now();do warmQueue.shift()();while(warmQueue.length&&performance.now()-t0<ms)}
 const silCache=new Map();
-function silhouette(fr,color){let m=silCache.get(color);if(!m){m=new WeakMap();silCache.set(color,m)}let c=m.get(fr);if(c)return c;c=artCanvas(fr.w,fr.h);const g=c.getContext('2d');g.drawImage(artSrc(fr.im),fr.x,fr.y,fr.w,fr.h,0,0,fr.w,fr.h);g.globalCompositeOperation='source-in';g.fillStyle=color;g.fillRect(0,0,fr.w,fr.h);m.set(fr,c);cachedFrames.add(fr);return c}
+function silhouette(fr,color){let m=silCache.get(color);if(!m){m=new WeakMap();silCache.set(color,m)}let c=m.get(fr);if(c)return c;c=artCanvas(fr.w,fr.h);const g=c.getContext('2d');drawFrame(g,fr,0,0);g.globalCompositeOperation='source-in';g.fillStyle=color;g.fillRect(0,0,fr.w,fr.h);m.set(fr,c);cachedFrames.add(fr);return c}
 function drawSprite(fr,x,y,face,alpha=1,outline=false,scaleX=1,scaleY=1,rotation=0,tint=null,g=ctx,k=1){g.save();g.translate(x,y);g.scale(face*scaleX*k,scaleY*k);g.rotate(rotation);g.globalAlpha*=alpha;g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';const s=fr.scale||1,w=fr.w*s,h=fr.h*s,ax=fr.ax*s,ay=(fr.ay??fr.h)*s;if(tint)g.drawImage(silhouette(fr,tint),-ax,-ay,w,h);else if(outline){const oi=outlined(fr);g.drawImage(oi,-ax-3*s,-ay-3*s,w+6*s,h+6*s)}else g.drawImage(fr.im,fr.x,fr.y,fr.w,fr.h,-ax,-ay,w,h);g.restore()}
 function drawMesh(fr,x,y,face,sx,sy,rotation){if(!meshMode||!fr.vertices?.length)return;ctx.save();ctx.translate(x,y);ctx.scale(face*sx,sy);ctx.rotate(rotation);ctx.scale(fr.scale,fr.scale);ctx.translate(-fr.ax,-fr.ay);ctx.lineWidth=.7/fr.scale;ctx.strokeStyle='#4ae5ec45';for(let i=0;i<fr.triangles.length;i+=3){ctx.beginPath();for(let j=0;j<3;j++){const v=fr.vertices[fr.triangles[i+j]];j?ctx.lineTo(...v):ctx.moveTo(...v)}ctx.closePath();ctx.stroke()}ctx.strokeStyle='#6bf6ee';ctx.lineWidth=1.2/fr.scale;ctx.beginPath();(fr.silhouette||fr.vertices).forEach((v,i)=>i?ctx.lineTo(...v):ctx.moveTo(...v));ctx.closePath();ctx.stroke();ctx.fillStyle='#ffcb65';fr.vertices.forEach(v=>{ctx.beginPath();ctx.arc(v[0],v[1],1.5/fr.scale,0,TAU);ctx.fill()});ctx.restore()}
 const glowCache=new Map();
@@ -940,6 +996,7 @@ previewSelect.onchange=()=>{previewStartedAt=vclock};
 function drawPreview(){
   const canvas=$('pv');
   if(!ready||!canvas.offsetParent)return;
+  steadyLoops(sel);
   const g=canvas.getContext('2d'),w=canvas.width,h=canvas.height,color=COL[sel];
   let action=previewSelect.value||'auto',elapsed=Math.max(0,vclock-previewStartedAt);
   if(action==='auto'){
