@@ -1,1 +1,5 @@
 .qa/
+__pycache__/
+# build output (python3 build.py) — published to the gh-pages branch by the GitHub Action
+/index.html
+/a/

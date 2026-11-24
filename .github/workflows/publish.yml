@@ -1,0 +1,52 @@
+# Builds the game, checks it, runs a browser smoke test, and (for merges to main) publishes it to
+# GitHub Pages via the gh-pages branch. Pull requests get the same build and test, without publishing.
+name: Build, test and publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install build and test tools
+        run: |
+          pip install pillow
+          npm install --no-save --no-package-lock playwright@1.63.0
+          npx playwright install --with-deps chromium
+
+      - name: Build the game (index.html + a/)
+        run: python3 build.py
+
+      - name: Check the built page
+        run: python3 scripts/check_site.py
+
+      - name: Smoke test in a real browser
+        run: node tests/site-smoke.cjs
+
+      - name: Publish to GitHub Pages (gh-pages branch)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/publish_site.sh "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"

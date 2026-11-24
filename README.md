@@ -2,7 +2,9 @@
 
 **Unofficial fan-made game.** FliptapWars is a free, non-commercial tribute to Filipino battle rap culture. It is not affiliated with, endorsed by or sponsored by FlipTop Battle League, Uprising Records or any emcee shown. Characters are caricatures; all moves, stats and storylines are fictional. The optional "buy me a coffee" only supports development; nothing in the game is sold. Rights holders can request changes or removal through the in-game suggestion box or this repository's issues.
 
-Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawlers/
+Play online at https://sfutie4-ops.github.io/ring-brawlers/ — or run `python3 build.py` and open the generated `index.html`.
+
+Working on the code (people or AI agents such as ChatGPT Codex / Claude Code): read [AGENTS.md](AGENTS.md). Merges to `main` are built, tested and published automatically.
 
 ## Controls
 
@@ -56,7 +58,9 @@ Tested in headless Chromium: all keyboard commands, phone stick/buttons in lands
 
 # Ring Brawlers — Mana Edition
 
-Play: open `index.html`, or online at https://sfutie4-ops.github.io/ring-brawlers/
+Play online at https://sfutie4-ops.github.io/ring-brawlers/ — or run `python3 build.py` and open the generated `index.html`.
+
+Working on the code (people or AI agents such as ChatGPT Codex / Claude Code): read [AGENTS.md](AGENTS.md). Merges to `main` are built, tested and published automatically.
 
 ## Port notes (this release)
 
