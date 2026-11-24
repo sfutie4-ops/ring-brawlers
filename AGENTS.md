@@ -45,6 +45,14 @@ Also check phones: the game is played in landscape (about 915×412 CSS px); cont
 - Do not push to `gh-pages` yourself. If the Action is down, the owner (or an agent they ask) can run `scripts/publish_site.sh` after a build.
 - `api-server/` (rankings, comments, patrons, suggestion inbox) is deployed separately on Vercel by the owner. Do not change it or `RANK_API` in `story.js` unless asked.
 
+## New art (designs, sprite sheets)
+
+New art arrives in `art-inbox/` with a note (format and the ChatGPT prompt: `art-inbox/README.md`).
+To wire it in: slice it into the existing formats (fighter looks: `assets/redraw/<name>.webp` + `.json`, frames with
+anchor `ax/ay` at the feet; gag clips: `addons/battlefield-antics/`; portraits: `assets/motion/lobby.webp`), hook it up in
+`build.py` / the JS, build, run the checks, and look at it on desktop and phone. Leave the original upload in the inbox
+until the change is merged, then delete it in the same pull request that wires it in.
+
 ## Rules that must not be broken
 
 - **GCash:** donations go through the QR image only. Never put the owner's phone number, account name or any other personal detail in code, text, comments or commit messages.
