@@ -569,3 +569,8 @@
 @media(max-height:520px) and (orientation:landscape){#menu .badges{display:none}#menu .mlogo{margin-top:-4px}}
 .bwall{flex:0 1 auto!important;min-height:120px!important}.wscroll{min-height:0}
 @media(max-width:1179px),(max-height:559px){#menu .eyebrow{display:none!important}}
+/* composited-only animations (no repaint each frame) */
+.cornerbtn.cof .ico::after{box-shadow:0 0 0 3px #ffd23f90!important;animation:cofPing2 2.8s infinite!important}
+@keyframes cofPing2{0%,60%{transform:scale(1);opacity:.9}100%{transform:scale(1.55);opacity:0}}
+.lhaze{left:-12%!important;right:-12%!important;background-size:100% 100%!important;animation:haze2 14s ease-in-out infinite alternate!important}
+@keyframes haze2{from{transform:translateX(-7%)}to{transform:translateX(7%)}}

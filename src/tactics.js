@@ -250,7 +250,7 @@ function drawManaAura(f,fr,x,y,sx,sy,angle) {
       ctx.stroke();
     }
     ctx.globalAlpha=.23;
-    drawSprite(fr,x-2,y,f.face,1,false,sx*1.025,sy*1.014,angle,color);
+    drawSoft(fr,x-2,y,f.face,1,sx*1.025,sy*1.014,angle,color);
   }
   ctx.restore();
 }

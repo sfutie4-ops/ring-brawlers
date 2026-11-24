@@ -38,6 +38,12 @@ node tests/site-smoke.cjs          # headless Chromium: all fighter cards, a ful
 
 Also check phones: the game is played in landscape (about 915×412 CSS px); controls sit over the arena corners.
 
+## Keeping it smooth (60–144 Hz)
+
+- The simulation runs in fixed 120 Hz steps and drawing interpolates between them. Tie anything that spawns or moves to time (`dt`), never to the number of frames drawn.
+- Nothing is built or decoded mid-fight. Cached art (skins, glows, silhouettes) is painted once on `artCanvas(w,h)` in `game.js`, and the match warm-up (`queueMatchWarmup()`) builds and decodes a match's art during the VS screen. New art a fight draws belongs in that warm-up.
+- `node tests/perf-bench.cjs` (also `--gpu`, `--phone`) plays an AI match and prints frame times. Run it on `main` and on your branch when you touch drawing code.
+
 ## Publishing
 
 - Work on a branch and open a pull request. The GitHub Action (`.github/workflows/publish.yml`) builds and tests every pull request.

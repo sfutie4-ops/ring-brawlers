@@ -62,7 +62,8 @@ notes:    signature 16–19 = magic hat trick, 20–27 = mic toss
 
 - **Grid of 4 columns × 7 rows = 28 cells, every cell the same size, at least 320 × 400 px** (sheet ≥ 1280 × 2800).
 - One pose per cell, **full body, facing right**, same height and scale in every cell,
-  **feet on the same line near the bottom of the cell**, nothing crossing into the next cell.
+  **feet on the same line near the bottom of the cell**, nothing crossing into the next cell. Effects count too
+  (fireballs, beams, dust): keep everything about 10 px inside the cell, or it is cut off in the game.
 - Poses in this exact order (left→right, top→bottom):
 
 | # | pose | # | pose |
@@ -81,6 +82,8 @@ notes:    signature 16–19 = magic hat trick, 20–27 = mic toss
 ## 2. Gag / sticker / crowd animation (story antics)
 
 - **4 frames in one row**, each cell **256 × 160 px or larger**, transparent, same scale in every frame.
+- **The whole figure inside its own frame**, about 10 px from every edge: no head or feet cut by the frame, nothing
+  from the next frame poking in. `build.py` leaves out clips whose art touches the top of the frame.
 - Note must say **what makes it appear** (the game shows nothing at random — e.g. "after a 10-hit combo",
   "when the timer hits 30 s") and whether it is a **sticker** (above the fight), **crowd** (pops over the
   railing) or **back** (on the stage floor behind the fighters).
