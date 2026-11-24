@@ -935,11 +935,112 @@ h1.logo{animation:logoIn .7s cubic-bezier(.2,1.4,.4,1) both}
 /* story button while fight art is still downloading */
 .storybtn[data-wait]{opacity:.65;filter:saturate(.6)}
 .storybtn[data-wait]::after{content:"LOADING " attr(data-wait);position:absolute;left:0;right:0;bottom:-15px;font-size:11px;letter-spacing:.08em;color:#fff;text-shadow:1px 1px 0 #000}
+
+/* =====================================================================
+   MENU BOARDS: top players · top patrons · comments (side rails / phone ticker)
+   ===================================================================== */
+#menu{--railw:clamp(210px,17vw,280px)}
+.rail{position:fixed;top:96px;bottom:18px;width:var(--railw);z-index:3;display:none;flex-direction:column;gap:14px;pointer-events:auto}
+.rail.l{left:14px}.rail.r{right:14px}
+.board{position:relative;background:linear-gradient(170deg,#1b1430f2,#0b0712f5);border:3px solid var(--ink);border-radius:6px;box-shadow:5px 5px 0 #000,inset 0 0 0 1px #ffffff12;padding:34px 10px 10px;cursor:pointer;animation:boardIn .5s cubic-bezier(.2,1.4,.4,1) both}
+.rail.l .board{transform:rotate(-.6deg)}.rail.r .board{transform:rotate(.6deg)}
+.rail .board:nth-child(2){animation-delay:.12s}
+@keyframes boardIn{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+.board h4{position:absolute;top:-12px;left:10px;margin:0;padding:4px 12px 3px;font-family:var(--disp);font-weight:400;font-size:20px;letter-spacing:.06em;color:var(--ink);background:var(--yel);box-shadow:3px 3px 0 #000;transform:rotate(-2deg) skewX(-8deg);display:flex;gap:6px;align-items:center}
+.board h4 i{font-style:normal;transform:skewX(8deg)}
+.bpat h4{background:var(--pink);color:#fff}.bwall h4{background:var(--cyan)}.bhow h4{background:var(--paper);font-size:16px}
+.board:hover{box-shadow:6px 6px 0 #000,0 0 0 2px var(--yel)}
+.blist{list-style:none;margin:0;padding:0}
+.blist li{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:8px;padding:6px 6px;border-bottom:2px dashed #ffffff14;overflow:hidden;animation:rowIn .45s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--i)*70ms + .2s)}
+@keyframes rowIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.blist li:last-child{border-bottom:0}
+.bwho{min-width:0;display:flex;flex-direction:column}
+.bwho b{font-family:var(--disp);font-weight:400;font-size:19px;letter-spacing:.04em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.05}
+.bwho small{font-size:10px;color:#a89fc6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bval{font-family:var(--disp);font-size:17px;color:var(--yel);letter-spacing:.03em}
+.bpat .bval{color:#ffb3df}
+.bmed{position:relative;width:44px;height:38px;display:grid;place-items:center}
+.bmed .bcr{width:40px;height:28px;filter:drop-shadow(2px 2px 0 #000);transform-origin:50% 90%}
+.bmed b{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-family:var(--disp);font-weight:400;font-size:12px;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:9px;padding:0 5px;line-height:13px}
+.bmed.n b{position:static;transform:none;font-size:15px;background:none;border:0;color:#8d84ad}
+/* crowns: #1 bobs and glows, #2 / #3 sway a little slower */
+.b1 .bcr{animation:crownBob 2.1s ease-in-out infinite}
+.b2 .bcr{animation:crownBob 2.6s ease-in-out .3s infinite;--amp:-2px}
+.b3 .bcr{animation:crownBob 3s ease-in-out .6s infinite;--amp:-1.5px}
+@keyframes crownBob{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(var(--amp,-4px)) rotate(7deg)}}
+.b1{background:linear-gradient(90deg,#ffd23f2e,#ffd23f08 70%)}
+.b2{background:linear-gradient(90deg,#dfe7ef1f,transparent 70%)}
+.b3{background:linear-gradient(90deg,#e39a621f,transparent 70%)}
+.b1 .bwho b{color:var(--yel);text-shadow:0 0 10px #ffd23f66}
+.b1::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,#ffffff40 50%,transparent 65%);transform:translateX(-120%);animation:rowShine 3.6s ease-in-out 1s infinite;pointer-events:none}
+@keyframes rowShine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.spk{position:absolute;width:9px;height:9px;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;animation:twinkle 1.8s ease-in-out infinite}
+.spk.s1{top:-2px;right:0}.spk.s2{top:12px;left:-2px;animation-delay:.9s;width:7px;height:7px}
+.b1 .spk{background:#fff6c2}.b2 .spk{animation-duration:2.4s}.b3 .spk{animation-duration:2.9s;background:#ffd9bd}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(45deg)}}
+.blist li.ghost .bwho b{color:#7e75a0}.blist li.ghost .bcr{opacity:.75}
+.bcta{display:block;width:100%;margin:10px 0 0;font-family:var(--disp);font-size:17px;letter-spacing:.06em;color:var(--ink);background:var(--yel);border:3px solid var(--ink);border-radius:5px;box-shadow:3px 3px 0 #000;padding:6px;transform:skewX(-6deg);cursor:pointer}
+.bcta:hover{background:#ffe27a}
+.bhow{cursor:default}.bhow p{margin:4px 0;font-size:12px;line-height:1.35;color:#cfc8e6}.bhow b{color:#fff}
+/* comments: rolling wall */
+.bwall{flex:1;min-height:150px;display:flex;flex-direction:column}
+.wscroll{position:relative;flex:1;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent)}
+.wtrack{display:flex;flex-direction:column;gap:9px;padding:6px 2px}
+.wtrack.roll{animation:wallRoll var(--dur,30s) linear infinite}
+.bwall:hover .wtrack.roll{animation-play-state:paused}
+@keyframes wallRoll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.cnote{background:var(--paper);color:var(--ink);border-radius:3px;padding:6px 9px 5px;box-shadow:3px 3px 0 #000;transform:rotate(-1deg)}
+.cnote:nth-child(even){transform:rotate(1deg);background:#fff6d6}
+.cnote b{font-family:var(--tag);font-weight:400;font-size:13px}.cnote span{float:right;font-family:var(--disp);font-size:12px;color:#b0005e}
+.cnote p{margin:2px 0 1px;font-size:12px;line-height:1.3;word-break:break-word}.cnote small{font-size:9px;color:#6d6488}
+.cnote.empty{text-align:center;background:#ffffff10;color:#cfc8e6;box-shadow:none}
+/* phone / narrow: one ticker strip pinned to the top of the menu */
+.ticker{display:none;position:fixed;top:0;left:0;right:0;height:30px;z-index:3;overflow:hidden;background:#0b0712ee;border-bottom:3px solid var(--yel);cursor:pointer}
+.ttrack{display:inline-flex;align-items:center;gap:14px;height:100%;white-space:nowrap;padding-left:100%;animation:tick var(--dur,40s) linear infinite}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#e8e2f6}.ti b{font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.04em;color:#fff}
+.ti .bcr{width:22px;height:16px;animation:crownBob 2.1s ease-in-out infinite}.ti.t1 b{color:var(--yel)}.tp b{color:#ffb3df}.tc b{color:var(--cyan)}
+.tsep{font-style:normal;color:var(--pink)}
+@media(min-width:1180px) and (min-height:560px){
+  .rail{display:flex}
+  #menu .panel{width:min(1060px,calc(100vw - 2*var(--railw) - 76px))}
+}
+@media(max-width:1179px),(max-height:559px){
+  .ticker{display:block}
+  #menu .panel{padding-top:20px}
+  .cornerbtn{top:38px!important}
+}
+@media(prefers-reduced-motion:reduce){.bcr,.spk,.b1::after,.wtrack.roll,.ttrack{animation:none!important}.ttrack{padding-left:12px}}
+
+/* =====================================================================
+   MENU CLARITY: sharp arena backdrop, calmer rain, less text in the preview
+   ===================================================================== */
+#menu .mbg{background:linear-gradient(180deg,#0b071280,#0b0712bd 50%,#0b0712ee),var(--arenaimg,var(--bgimg,none)) center/cover!important}
+#menu .mrain{opacity:.4}
+#menu .mpaint{opacity:.55}
+#fighterInfo p.det,#fighterInfo .keyhint{display:none}
+#fighterInfo .pas{font-size:13px}
+#cards .card .role{color:#cbbfe6!important}
+#cards .card .name{color:#fff!important;letter-spacing:.04em}
+/* compact fighter grid: every card visible above the bottom bar */
+@media(min-width:900px) and (min-height:561px){
+  .select{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)!important}
+  #cards{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important}
+  #cards .card{padding:6px 4px 7px!important}
+  .card canvas{height:clamp(54px,9.5vh,104px)!important}
+  #cards .card .name{font-size:clamp(14px,1.25vw,20px)!important}
+  #cards .card .role{font-size:9px!important}
+}
+@media(max-height:760px) and (min-width:900px){#menu .mlogo{transform:scale(.82);margin:-10px 0 -14px}#menu .badges{margin:2px 0 6px}}
+@media(max-width:1179px),(max-height:559px){.ticker{height:26px}#menu .panel{padding-top:4px!important}}
+@media(max-height:520px) and (orientation:landscape){#menu .badges{display:none}#menu .mlogo{margin-top:-4px}}
+.bwall{flex:0 1 auto!important;min-height:120px!important}.wscroll{min-height:0}
+@media(max-width:1179px),(max-height:559px){#menu .eyebrow{display:none!important}}
 </style></head><body><div id="loader" role="status" aria-label="Loading FliptapWars">
 <img class="lbg" src="a/b35801d53c75af.webp" alt=""><div class="lrain"></div><div class="lflood l"></div><div class="lflood r"></div>
 <div class="ltag tl"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M8 62 L14 14 L38 40 L60 6 L82 40 L106 14 L112 62 Z" fill="#ffd23f"/></svg><span>FAN-MADE<br>TRIBUTE</span></div><div class="ltag tr"><span>FREE TO<br>PLAY</span></div>
 <div class="ltitle"><svg class="lcrown" viewBox="0 0 120 70" aria-hidden="true"><path d="M8 62 L14 14 L38 40 L60 6 L82 40 L106 14 L112 62 Z" fill="none" stroke="#ffd23f" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><path d="M14 62 L106 62" stroke="#ffd23f" stroke-width="7" stroke-linecap="round"/></svg><div class="lstroke"></div><div class="lsplash"></div><h1 aria-label="FliptapWars"><span>F</span><span>L</span><span>I</span><span>P</span><span>T</span><span>A</span><span>P</span><span>W</span><span>A</span><span>R</span><span>S</span></h1></div>
-<img class="lineup" src="a/2aab7e1dc73da9.webp" alt=""><img class="lcrowd" src="a/c8aac7f1a0185d.webp" alt="">
+<img class="lineup" src="a/c8e224ec9a01ac.webp" alt=""><img class="lcrowd" src="a/c8aac7f1a0185d.webp" alt="">
 <div class="lbox"><div class="llabel"><span id="lText">ENTERING THE GAME</span><i class="dots"><b>.</b><b>.</b><b>.</b></i></div>
 <div class="lbar"><div class="lfill" id="lFill"><i></i></div><span id="lPct">0%</span></div>
 <div class="ltip"><b>i</b><span id="lTip"></span></div></div></div>
@@ -954,7 +1055,7 @@ function enter(){if(!L.classList.contains('done')||gone)return;gone=true;clearIn
 L.addEventListener('click',enter);addEventListener('keydown',function(e){if(!gone&&L.classList.contains('done')){e.preventDefault();e.stopImmediatePropagation();enter()}else if(!gone){e.stopImmediatePropagation()}},true);
 window.rbLoader={progress:function(f){real=Math.max(real,f)},ready:function(){ready=true;try{if(localStorage.getItem('rb_autoEnter')){gone=true;clearInterval(tipT);L.style.display='none'}}catch(e){}},enter:enter};})();</script>
 <div id="rotLock" role="dialog" aria-label="Rotate your phone"><div class="rphone"><i></i></div><h2>TURN YOUR PHONE</h2><p>FliptapWars plays in landscape.</p><button id="rotTap" class="go">⟳ GO LANDSCAPE</button><small>Rotation lock on? Turn it off in your quick settings.</small></div><div id="app"><div id="stage"><canvas id="g" width="960" height="540" aria-label="FliptapWars fighting arena"></canvas><div id="toolbar"><button id="pause">PAUSE</button></div>
-<div id="menu"><div class="mbg"></div><span id="secretLolo" aria-hidden="true"></span><div class="mrain"></div><div class="mpaint l"></div><div class="mpaint r"></div><button id="suggestBtn" class="cornerbtn sug" aria-label="Suggestion box"><span class="ico"><b class="ring"></b><span class="emo">💬</span><i class="tdots"><b></b><b></b><b></b></i></span><span class="lbl">SUGGEST</span></button><button id="coffeeBtn" class="cornerbtn cof" aria-label="Buy me a coffee"><span class="ico"><b class="ring"></b><span class="cup"><i></i><i></i><i></i>☕</span></span><span class="lbl">BUY ME A COFFEE</span></button><div class="panel"><div class="eyebrow">unofficial fan game · street battle brawler</div><div class="mlogo"><svg class="lcrown" viewBox="0 0 120 70" aria-hidden="true"><path d="M8 62 L14 14 L38 40 L60 6 L82 40 L106 14 L112 62 Z" fill="none" stroke="#ffd23f" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><path d="M14 62 L106 62" stroke="#ffd23f" stroke-width="7" stroke-linecap="round"/></svg><div class="lstroke"></div><h1 aria-label="FliptapWars"><span>F</span><span>L</span><span>I</span><span>P</span><span>T</span><span>A</span><span>P</span><span>W</span><span>A</span><span>R</span><span>S</span></h1></div><div class="badges"><span class="badge bfan">FAN-MADE</span><span class="badge free">FREE TO PLAY</span><span class="badge">MANA · SUPERS · COMBOS</span></div>
+<div id="menu"><div class="mbg"></div><span id="secretLolo" aria-hidden="true"></span><div class="mrain"></div><div class="mpaint l"></div><div class="mpaint r"></div><aside id="railL" class="rail l" aria-label="Top players and comments"><section class="board btop" data-tab="top"><h4><i>🏆</i>TOP PLAYERS</h4><ol class="blist" id="bTop"></ol></section><section class="board bwall" data-tab="wall"><h4><i>💬</i>COMMENTS</h4><div class="wscroll"><div class="wtrack" id="bWall"></div></div></section></aside><aside id="railR" class="rail r" aria-label="Top patrons"><section class="board bpat" data-tab="patrons"><h4><i>💛</i>TOP PATRONS</h4><ol class="blist" id="bPat"></ol><button class="bcta" id="bSupport">☕ SUPPORT THE GAME</button></section><section class="board bhow"><h4><i>👑</i>HOW TO GET HERE</h4><p><b>Top players</b> win Story Mode and post their score.</p><p><b>Patrons</b> buy the dev a coffee and tap <b>I DONATED</b>.</p></section></aside><div id="ticker" class="ticker" aria-label="Top players, patrons and comments"><div class="ttrack" id="tTrack"></div></div><button id="suggestBtn" class="cornerbtn sug" aria-label="Suggestion box"><span class="ico"><b class="ring"></b><span class="emo">💬</span><i class="tdots"><b></b><b></b><b></b></i></span><span class="lbl">SUGGEST</span></button><button id="coffeeBtn" class="cornerbtn cof" aria-label="Buy me a coffee"><span class="ico"><b class="ring"></b><span class="cup"><i></i><i></i><i></i>☕</span></span><span class="lbl">BUY ME A COFFEE</span></button><div class="panel"><div class="eyebrow">unofficial fan game · street battle brawler</div><div class="mlogo"><svg class="lcrown" viewBox="0 0 120 70" aria-hidden="true"><path d="M8 62 L14 14 L38 40 L60 6 L82 40 L106 14 L112 62 Z" fill="none" stroke="#ffd23f" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><path d="M14 62 L106 62" stroke="#ffd23f" stroke-width="7" stroke-linecap="round"/></svg><div class="lstroke"></div><h1 aria-label="FliptapWars"><span>F</span><span>L</span><span>I</span><span>P</span><span>T</span><span>A</span><span>P</span><span>W</span><span>A</span><span>R</span><span>S</span></h1></div><div class="badges"><span class="badge bfan">FAN-MADE</span><span class="badge free">FREE TO PLAY</span><span class="badge">MANA · SUPERS · COMBOS</span></div>
 <div class="sechead top"><b>PICK YOUR FIGHTER</b></div><div class="select"><div id="cards"></div><div id="preview"><canvas id="pv" width="880" height="520"></canvas><label class="animation-picker">MOVE <select id="animationPreview"><option value="auto">Showcase</option></select></label><div id="fighterInfo"></div></div></div>
 <div class="arena-heading"><b>CHOOSE YOUR ARENA</b> <span id="arenaNote"></span></div><div id="arenas"></div><div class="matchopts"><label class="opponent-select">RIVAL<select id="rivalSelect"><option value="">Random</option></select></label><label class="bonus-antics" title="Turns on the once-per-match HP prank skit (Shehyee vs Sinio). Bonus matches do not count toward local wins."><input id="bonusAntics" type="checkbox"> BONUS ANTICS</label></div><div class="options"><div id="diffSeg" class="seg" role="radiogroup" aria-label="Difficulty"></div><select id="difficulty" hidden><option value="easy">Easy opponent</option><option value="normal" selected>Normal opponent</option><option value="hard">Hard opponent</option></select><button id="go" class="go" disabled>LOADING ART…</button></div>
 <div class="menuBtns"><button id="openSettings" class="chip gear"><span class="gi">⚙</span> SETTINGS</button></div>
@@ -2427,9 +2528,10 @@ async function boot(){
   fullReady=true;buildCards();window.rbReady=true;button.disabled=false;button.textContent='ENTER THE RING';status.textContent='';{const sb=$('storyBtn');if(sb)delete sb.dataset.wait}
  }catch(e){status.textContent='Loading failed: '+e.message+'. Download this HTML and open it directly in Chrome or Edge, then retry.';button.disabled=false;button.textContent='RETRY LOADING';button.onclick=()=>boot();console.error(e)}finally{booting=false}
 }
-// Fighters hidden from the main menu (not pickable, not in the rival list). Zaito (6) still appears in the stands and cutaways.
-const MENU_HIDDEN=new Set([6]);
-function buildCards(){if(MENU_HIDDEN.has(sel)){sel=0;store.set('sel',0)}const box=$('cards');box.innerHTML='';CH.forEach((c,i)=>{if(MENU_HIDDEN.has(i))return;const b=document.createElement('button');b.className='card'+(i===sel?' sel':'');b.style.setProperty('--c',COL[i]);b.setAttribute('aria-pressed',i===sel);const cn=document.createElement('canvas');cn.width=180;cn.height=195;let g=cn.getContext('2d'),fr=idleExpressionFrame(i,0)||c.f.idle[0],bb=fr.bounds||{x:0,y:0,w:fr.w,h:fr.h},s=165/bb.h;g.drawImage(fr.im,fr.x+bb.x,fr.y+bb.y,bb.w,bb.h,(180-bb.w*s)/2,188-bb.h*s,bb.w*s,bb.h*s);b.append(cn);let name=document.createElement('div');name.className='name';name.textContent=c.name;let role=document.createElement('div');role.className='role';role.textContent=ROSTER[i].role;b.append(name,role);b.onclick=()=>{sel=i;previewStartedAt=vclock;store.set('sel',i);buildCards();sfx.ui()};box.append(b)});
+// Fighters listed at the end of the menu grid (none right now; the roster keeps its normal order).
+const MENU_LAST=[];
+const menuOrder=()=>CH.map((_,i)=>i).filter(i=>!MENU_LAST.includes(i)).concat(MENU_LAST.filter(i=>i<CH.length));
+function buildCards(){const box=$('cards');box.innerHTML='';menuOrder().forEach(i=>{const c=CH[i];const b=document.createElement('button');b.className='card'+(i===sel?' sel':'');b.style.setProperty('--c',COL[i]);b.setAttribute('aria-pressed',i===sel);const cn=document.createElement('canvas');cn.width=180;cn.height=195;let g=cn.getContext('2d'),fr=idleExpressionFrame(i,0)||c.f.idle[0],bb=fr.bounds||{x:0,y:0,w:fr.w,h:fr.h},s=165/bb.h;g.drawImage(fr.im,fr.x+bb.x,fr.y+bb.y,bb.w,bb.h,(180-bb.w*s)/2,188-bb.h*s,bb.w*s,bb.h*s);b.append(cn);let name=document.createElement('div');name.className='name';name.textContent=c.name;let role=document.createElement('div');role.className='role';role.textContent=ROSTER[i].role;b.append(name,role);b.onclick=()=>{sel=i;previewStartedAt=vclock;store.set('sel',i);buildCards();sfx.ui()};box.append(b)});
   const skill=TECHNIQUES[sel],r=ROSTER[sel],sp=clamp((r.speed-170)/(285-170),.08,1),pw=clamp((r.power-.86)/(1.14-.86),.08,1);$('preview').style.setProperty('--c',r.color);
   $('fighterInfo').innerHTML='<h3>'+r.name+'</h3><div class="tag">'+r.role+'</div><div class="stat">SPEED<i><b style="width:'+Math.round(sp*100)+'%"></b></i></div><div class="stat">POWER<i><b style="width:'+Math.round(pw*100)+'%"></b></i></div><div class="mv"><span><b>←↑□</b>'+r.upper+'</span><span><b>↓→□</b>'+r.wave+'</span><span><b>↓↓□</b>'+skill.name+' · '+skill.cost+'</span><span><b>L2</b>'+r.super+'</span></div><p class="pas">'+r.passive+'</p><p class="det">'+ULTIMATE_PLANS[sel].detail+'</p><p class="det"><strong>○ '+EXTRA_NAMES[sel][4]+'</strong> '+ULTIMATE_PLANS[sel].signature+'</p><p class="det"><strong>HOLD ○</strong> '+(CHARGED_POWER[sel]?.note||'Charged power adds damage and briefly stuns on a clean hit.')+'</p><p class="det"><strong>↓↓□ '+skill.name+'</strong> '+skill.detail+'</p><p class="det keyhint">PC: J □ · K △ · Space ✕ · L ○ · Q L1 · E L2 · Esc › Settings for the command list</p>'}
 function mk(ci,x,face,human){return{...tacticsState(),ci,x,face,human,slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,hp:MAX_HP,shownHP:MAX_HP,mt:40,st:'idle',t:0,air:0,vy:0,vx:0,wins:0,hit:false,connected:false,back:false,backHeld:false,parryWindow:0,parryCooldown:0,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ghostTime:0,ctl:{dir:0},land:0,stepT:0,auraT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false}}
@@ -3021,7 +3123,9 @@ function buildEffectAtlas(){
 }
 function spriteFX(row,x,y,size=120,dur=.6,face=1){if(envFx.length>100)envFx.shift();envFx.push({row,x,y,size,dur,t:0,face})}
 function drawAtlas(row,frame,x,y,size,alpha=1,face=1){if(!atlasCanvas)return;ctx.save();ctx.translate(x,y);ctx.scale(face,1);ctx.globalAlpha=alpha;ctx.drawImage(atlasCanvas,clamp(frame|0,0,7)*128,row*128,128,128,-size/2,-size/2,size,size);ctx.restore()}
-function setArena(id){arenaId=id;store.set('arena',id);arenaArtKey='';resetEnvironment();document.querySelectorAll('.arena-card').forEach((b,i)=>b.setAttribute('aria-pressed',i===id));$('arenaNote').textContent=ARENAS[id].tag}
+// sharp menu backdrop: the picked arena's own artwork
+function menuArenaBg(){const a=ARENA_ART[arenaId];if(a&&a.src)$('menu').style.setProperty('--arenaimg','url("'+a.src+'")')}
+function setArena(id){arenaId=id;store.set('arena',id);menuArenaBg();arenaArtKey='';resetEnvironment();document.querySelectorAll('.arena-card').forEach((b,i)=>b.setAttribute('aria-pressed',i===id));$('arenaNote').textContent=ARENAS[id].tag}
 function initArenas(){const box=$('arenas');ARENAS.forEach((a,i)=>{const b=document.createElement('button');b.className='arena-card arena-'+i;b.innerHTML='<span class="arena-art"></span><span class="arena-name">'+a.name+'</span><small>'+a.tag+'</small>';b.style.setProperty('--arena-image','url("'+ARENA_ART[i].src+'")');b.onclick=()=>setArena(i);box.append(b)});setArena(arenaId);buildEffectAtlas()}
 function resetEnvironment(){envFx=[];floorScars=[];envClock=0;props=[{x:145,hp:3,kind:'crate'},{x:815,hp:3,kind:arenaId===1?'barrel':'crate'}]}
 function floorDamage(x,power=1){if(floorScars.length>=16)floorScars.shift();floorScars.push({x,y:GY+6+rand()*16,power,t0:vclock,art:makeScar(power,arenaId)});spriteFX(0,x,GY-15,120+power*40,.9);if(ARENAS[arenaId].wet)spriteFX(1,x,GY-10,130+power*35,.65);shards(x,GY-3,ARENAS[arenaId].floor,7*power,null,TAU,180*power);for(const p of props){if(p.hp>0&&Math.abs(p.x-x)<90+power*35){p.hp=Math.max(0,p.hp-power);p.hitT=vclock;p.hitDir=Math.sign(p.x-x)||1;if(!p.hp){p.debris=makeDebris(p);if(typeof bfCrateBroken==='function')bfCrateBroken(p)}spriteFX(0,p.x,GY-35,135,.85);shards(p.x,GY-45,'#bd8b65',p.hp?7:18,null,TAU,270);if(!p.hp){label('BREAK!',p.x,GY-100,'#ffd091',13);addShake(.18)}}}}
@@ -6176,8 +6280,7 @@ $('replayScene').onclick=$('replayResultScene').onclick=$('replayLastScene').onc
 $('bonusAntics').checked=store.get('bonusAntics',true);
 $('bonusAntics').onchange=()=>store.set('bonusAntics',$('bonusAntics').checked);
 
-for(const [ci,fighter] of ROSTER.entries()){
-  if(MENU_HIDDEN.has(ci))continue;
+for(const ci of menuOrder()){const fighter=ROSTER[ci];
   const choice=document.createElement('option');
   choice.value=String(ci);choice.textContent=fighter.name;
   $('rivalSelect').append(choice);
@@ -6197,7 +6300,7 @@ function loop(n){const real=clamp((n-last)/1000,0,.1);last=n;if(real>0)fpsEma+=(
     while(accumulator>=FIXED_DT&&guard++<30){if(P1&&phase!=='menu'&&phase!=='end'){for(const f of[P1,P2]){f.prevX=f.x;f.prevAir=f.air}for(const s of shots){s.px=s.x;s.py=s.y}step(FIXED_DT)}accumulator-=FIXED_DT}
     if(guard>=30)accumulator=0;renderAlpha=accumulator/FIXED_DT;if(phase!=='antic'&&!cameraPrank&&!sockCutaway)fxUpdate(el,real)}else{accumulator=0;renderAlpha=1}
   draw();if(phase==='menu'){try{drawPreview()}catch(e){if(fullReady)console.error(e)}}requestAnimationFrame(loop)}
-{const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}orientTick();$('rotTap').onclick=goLandscape;padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
+{const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}menuArenaBg();orientTick();$('rotTap').onclick=goLandscape;padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
 // Local diagnostics for smoke tests and frame inspection.
 window.ringDebug={get state(){return{phase,paused,round:1,timer,P1,P2,shots,effects,ready,parts:parts.length,fps:fpsEma,renderScale:RS,lowQuality:lowQ(),cam,hitstop,msg}},arenas:ARENAS,get arenaImages(){return arenaImages},setArena,atlas:()=>atlasCanvas,hit,step,updateDefense,floorDamage,resetEnvironment,get environment(){return{floorScars,props,envFx}},moves:ATK,press,held,start:(f,m)=>start(f,m)};
 
@@ -6505,4 +6608,35 @@ sfx.laugh=()=>{for(let i=0;i<5;i++){const d=i*.13;tone(330-i*18,.09,'sawtooth',.
   $('donatedBtn').onclick=()=>{$('claimBox').classList.toggle('open');$('cName').value=store.get('rankName','');buzz(8)};$('cSend').onclick=sendClaim;['cName','cAmt','cRef','cMsg'].forEach(id=>$(id).onkeydown=e=>e.stopPropagation());
   document.querySelector('#menu .menuBtns').insertAdjacentHTML('beforeend','<button id="patronsBtn" class="chip gear"><span class="gi">💛</span> PATRONS</button>');$('patronsBtn').onclick=()=>openRanks('patrons');
   renderTrophy();storyBanner()})();
+
+// ---------- always-on menu boards: top players, top patrons, comments ----------
+// Wide screens get two side rails; phones get one scrolling ticker at the top of the menu.
+// The top 3 of each board wear animated gold / silver / bronze crowns.
+var boardData=null;
+var CROWN_COL=['#ffd23f','#dfe7ef','#e39a62'];
+function crownSVG(i){const c=CROWN_COL[i];return '<svg viewBox="0 0 120 82" class="bcr" aria-hidden="true"><path d="M10 66 L15 18 L38 44 L60 8 L82 44 L105 18 L110 66 Z" fill="'+c+'" stroke="#0b0712" stroke-width="6" stroke-linejoin="round"/><rect x="11" y="62" width="98" height="13" rx="3" fill="'+c+'" stroke="#0b0712" stroke-width="5"/><circle cx="60" cy="42" r="7" fill="#ff2aa0" stroke="#0b0712" stroke-width="3"/><circle cx="33" cy="52" r="5" fill="#29c8ff" stroke="#0b0712" stroke-width="2.5"/><circle cx="87" cy="52" r="5" fill="#29c8ff" stroke="#0b0712" stroke-width="2.5"/></svg>'}
+function boardRows(list,val,sub,ghost){let h='';for(let i=0;i<5;i++){const e=list[i];if(!e&&i>=3)break;
+  const med=i<3?'<span class="bmed">'+crownSVG(i)+'<b>'+(i+1)+'</b><i class="spk s1"></i><i class="spk s2"></i></span>':'<span class="bmed n"><b>#'+(i+1)+'</b></span>';
+  h+='<li class="'+(i<3?'b'+(i+1):'bn')+(e?'':' ghost')+'" style="--i:'+i+'">'+med+'<span class="bwho"><b>'+(e?esc(e.name):ghost[i])+'</b><small>'+(e?sub(e):'')+'</small></span><span class="bval">'+(e?val(e):'')+'</span></li>'}return h}
+function renderBoards(){const d=boardData||{},s=d.scores||[],p=d.patrons||[],c=d.comments||[];
+  $('bTop').innerHTML=boardRows(s,e=>Number(e.score).toLocaleString(),e=>esc(e.fighter||'')+(e.champ?' · 👑 champ':''),['YOUR NAME?','???','???']);
+  $('bPat').innerHTML=boardRows(p,e=>'₱'+Number(e.total).toLocaleString(),e=>e.message?'“'+esc(e.message)+'”':e.count+' coffee'+(e.count>1?'s':''),['BE THE FIRST','???','???']);
+  const notes=c.slice(0,14).map(e=>'<div class="cnote"><b>'+esc(e.name)+'</b>'+(e.score?'<span>'+Number(e.score).toLocaleString()+'</span>':'')+'<p>'+esc(e.comment)+'</p><small>'+ago(e.at)+'</small></div>').join('');
+  const wall=$('bWall');wall.classList.remove('roll');
+  wall.innerHTML=c.length?notes:'<div class="cnote empty"><p>No comments yet.</p><small>Post one on the 🏆 Rankings wall.</small></div>';
+  // roll the wall only when the comments are taller than the board; the copy makes the loop seamless
+  requestAnimationFrame(()=>{const box=wall.parentElement;if(c.length&&box.clientHeight&&wall.scrollHeight>box.clientHeight){wall.innerHTML=notes+notes;wall.style.setProperty('--dur',Math.max(14,c.slice(0,14).length*3.6)+'s');wall.classList.add('roll')}});
+  // phone ticker
+  const parts=[];s.slice(0,3).forEach((e,i)=>parts.push('<span class="ti t'+(i+1)+'">'+crownSVG(i)+'<b>#'+(i+1)+' '+esc(e.name)+'</b> '+Number(e.score).toLocaleString()+'</span>'));
+  p.slice(0,3).forEach((e,i)=>parts.push('<span class="ti tp">💛 <b>'+esc(e.name)+'</b> ₱'+Number(e.total).toLocaleString()+'</span>'));
+  c.slice(0,8).forEach(e=>parts.push('<span class="ti tc">💬 <b>'+esc(e.name)+':</b> '+esc(e.comment)+'</span>'));
+  if(!s.length)parts.unshift('<span class="ti t1">'+crownSVG(0)+'<b>#1 is open</b> win Story Mode to claim it</span>');
+  if(!p.length)parts.push('<span class="ti tp">💛 <b>Top patron spot is open</b> ☕ buy the dev a coffee</span>');
+  const line=parts.join('<i class="tsep">✦</i>');$('tTrack').innerHTML=line+'<i class="tsep">✦</i>'+line+'<i class="tsep">✦</i>';
+  $('tTrack').style.setProperty('--dur',Math.max(18,parts.length*6)+'s')}
+async function loadBoards(){try{const r=await fetch(RANK_API+'?t='+Math.floor(Date.now()/30000),{cache:'no-store'});const d=await r.json();if(d&&!d.error){boardData=d;if(!rankData)rankData=d}}catch(e){}renderBoards()}
+document.querySelectorAll('.rail .board[data-tab]').forEach(b=>b.onclick=e=>{if(e.target.closest('.bcta'))return;openRanks(b.dataset.tab)});
+$('ticker').onclick=()=>openRanks('top');
+$('bSupport').onclick=e=>{e.stopPropagation();$('coffeeBtn').click()};
+renderBoards();loadBoards();setInterval(()=>{if(phase==='menu'&&!document.hidden)loadBoards()},60000);
 </script></body></html>

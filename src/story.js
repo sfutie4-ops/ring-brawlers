@@ -168,3 +168,34 @@ sfx.laugh=()=>{for(let i=0;i<5;i++){const d=i*.13;tone(330-i*18,.09,'sawtooth',.
   $('donatedBtn').onclick=()=>{$('claimBox').classList.toggle('open');$('cName').value=store.get('rankName','');buzz(8)};$('cSend').onclick=sendClaim;['cName','cAmt','cRef','cMsg'].forEach(id=>$(id).onkeydown=e=>e.stopPropagation());
   document.querySelector('#menu .menuBtns').insertAdjacentHTML('beforeend','<button id="patronsBtn" class="chip gear"><span class="gi">💛</span> PATRONS</button>');$('patronsBtn').onclick=()=>openRanks('patrons');
   renderTrophy();storyBanner()})();
+
+// ---------- always-on menu boards: top players, top patrons, comments ----------
+// Wide screens get two side rails; phones get one scrolling ticker at the top of the menu.
+// The top 3 of each board wear animated gold / silver / bronze crowns.
+var boardData=null;
+var CROWN_COL=['#ffd23f','#dfe7ef','#e39a62'];
+function crownSVG(i){const c=CROWN_COL[i];return '<svg viewBox="0 0 120 82" class="bcr" aria-hidden="true"><path d="M10 66 L15 18 L38 44 L60 8 L82 44 L105 18 L110 66 Z" fill="'+c+'" stroke="#0b0712" stroke-width="6" stroke-linejoin="round"/><rect x="11" y="62" width="98" height="13" rx="3" fill="'+c+'" stroke="#0b0712" stroke-width="5"/><circle cx="60" cy="42" r="7" fill="#ff2aa0" stroke="#0b0712" stroke-width="3"/><circle cx="33" cy="52" r="5" fill="#29c8ff" stroke="#0b0712" stroke-width="2.5"/><circle cx="87" cy="52" r="5" fill="#29c8ff" stroke="#0b0712" stroke-width="2.5"/></svg>'}
+function boardRows(list,val,sub,ghost){let h='';for(let i=0;i<5;i++){const e=list[i];if(!e&&i>=3)break;
+  const med=i<3?'<span class="bmed">'+crownSVG(i)+'<b>'+(i+1)+'</b><i class="spk s1"></i><i class="spk s2"></i></span>':'<span class="bmed n"><b>#'+(i+1)+'</b></span>';
+  h+='<li class="'+(i<3?'b'+(i+1):'bn')+(e?'':' ghost')+'" style="--i:'+i+'">'+med+'<span class="bwho"><b>'+(e?esc(e.name):ghost[i])+'</b><small>'+(e?sub(e):'')+'</small></span><span class="bval">'+(e?val(e):'')+'</span></li>'}return h}
+function renderBoards(){const d=boardData||{},s=d.scores||[],p=d.patrons||[],c=d.comments||[];
+  $('bTop').innerHTML=boardRows(s,e=>Number(e.score).toLocaleString(),e=>esc(e.fighter||'')+(e.champ?' · 👑 champ':''),['YOUR NAME?','???','???']);
+  $('bPat').innerHTML=boardRows(p,e=>'₱'+Number(e.total).toLocaleString(),e=>e.message?'“'+esc(e.message)+'”':e.count+' coffee'+(e.count>1?'s':''),['BE THE FIRST','???','???']);
+  const notes=c.slice(0,14).map(e=>'<div class="cnote"><b>'+esc(e.name)+'</b>'+(e.score?'<span>'+Number(e.score).toLocaleString()+'</span>':'')+'<p>'+esc(e.comment)+'</p><small>'+ago(e.at)+'</small></div>').join('');
+  const wall=$('bWall');wall.classList.remove('roll');
+  wall.innerHTML=c.length?notes:'<div class="cnote empty"><p>No comments yet.</p><small>Post one on the 🏆 Rankings wall.</small></div>';
+  // roll the wall only when the comments are taller than the board; the copy makes the loop seamless
+  requestAnimationFrame(()=>{const box=wall.parentElement;if(c.length&&box.clientHeight&&wall.scrollHeight>box.clientHeight){wall.innerHTML=notes+notes;wall.style.setProperty('--dur',Math.max(14,c.slice(0,14).length*3.6)+'s');wall.classList.add('roll')}});
+  // phone ticker
+  const parts=[];s.slice(0,3).forEach((e,i)=>parts.push('<span class="ti t'+(i+1)+'">'+crownSVG(i)+'<b>#'+(i+1)+' '+esc(e.name)+'</b> '+Number(e.score).toLocaleString()+'</span>'));
+  p.slice(0,3).forEach((e,i)=>parts.push('<span class="ti tp">💛 <b>'+esc(e.name)+'</b> ₱'+Number(e.total).toLocaleString()+'</span>'));
+  c.slice(0,8).forEach(e=>parts.push('<span class="ti tc">💬 <b>'+esc(e.name)+':</b> '+esc(e.comment)+'</span>'));
+  if(!s.length)parts.unshift('<span class="ti t1">'+crownSVG(0)+'<b>#1 is open</b> win Story Mode to claim it</span>');
+  if(!p.length)parts.push('<span class="ti tp">💛 <b>Top patron spot is open</b> ☕ buy the dev a coffee</span>');
+  const line=parts.join('<i class="tsep">✦</i>');$('tTrack').innerHTML=line+'<i class="tsep">✦</i>'+line+'<i class="tsep">✦</i>';
+  $('tTrack').style.setProperty('--dur',Math.max(18,parts.length*6)+'s')}
+async function loadBoards(){try{const r=await fetch(RANK_API+'?t='+Math.floor(Date.now()/30000),{cache:'no-store'});const d=await r.json();if(d&&!d.error){boardData=d;if(!rankData)rankData=d}}catch(e){}renderBoards()}
+document.querySelectorAll('.rail .board[data-tab]').forEach(b=>b.onclick=e=>{if(e.target.closest('.bcta'))return;openRanks(b.dataset.tab)});
+$('ticker').onclick=()=>openRanks('top');
+$('bSupport').onclick=e=>{e.stopPropagation();$('coffeeBtn').click()};
+renderBoards();loadBoards();setInterval(()=>{if(phase==='menu'&&!document.hidden)loadBoards()},60000);
