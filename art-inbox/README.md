@@ -5,8 +5,50 @@ used by the game until someone wires it in: Claude Code or Codex slices the imag
 data into `assets/` or `addons/`, and adds it to the build. Upload on GitHub with **Add file → Upload
 files** into `art-inbox/`, or attach the file in a Codex / Claude Code task.
 
-Each upload = the image + a short note `<name>.txt` saying what it is and where it should go
-(e.g. "new look for Abra", "sticker for a 10-hit combo", "menu background").
+Each upload = the image + a note with the same name (see below), in the folder for that kind of art.
+
+## Where things go
+
+```
+art-inbox/
+├── fighters/
+│   ├── loonie/  abra/  shehyee/  batas/  smugglaz/  aklas/  zaito/
+│   ├── apekz/  sinio/  dello/  tipsy-d/  blkd/  badang/  target/
+│   └── _new-fighter/          ← copy the pattern: make  fighters/<new-name>/
+├── antics/
+│   ├── stickers/              comic stickers above the fight
+│   ├── crowd/                 spectators popping over the railing
+│   └── stage/                 props / crew on the floor behind the fighters
+├── cutscenes/                 little story skits
+├── backgrounds/
+│   ├── arenas/                fight stages
+│   └── menus/                 loading, menu, versus screens
+└── ui/                        buttons, icons, badges, crowns
+```
+
+## File names
+
+- **lowercase, words joined with hyphens, no spaces**, ending in **`-v1`, `-v2`, …** (a new version never overwrites the old one).
+- Fighters: `<fighter>-<kind>-v1.png` with kind = `sheet`, `portrait` or `signature`
+  → `fighters/abra/abra-sheet-v1.png`, `fighters/tipsy-d/tipsy-d-portrait-v2.png`
+- Antics: `<trigger>-<short-name>-v1.png` → `antics/stickers/combo10-fireworks-v1.png`, `antics/crowd/ko-crowd-jumps-v1.png`
+- Cutscenes: `<who>-<scene>-v1.png` → `cutscenes/smugglaz-zaito-socks-v1.png`
+- Backgrounds / UI: `<name>-v1.png` → `backgrounds/arenas/jeepney-terminal-v1.png`, `ui/crown-gold-v1.png`
+- A sheet split into parts: add `-part1`, `-part2` → `abra-sheet-v1-part1.png`
+- Fighter folder names are fixed: `loonie abra shehyee batas smugglaz aklas zaito apekz sinio dello tipsy-d blkd badang target`.
+
+## The note (same name, `.txt`)
+
+Every image gets a note next to it, e.g. `abra-sheet-v1.txt`:
+
+```
+what:     new look for Abra (full 28-pose sheet)
+replaces: Abra's current fighter sprites      (or: new, nothing replaced)
+trigger:  -                                    (antics only: what makes it appear)
+layer:    -                                    (antics only: sticker / crowd / stage)
+frames:   28, grid 4×7, cell 320×400           (how the image is laid out)
+notes:    signature 16–19 = magic hat trick, 20–27 = mic toss
+```
 
 ## Rules for every image
 

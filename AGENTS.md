@@ -47,7 +47,7 @@ Also check phones: the game is played in landscape (about 915×412 CSS px); cont
 
 ## New art (designs, sprite sheets)
 
-New art arrives in `art-inbox/` with a note (format and the ChatGPT prompt: `art-inbox/README.md`).
+New art arrives in `art-inbox/<kind>/…` with a same-name `.txt` note; folders, file names and the ChatGPT prompt are in `art-inbox/README.md`. Keep those names when the art moves into `assets/`/`addons/` (lowercase, hyphens, `-vN`). Uploads that don't follow the layout: ask the owner rather than guessing what they are.
 To wire it in: slice it into the existing formats (fighter looks: `assets/redraw/<name>.webp` + `.json`, frames with
 anchor `ax/ay` at the feet; gag clips: `addons/battlefield-antics/`; portraits: `assets/motion/lobby.webp`), hook it up in
 `build.py` / the JS, build, run the checks, and look at it on desktop and phone. Leave the original upload in the inbox
