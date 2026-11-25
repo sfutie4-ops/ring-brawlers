@@ -17,6 +17,7 @@ Live site: https://sfutie4-ops.github.io/ring-brawlers/ — one HTML page plus a
 | `src/story.js` | story mode, boss, trophy, rankings, comment wall, patrons, suggestion box, menu side boards |
 | `src/bfantics.js` | story antics (stickers, crowd reactions, stagehand) and cutscene captions |
 | `src/antics.js`, `src/complete.js` | Complete Edition skits, finale cutscenes, crowd stands, sock cutaway + cat attack, music |
+| `src/atmosphere.js` | dynamic lights (`addLight()`: hits, parries, supers, fireballs light the floor and the fighters, and cast shadows) and each arena's air (rain, embers, spotlight beams, haze) |
 | `src/arena.js`, `src/tactics.js`, `src/techniques.js`, `src/ultimates.js`, `src/ultimate-*.js`, `src/cinematics.js`, `src/expansion.js` | arenas/props, defence & status effects, fighter skills, ultimates, sprite frame selection, extra moves |
 | `src/base-art.js` | **generated art seed (19 MB). Never edit by hand.** |
 | `assets/`, `addons/` | art, fonts, the GCash QR (`assets/coffee/qr.png`), CC0 music (`addons/complete/bgm/`) |
@@ -42,7 +43,9 @@ Also check phones: the game is played in landscape (about 915×412 CSS px); cont
 
 - The simulation runs in fixed 120 Hz steps and drawing interpolates between them. Tie anything that spawns or moves to time (`dt`), never to the number of frames drawn.
 - Nothing is built or decoded mid-fight. Cached art (skins, glows, silhouettes) is painted once on `artCanvas(w,h)` in `game.js`, and the match warm-up (`queueMatchWarmup()`) builds and decodes a match's art during the VS screen. New art a fight draws belongs in that warm-up.
-- `node tests/perf-bench.cjs` (also `--gpu`, `--phone`) plays an AI match and prints frame times. Run it on `main` and on your branch when you touch drawing code.
+- Fighters' 3D lighting (`litFrames()` in `game.js`) is baked per pose during the warm-up, never per frame. Slow devices fall back to the lighter look automatically (`bakeLit()`).
+- New glow, light or ambient effects draw from cached textures (`glow(color)`, `artCanvas`) and use `qn()`/`lowQ()` to thin out on low quality.
+- `node tests/perf-bench.cjs` (also `--gpu`, `--phone`) plays an AI match and prints frame times and any warm-up work left when the fight starts. Run it on `main` and on your branch when you touch drawing code.
 
 ## Publishing
 

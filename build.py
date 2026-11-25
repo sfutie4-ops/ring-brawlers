@@ -142,7 +142,7 @@ out = (root / "src/template.html").read_text(encoding="utf-8")
 for mark, text in (
     ("/*__CSS__*/", (root / "src/style.css").read_text(encoding="utf-8").strip() + "\n" + (root / "src/theme.css").read_text(encoding="utf-8").strip()),
     ("/*__DATA__*/", "\n".join(data)),
-    ("/*__JS__*/", ((root / "src/game.js").read_text(encoding="utf-8") + "\n" + (root / "src/bfantics.js").read_text(encoding="utf-8") + "\n" + (root / "src/story.js").read_text(encoding="utf-8")).replace("/*__TECHNIQUES__*/", (root / "src/techniques.js").read_text(encoding="utf-8")).replace("/*__CINEMATICS__*/", (root / "src/cinematics.js").read_text(encoding="utf-8")).replace("/*__TACTICS__*/", (root / "src/tactics.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_PERFORMANCE__*/", (root / "src/ultimate-performance.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_SCREEN__*/", (root / "src/ultimate-screen.js").read_text(encoding="utf-8")).replace("/*__ULTIMATES__*/", (root / "src/ultimates.js").read_text(encoding="utf-8")).replace("/*__EXPANSION__*/", (root / "src/expansion.js").read_text(encoding="utf-8")).replace("/*__ANTICS__*/", (root / "src/antics.js").read_text(encoding="utf-8")).replace("/*__ARENA__*/", (root / "src/arena.js").read_text(encoding="utf-8")).replace("/*__COMPLETE__*/", complete_players+"\n"+(root/"src/complete.js").read_text(encoding="utf-8")).strip()),
+    ("/*__JS__*/", ((root / "src/game.js").read_text(encoding="utf-8") + "\n" + (root / "src/bfantics.js").read_text(encoding="utf-8") + "\n" + (root / "src/story.js").read_text(encoding="utf-8")).replace("/*__TECHNIQUES__*/", (root / "src/techniques.js").read_text(encoding="utf-8")).replace("/*__CINEMATICS__*/", (root / "src/cinematics.js").read_text(encoding="utf-8")).replace("/*__TACTICS__*/", (root / "src/tactics.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_PERFORMANCE__*/", (root / "src/ultimate-performance.js").read_text(encoding="utf-8")).replace("/*__ULTIMATE_SCREEN__*/", (root / "src/ultimate-screen.js").read_text(encoding="utf-8")).replace("/*__ULTIMATES__*/", (root / "src/ultimates.js").read_text(encoding="utf-8")).replace("/*__EXPANSION__*/", (root / "src/expansion.js").read_text(encoding="utf-8")).replace("/*__ANTICS__*/", (root / "src/antics.js").read_text(encoding="utf-8")).replace("/*__ARENA__*/", (root / "src/arena.js").read_text(encoding="utf-8")).replace("/*__ATMOSPHERE__*/", (root / "src/atmosphere.js").read_text(encoding="utf-8")).replace("/*__COMPLETE__*/", complete_players+"\n"+(root/"src/complete.js").read_text(encoding="utf-8")).strip()),
 ):
     if out.count(mark) != 1:
         sys.exit(f"template must contain {mark} exactly once")
@@ -188,5 +188,11 @@ if "--single" not in sys.argv:
     total = sum(p.stat().st_size for p in adir.iterdir())
     print(f"assets: {len(list(adir.iterdir()))} files, {total / 1e6:.1f} MB")
 
+# build id: the page compares it with a/version.json (fetched uncached) and reloads into a newer build,
+# so phones that cached the old page still pick up an update within one visit
+if "--single" not in sys.argv:
+    build_id = hashlib.sha1(out.encode("utf-8")).hexdigest()[:12]
+    out = out.replace("const BUILD_ID='dev';", f"const BUILD_ID='{build_id}';", 1)
+    (root / "a" / "version.json").write_text(json.dumps({"build": build_id}), encoding="utf-8")
 (root / "index.html").write_text(out, encoding="utf-8")
 print(f"index.html written ({len(out) / 1e6:.1f} MB)")

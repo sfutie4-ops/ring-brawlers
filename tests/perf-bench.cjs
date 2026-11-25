@@ -71,6 +71,7 @@ const stats = a => { if (!a.length) return 'no frames'; const s = [...a].sort((x
   await page.waitForFunction(() => ringDebug.state.phase === 'versus', null, { timeout: 30000 });
   // let the VS screen run its course (it holds until the match art is warmed up), as in real play
   await page.waitForFunction(() => ringDebug.state.phase === 'fight', null, { timeout: 30000 });
+  console.log('\nwarm-up jobs still queued when the fight starts: ' + await page.evaluate(() => typeof warmQueue === 'undefined' ? 'n/a' : warmQueue.length + (warmPending ? ' (+ decoding)' : '')));
   await pinRes();
   await page.evaluate(() => { const s0 = window.step; window.step = function (dt) { if (phase === 'fight' && P1 && P2) ai(P1, P2, dt); return s0(dt); }; P1.mt = P2.mt = 100; });
   if (PROFILE) { await cdp.send('Profiler.enable'); await cdp.send('Profiler.setSamplingInterval', { interval: 200 }); await cdp.send('Profiler.start'); }

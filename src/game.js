@@ -1,4 +1,9 @@
 /* FliptapWars engine (unofficial fan-made game). build.py injects this file (plus the art data lines) into index.html. */
+// published build id (build.py fills it in). Phones may keep an old copy of the page cached, so the page asks the
+// server which build is current (uncached) and reloads once into a newer one; ?v= keeps it from asking twice
+const BUILD_ID='dev';
+if(BUILD_ID!=='dev'&&location.protocol!=='file:')fetch('a/version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{if(!v||!v.build||v.build===BUILD_ID)return;
+  const u=new URL(location.href);if(u.searchParams.get('v')===v.build)return;u.searchParams.set('v',v.build);location.replace(u.href)}).catch(()=>{});
 // the game canvas is opaque (every frame paints all of it), so the browser never has to blend it with the page
 const W=960,H=540,GY=470,cv=document.getElementById('g'),ctx=cv.getContext('2d',{alpha:false});
 const $=s=>document.getElementById(s),TAU=Math.PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rand=Math.random,lerp=(a,b,t)=>a+(b-a)*t;
@@ -103,8 +108,8 @@ function dirTick(){if(!P1||phase!=='fight'||paused){dirSet='';return}const x=(he
   dirSet=cur}
 // Classic block: guard pose, small lean back, and a white/cyan block spark where the hit lands.
 function blockPoseFrame(ci){const art=REVISED_FIGHTERS[ci],fr=art&&cinematicFrames[art.sheet];if(fr&&Number.isInteger(art.block)&&fr[art.block])return fr[art.block];return CH[ci].f.dash?.[0]||null}
-// Arena lighting for fighters: a cast shadow away from the key light, coloured rim lights from the two
-// light sources (drawn just behind the sprite so only the edge shows) and a light ambient grade on top.
+// Arena lights: the two coloured stage lights (l: from the left, r: from the right), the ambient colour and the skew of
+// the cast shadow. The fighters' 3D lighting is baked from them (litFrames); drawLighting adds the cast shadow.
 const LIGHTS=[{l:'#ff4fb0',r:'#4fd8ff',amb:'#c4bcff',sk:-.55},{l:'#ff8a3c',r:'#ffcf7a',amb:'#ffcfa6',sk:.45},{l:'#ffd27a',r:'#7ab8ff',amb:'#fff1d6',sk:-.35}];
 function drawLighting(f,fr,X,Y,sx,sy,angle,ra,pass){if(pass!=='under'||lowQ())return;const L=LIGHTS[arenaId]||LIGHTS[0],so=clamp(1-ra/220,0,1)*.38;if(so<=.01)return;
   const c=shadowSkin(fr),s=fr.scale||1;ctx.save();ctx.translate(X,GY+3);ctx.transform(1,0,L.sk,1,0,0);ctx.scale(f.face*sx,-sy*.24);ctx.globalAlpha=so;ctx.imageSmoothingEnabled=true;ctx.drawImage(c,-fr.ax*s,-(fr.ay??fr.h)*s,fr.w*s,fr.h*s);ctx.restore()}
@@ -309,7 +314,7 @@ function refreshMoveLabels(){
   if(skillButton){skillButton.innerHTML=skill.name+'<small>'+skill.cost+'</small>';skillButton.title=skill.cost+' mana · '+skill.detail}
   for(const[k,name,cost]of[['h',r.upper,20],['w',r.wave,30],['s',r.super,100]]){const b=document.querySelector('[data-k='+k+']');if(b){b.innerHTML=k==='s'&&b.classList.contains('sh')?'L2 · ULT':(k==='s'?ULTIMATE_PLANS[P1.ci].short:name)+'<small>'+cost+'</small>';b.title=k==='s'?ULTIMATE_PLANS[P1.ci].detail:r.detail}}$('help').innerHTML=(()=>{const T=isTouch,P=T?'□':'J',K=T?'△':'K',U=T?'L2':'E',row=(k,n,c)=>'<div class="pm"><b class="pk">'+k+'</b><span>'+n+'</span><i>'+c+'</i></div>';
   return '<div class="pfighter" style="--c:'+r.color+'"><b>'+r.name+'</b><span>'+r.role+'</span></div><div class="pmoves">'+row('←↑ '+P,r.upper,'free')+row('↓→ '+P,r.wave,'30')+row('↓↓ '+P,skill.name,skill.cost)+row(T?'○':'L',EXTRA_NAMES[P1.ci][4],'45')+row(U,r.super,'100')+row('→→','Dash','free')+'</div><p class="ptip">'+r.passive+'</p><p class="pfoot">Full command list · Settings</p>'})()}
-function startRound(){setTimeout(storyRoundStart,0);resHold=2.5;resT=resSlow=resFast=0;resSlowRun=resFastRun=0;resDown=false;refereeMark=refereeX=W/2;ringAntics.reset();bfReset();resetUltimateScreen();refereeWinner=null;resetEnvironment();[P1,P2].forEach((f,i)=>Object.assign(f,{x:i?660:300,face:i?-1:1,hp:MAX_HP,shownHP:MAX_HP,mt:Math.max(40,Math.min(70,f.mt)),st:'idle',t:0,air:0,vy:0,vx:0,hit:false,connected:false,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ctl:{dir:0},slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,back:false,backHeld:false,parryWindow:0,parryCooldown:0,prevX:undefined,prevAir:undefined,land:0,stepT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false,ultimate:null,crownHit:0,...tacticsState()}));resetSockCat();timer=MATCH_SECONDS;phase='intro';pt=0;koMsg='';setMsg(difficulty==='training'?'TRAINING':'GET READY');parts=[];effects=[];ghosts=[];shots=[];texts=[];swooshes=[];hitstop=0;flash=0;slowT=0;superDim=0;banner=null;lastTick=-1;cam.trauma=0;cam.focus=null;cam.focusT=0;cam.punch=0;clearInput();resetShowtime();introT0=0}
+function startRound(){setTimeout(storyRoundStart,0);lights=[];resHold=2.5;resT=resSlow=resFast=0;resSlowRun=resFastRun=0;resDown=false;refereeMark=refereeX=W/2;ringAntics.reset();bfReset();resetUltimateScreen();refereeWinner=null;resetEnvironment();[P1,P2].forEach((f,i)=>Object.assign(f,{x:i?660:300,face:i?-1:1,hp:MAX_HP,shownHP:MAX_HP,mt:Math.max(40,Math.min(70,f.mt)),st:'idle',t:0,air:0,vy:0,vx:0,hit:false,connected:false,inv:0,cd:0,combo:0,comboTime:0,hitGlow:0,think:0,ctl:{dir:0},slow:0,angle:0,setup:0,counter:0,armor:0,castCount:0,back:false,backHeld:false,parryWindow:0,parryCooldown:0,prevX:undefined,prevAir:undefined,land:0,stepT:0,hudShake:0,comboPop:0,guardFlash:0,downThud:false,ultimate:null,crownHit:0,...tacticsState()}));resetSockCat();timer=MATCH_SECONDS;phase='intro';pt=0;koMsg='';setMsg(difficulty==='training'?'TRAINING':'GET READY');parts=[];effects=[];ghosts=[];shots=[];texts=[];swooshes=[];hitstop=0;flash=0;slowT=0;superDim=0;banner=null;lastTick=-1;cam.trauma=0;cam.focus=null;cam.focusT=0;cam.punch=0;clearInput();resetShowtime();introT0=0}
 function toMenu(){releaseMatchArt();resetAntics();if(typeof endLose==='function')endLose();resetUltimateScreen();paused=false;phase='menu';P1=null;P2=null;clearInput();parts=[];confettiT=0;$('menu').style.display='flex';$('pauseScreen').style.display='none';$('result').style.display='none';$('pause').textContent='PAUSE';buildCards()}
 
 // ---------- particles & effects ----------
@@ -331,6 +336,8 @@ function fxHit(a,d,at,x,y){
   const heavy=!at.rapid&&at.kind==='sp',mid=at.kind==='upper'||at.kind==='kick',dir=(a.face>0?0:Math.PI)-a.face*.35,col=COL[a.ci];
   sparks(x,y,col,heavy?46:mid?24:at.rapid?10:16,dir,heavy?2.7:1.7,heavy?640:mid?520:430);
   shards(x,y,col,heavy?12:mid?6:3,dir-a.face*.15,1.6,heavy?520:380);
+  addLight(x,y,col,heavy?360:mid?260:200,heavy?1:mid?.8:.6,heavy?.5:.3);
+  if((heavy||mid)&&!lowQ())for(let i=0;i<(heavy?10:5);i++){const an=dir+(rand()-.5)*1.6,v=260+rand()*380,life=.5+rand()*.5;parts.push({k:'spark',x,y,vx:Math.cos(an)*v,vy:Math.sin(an)*v-180,g:1500,drag:.6,l:life,max:life,size:1.6+rand()*1.4,c:i%3?'#ffe6a8':col,b:1})}
   flare(x,y,'#fff3d0',heavy?150:mid?100:74);parts.push({k:'fglow',x,y:GY+3,vx:0,vy:0,g:0,drag:0,l:heavy?.5:.32,max:heavy?.5:.32,size:heavy?230:mid?150:110,c:col});ringFx(x,y,col,heavy?210:mid?130:95,heavy?.45:.3);
   if(heavy){ringFx(x,y,'#ffffff',300,.55,.82,3);embers(x,y,col,16,50,50);speedLines(a.face,col,12);crowdFlash(12);ropeHit(1)}else if(mid)crowdFlash(2);
   if(d.air===0)dust(d.x,GY,heavy?8:3,a.face,heavy?1.6:1);
@@ -445,7 +452,7 @@ function updateF(f,o,dt){tacticsTick(f,dt);if(!f.freeze)f.t+=dt;for(const key of
   else if(f.st==='technique')updateTechnique(f,o);
   else if(ATK[f.st]){const a=moveData(f);if(!f.terrainHit&&f.t>=a.hit&&['kick','upper'].includes(f.st)){f.terrainHit=true;const tx=f.x+f.face*(f.st==='sp'?85:55);if(f.st==='sp'||props.some(p=>p.hp>0&&Math.abs(p.x-tx)<60))floorDamage(tx,f.st==='sp'?2:1)}if(a.volley){while(f.castCount<a.volley.length&&f.t>=a.volley[f.castCount].at){const spec=a.volley[f.castCount],index=f.castCount++,sx=f.x+f.face*65,sy=GY-90;shots.push({x:sx,y:sy,originY:sy,vx:f.face*spec.speed,face:f.face,owner:f,t:0,life:2.3,path:spec.path,lane:index,trail:0,at:{...powerHit(f,{...a,dmg:spec.dmg},index),rapid:a.volley.length>1},color:COL[f.ci]});f.hit=true;flare(sx,sy,COL[f.ci],a.kind==='sp'?110:80);ringFx(sx,sy,COL[f.ci],70,.22,1.3,3);sparks(sx,sy,COL[f.ci],8,f.face>0?Math.PI:0,1.6,260,300);kick(-f.face*(a.kind==='sp'?7:4));addShake(a.kind==='sp'?.12:.05);sfx.cast(index)}}else if(!f.hit&&f.t>=a.hit&&f.t<=a.end)resolve(f,o);if(f.st==='upper'&&!a.counter&&!a.grounded)f.air=Math.sin(clamp((f.t-.16)/.48,0,1)*Math.PI)*38;if(f.st==='dive')f.air=Math.sin(clamp(f.t/a.dur,0,1)*Math.PI)*48;if(f.st==='rise')f.air=Math.sin(clamp(f.t/a.dur,0,1)*Math.PI)*24;if(f.t>=a.dur){if(['dive','rise'].includes(f.st))f.air=0;f.st='idle';f.t=0;if(a.kind==='upper')f.air=0}}
   if(f.st==='dash'&&f.t>.20){f.st='idle';f.vx=0;f.t=0}if((f.st==='hit'||f.st==='block')&&f.t>(f.st==='hit'?.31:.18)&&f.air===0){f.st='idle';f.t=0}if(f.st==='down'&&f.hp>0&&f.t>1.0&&f.air===0){f.st='idle';f.inv=.35;f.t=0}
-  if(!f.freeze&&!isMountainClimbing(f)&&(f.st==='jump'||(f.air>0&&!['upper','rise','dive'].includes(f.st)))){f.vy+=2250*dt;f.air-=f.vy*dt;if(f.air<=0){f.air=0;f.vy=0;effect(3,f.x,GY-8,110);dust(f.x,GY,3,-1);dust(f.x,GY,3,1);f.land=.16;sfx.land();if(f.st==='jump'){f.st='idle';f.vx=0;f.t=0}}}
+  if(!f.freeze&&!isMountainClimbing(f)&&(f.st==='jump'||(f.air>0&&!['upper','rise','dive'].includes(f.st)))){f.vy+=2250*dt;f.air-=f.vy*dt;if(f.air<=0){f.air=0;f.vy=0;effect(3,f.x,GY-8,110);dust(f.x,GY,3,-1);dust(f.x,GY,3,1);ringFx(f.x,GY+2,'#e9e2d0',62,.3,.22,2);f.land=.16;sfx.land();if(f.st==='jump'){f.st='idle';f.vx=0;f.t=0}}}
   if(!['walk','jump','dash','slide','evade'].includes(f.st))f.vx*=Math.pow(f.st==='sp'?.15:.002,dt);f.x=clamp(f.x+f.vx*dt,65,895);
   f.ghostTime-=dt;if(!reduced&&['dash','upper'].includes(f.st)&&f.ghostTime<=0){f.ghostTime=.04;ghosts.push({x:f.x,air:f.air,face:f.face,fr:selectFrame(f),t:0,dur:.26,col:COL[f.ci]})}}
 function finishRound(){
@@ -520,7 +527,7 @@ let fadeT=0,padRects=null,padRectsT=0;addEventListener('resize',()=>padRects=nul
   if(!padRects||padRectsT++>90){padRects={leftZone:$('leftZone').getBoundingClientRect(),actZone:$('actZone').getBoundingClientRect()};padRectsT=0}for(const id of['leftZone','actZone']){const z=$(id),r=padRects[id];let hit=false;for(const f of[P1,P2]){const x0=sx(f.x-48),x1=sx(f.x+48),y0=sy(GY-f.air-185),y1=sy(GY-f.air+6);if(x1>r.left+10&&x0<r.right-10&&y1>r.top+10&&y0<r.bottom)hit=true}for(const sh of shots){const x=sx(sh.x),y=sy(sh.y);if(x>r.left&&x<r.right&&y>r.top&&y<r.bottom)hit=true}z.classList.toggle('dim',hit)}}
 function syncUI(){dirTick();if(sound&&audioCtx)ambience(!!P1&&['intro','fight','ko'].includes(phase)&&!paused);padFadeTick();const playing=!!P1&&['intro','fight','ko'].includes(phase)&&!paused;if(playing!==uiPlaying){uiPlaying=playing;document.body.classList.toggle('playing',playing);fit()}
   if(isTouch&&P1)for(const[k,cost]of[['h',20],['w',30],['s',100],['technique',TECHNIQUES[P1.ci].cost]]){const off=P1.mt<cost||P1.silence>0;if(uiBtn[k]!==off){uiBtn[k]=off;const b=document.querySelector('[data-k='+k+']');if(b){b.classList.toggle('off',off);if(k==='s')b.classList.toggle('ready',!off)}}const pr=Math.round(clamp(P1.mt/cost,0,1)*20)*5;if(uiBtn[k+'p']!==pr){uiBtn[k+'p']=pr;padBtn(k)?.style.setProperty('--p',pr+'%')}}const cd=P1?Math.round(clamp(1-P1.cd/DASH_CD,0,1)*20)*5:100;if(isTouch&&P1&&uiBtn.dp!==cd){uiBtn.dp=cd;padBtn('d')?.style.setProperty('--p',cd+'%')}}
-function fxUpdate(dt,real){showtimeUpdate(dt,real);advanceUltimateScreen(real);environmentUpdate(dt*ultimateWorldRate());vclock+=dt;msgT+=real;
+function fxUpdate(dt,real){updateLights(dt);atmosphereUpdate(dt);showtimeUpdate(dt,real);advanceUltimateScreen(real);environmentUpdate(dt*ultimateWorldRate());vclock+=dt;msgT+=real;
   for(const e of effects)e.t+=dt;effects=effects.filter(e=>e.t<e.dur);for(const g of ghosts)g.t+=dt;ghosts=ghosts.filter(g=>g.t<g.dur);
   for(const t of texts){t.t+=dt;t.y-=(t.pop?46*Math.max(0,1-t.t*1.4):25)*dt;t.x+=t.vx*dt}texts=texts.filter(t=>t.t<t.dur);
   if(hitstop<=0)for(const s of swooshes)s.t+=dt;swooshes=swooshes.filter(s=>s.t<s.dur&&(s.t>=0||s.f.st===s.kind));
@@ -535,6 +542,7 @@ function fxUpdate(dt,real){showtimeUpdate(dt,real);advanceUltimateScreen(real);e
         if(f.st==='walk'&&f.air===0){f.stepT-=dt;if(f.stepT<=0){f.stepT=.2;dust(x-Math.sign(f.vx)*12,GY+2,1,-Math.sign(f.vx)*.5,.7)}}
         if(f.st==='down'){if(!f.downThud&&f.t>.3&&f.air===0){f.downThud=true;dust(x-f.face*40,GY,qn(7),0,1.3);addShake(.22);sfx.thud();ropeHit(.4)}if(Math.abs(f.vx)>90&&f.air===0&&rand()<dt*40)dust(x-f.face*30,GY+2,1,-Math.sign(f.vx)*.3,.8)}
         if(f.mt>=100&&f.hp>0&&phase==='fight'){f.auraT-=dt;if(f.auraT<=0){f.auraT=lowQ()?.12:.05;embers(x,GY-f.air-20-rand()*150,COL[f.ci],1,30,10)}}
+        if((f.st==='chargeMana'||f.st==='chargePower')&&rand()<dt*(lowQ()?18:46))embers(x+(rand()-.5)*70,GY-f.air-10-rand()*150,COL[f.ci],1,8,6);
         if(f.st==='sp'&&rand()<dt*90)sparks(x-f.face*20,GY-f.air-40-rand()*100,COL[f.ci],1,f.face>0?Math.PI:0,.8,300,200)}}
     for(const s of shots){shotTrailExtra(s,dt);s.trail-=dt;if(s.trail<=0){s.trail=lowQ()?.04:.018;const big=!s.at.rapid;parts.push({k:'ember',x:s.x-s.face*14+(rand()-.5)*10,y:s.y+(rand()-.5)*(big?26:14),vx:-s.face*(40+rand()*90),vy:(rand()-.5)*50,g:-20,drag:1.5,l:.3+rand()*.25,max:.5,size:(big?2.4:1.6)+rand()*2,c:s.color,ph:rand()*TAU});if(rand()<.35)sparks(s.x,s.y,s.color,1,s.face>0?Math.PI:0,1.2,200,300)}}
     if(phase==='fight'&&difficulty!=='training'&&timer<=10&&timer>0){const sec=Math.ceil(timer);if(sec!==lastTick){lastTick=sec;tone(880,.05,'square',.025)}}}
@@ -623,8 +631,8 @@ function steadyLoops(ci){if(steadied.has(ci)||!CH[ci])return;steadied.add(ci);co
     const target=ref.length?ref[ref.length>>1]:all.sort((p,q)=>p-q)[all.length>>1];if(Math.max(...all)-Math.min(...all)<=3)return;
     for(const [fr,v] of torso)if(Math.abs(v-target)>1){fr.ax0=fr.ax;fr.ax+=(v-target)/(fr.scale||1)}},()=>{})}
 // ---------- fighter skins: one baked image per pose and facing ----------
-// The dark outline, the arena's ambient light and a crisp inner rim light (the two stage lights, e.g. pink from
-// the left and cyan from the right on the rooftop) are baked into one canvas per pose and facing. A fighter then
+// The dark outline and the arena's 3D lighting (litFrames: round shading from a key light above, the two coloured
+// stage lights as rims) are baked into one canvas per pose and facing. A fighter then
 // costs one sprite draw per frame instead of five, and queueMatchWarmup() builds both fighters' poses during the VS
 // screen so nothing is built or decoded mid-fight (that was the cause of the 20-130 ms hitches).
 const OUTLINE_OFFSETS=[[-2,0],[2,0],[0,-2],[0,2],[-1,-1],[1,-1],[-1,1],[1,1]];
@@ -633,23 +641,62 @@ let scratchCv=null;
 function tintScratch(fr,color,dx,dy,w=fr.w,h=fr.h){if(!scratchCv||scratchCv.width<w||scratchCv.height<h){scratchCv=artCanvas(Math.max(w,scratchCv?scratchCv.width:0,256),Math.max(h,scratchCv?scratchCv.height:0,256))}
   const g=scratchCv.getContext('2d');g.globalCompositeOperation='source-over';g.globalAlpha=1;g.clearRect(0,0,w,h);drawFrame(g,fr,dx,dy);g.globalCompositeOperation='source-in';g.fillStyle=color;g.fillRect(0,0,w,h);g.globalCompositeOperation='source-over';return scratchCv}
 const SKIN_MAX=isTouch?130:200,skinMap=new WeakMap(),skinOrder=[];   // pose pairs kept (a match needs about 60-110)
-function skinVariant(outline){return (outline?'o':'-')+arenaId+(lowQ()?'q':'h')+(traceFX?'t':'-')}
+function skinVariant(outline){return (outline?'o':'-')+arenaId+(lowQ()?'q':'h')+(traceFX?'t':'-')+(bakeLit()?'L':'f')}
 // both facings at once: they share the outline and ambient work, only the rim light side differs
+// 3D lighting costs about 5 ms a pose on a PC. The first five bakes of a session are timed: if the median is over
+// 10 ms the device would not finish a match's poses during the VS screen, so this session bakes the lighter look
+// (ambient grade and flat rim bands) and the poses already lit are rebuilt, so all poses of a match look alike
+let litOff=false;const litTimes=[],litEarly=[],litAhead=new Map();
+// the warm-up lights a pose one step ahead of baking its skins, so neither step is long
+function lightAhead(fr){if(!bakeLit()||litAhead.has(fr))return;litAhead.set(fr,{key:arenaId+(traceFX?'t':'-'),lit:litFrames(fr,traceFX)});if(litAhead.size>6)litAhead.delete(litAhead.keys().next().value)}
+function bakeLit(){return !litOff&&!lowQ()}
 function buildSkins(fr,outline){const pad=outline?3:0,w=fr.w+pad*2,h=fr.h+pad*2,base=artCanvas(w,h);const g=base.getContext('2d');
   if(outline){const m=tintScratch(fr,'#090d17',pad,pad,w,h);for(const [x,y] of OUTLINE_OFFSETS)g.drawImage(m,0,0,w,h,x,y,w,h)}
-  drawFrame(g,fr,pad,pad);
-  if(lowQ())return {r:base,l:base};
-  const L=LIGHTS[arenaId]||LIGHTS[0];
-  g.globalCompositeOperation='multiply';g.globalAlpha=.22;g.drawImage(tintScratch(fr,L.amb,pad,pad,w,h),0,0,w,h,0,0,w,h);g.globalCompositeOperation='source-over';g.globalAlpha=1;   // ambient grade
+  if(lowQ()){drawFrame(g,fr,pad,pad);return {r:base,l:base}}
+  if(!bakeLit())return flatSkins(fr,base,g,pad,w,h);
+  const t0=performance.now(),key=arenaId+(traceFX?'t':'-'),pre=litAhead.get(fr),lit=pre&&pre.key===key?pre.lit:litFrames(fr,traceFX);
+  if(litTimes.length<5){litTimes.push(performance.now()-t0);litEarly.push([fr,outline]);
+    if(litTimes.length===5&&[...litTimes].sort((a,b)=>a-b)[2]>10){litOff=true;for(const [f2,o2] of litEarly)warmQueue.unshift(()=>{warmImage(skin(f2,1,o2));warmImage(skin(f2,-1,o2))})}}
+  if(!lit.l){g.drawImage(lit.r,pad,pad);return {r:base,l:base}}
+  const other=artCanvas(w,h),og=other.getContext('2d');og.drawImage(base,0,0);g.drawImage(lit.r,pad,pad);og.drawImage(lit.l,pad,pad);
+  return {r:base,l:other}}
+// the lighter look: arena ambient grade and a flat band of each stage light on the edges that face it
+function flatSkins(fr,base,g,pad,w,h){drawFrame(g,fr,pad,pad);const L=LIGHTS[arenaId]||LIGHTS[0];
+  g.globalCompositeOperation='multiply';g.globalAlpha=.22;g.drawImage(tintScratch(fr,L.amb,pad,pad,w,h),0,0,w,h,0,0,w,h);g.globalCompositeOperation='source-over';g.globalAlpha=1;
   if(!traceFX)return {r:base,l:base};
-  const other=artCanvas(w,h);other.getContext('2d').drawImage(base,0,0);
-  // inner rim light: a band on the edges that face each stage light (sprite space is mirrored when facing left)
-  const k=Math.max(2,Math.round(fr.h/105));
+  const other=artCanvas(w,h);other.getContext('2d').drawImage(base,0,0);const k=Math.max(2,Math.round(fr.h/105));
   for(const [cv,toLeft] of [[base,-1],[other,1]]){const cg=cv.getContext('2d');
     for(const [col,d] of [[L.l,toLeft],[L.r,-toLeft]]){const m=tintScratch(fr,col,pad,pad,w,h),mg=m.getContext('2d');mg.globalCompositeOperation='destination-out';drawFrame(mg,fr,pad-d*k,pad);mg.globalCompositeOperation='source-over';
       cg.globalCompositeOperation='screen';cg.globalAlpha=.62;cg.drawImage(m,0,0,w,h,0,0,w,h)}
     cg.globalCompositeOperation='source-over';cg.globalAlpha=1}
   return {r:base,l:other}}
+// 3D lighting for a flat sprite. Two height maps are made from the silhouette, blurred wide and blurred tight; their
+// slopes give each pixel a surface direction. The wide one is lit by a key light from above (the top of the figure
+// catches light, the underside and the legs near the floor fall into shade), so the body reads round; the tight one
+// takes the arena's two coloured stage lights as crisp rims on the left and right edges. The rims swap sides for the
+// left-facing copy (sprite space is mirrored then). Returns canvases {r, l}; l is null when rim lights are off.
+const hex3=c=>[parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)];
+function litFrames(fr,rims){const L=LIGHTS[arenaId]||LIGHTS[0],w=fr.w,h=fr.h,a=frameArt(fr);
+  const src=artCanvas(w,h),sg=src.getContext('2d');sg.drawImage(a.im,a.x,a.y,w,h,0,0,w,h);const d=sg.getImageData(0,0,w,h).data;
+  // the wide blur is done at half size (it is very smooth anyway) and scaled back up: a quarter of the work
+  const blur=(R,k)=>{const pw=Math.ceil((w+R*4)/k),ph=Math.ceil((h+R*4)/k),c=artCanvas(pw,ph),g=c.getContext('2d');g.filter=`blur(${R/k}px)`;g.drawImage(src,R*2/k,R*2/k,w/k,h/k);
+    if(k===1)return g.getImageData(R*2,R*2,w,h).data;const u=artCanvas(w,h),ug=u.getContext('2d');ug.imageSmoothingEnabled=true;ug.drawImage(c,R*2/k,R*2/k,w/k,h/k,0,0,w,h);return ug.getImageData(0,0,w,h).data};
+  const B1=blur(Math.max(4,Math.round(h/20)),2),B2=blur(Math.max(1,Math.round(h/70)),1);
+  let top=h,bot=0;for(let y=0;y<h;y++)for(let x=0;x<w;x+=3)if(d[(y*w+x)*4+3]>96){if(y<top)top=y;bot=y;break}const span=Math.max(1,bot-top);
+  const cl=hex3(L.l),cr=hex3(L.r),ca=hex3(L.amb).map(v=>1-.16+.16*v/255);
+  const KY=-.64,KZ=.77,AMB=.5,NORM=AMB+(1-AMB)*KZ,S=9,S2=5,RIM=1.3,W4=w*4;
+  const oR=sg.createImageData(w,h),r=oR.data,oL=rims?sg.createImageData(w,h):null,l=oL&&oL.data;r.set(d);if(l)l.set(d);
+  for(let y=1;y<h-1;y++){const ao=y-top>span*.78?1-(y-top-span*.78)/(span*.22)*.2:1;for(let x=1;x<w-1;x++){const i=(y*w+x)*4,A=d[i+3];if(!A)continue;
+    let nx=-(B1[i+7]-B1[i-1])/510*S,ny=-(B1[i+W4+3]-B1[i-W4+3])/510*S;const inv=1/Math.sqrt(nx*nx+ny*ny+1);ny*=inv;
+    const shade=(AMB+(1-AMB)*Math.max(0,ny*KY+inv*KZ))/NORM*ao;
+    let rx=-(B2[i+7]-B2[i-1])/510*S2,ry=-(B2[i+W4+3]-B2[i-W4+3])/510*S2;const ri=1/Math.sqrt(rx*rx+ry*ry+1);rx*=ri;ry*=ri;
+    const sl=Math.max(0,-rx-ry*.18),sr=Math.max(0,rx-ry*.18),kl=sl*sl*sl*RIM,kr=sr*sr*sr*RIM;
+    const c0=d[i]*shade*ca[0],c1=d[i+1]*shade*ca[1],c2=d[i+2]*shade*ca[2];
+    if(rims){r[i]=c0+cl[0]*kl+cr[0]*kr;r[i+1]=c1+cl[1]*kl+cr[1]*kr;r[i+2]=c2+cl[2]*kl+cr[2]*kr;
+      l[i]=c0+cl[0]*kr+cr[0]*kl;l[i+1]=c1+cl[1]*kr+cr[1]*kl;l[i+2]=c2+cl[2]*kr+cr[2]*kl}
+    else{r[i]=c0;r[i+1]=c1;r[i+2]=c2}}}
+  const cR=artCanvas(w,h);cR.getContext('2d').putImageData(oR,0,0);let cL=null;if(oL){cL=artCanvas(w,h);cL.getContext('2d').putImageData(oL,0,0)}
+  return {r:cR,l:cL}}
 function skin(fr,face,outline){let rec=skinMap.get(fr);if(!rec){rec={};skinMap.set(fr,rec);cachedFrames.add(fr)}const v=skinVariant(outline);let pair=rec[v];
   if(!pair){pair=rec[v]=buildSkins(fr,outline);skinOrder.push([rec,v]);if(skinOrder.length>SKIN_MAX){const [r,k]=skinOrder.shift();delete r[k]}}
   return face<0?pair.l:pair.r}
@@ -714,7 +761,7 @@ function queueMatchWarmup(){warmQueue.length=0;if(!P1||!P2)return;const token=++
     warmQueue.push(()=>{if(!ready)return;for(const [f,right] of [[P1,false],[P2,true]]){const mv=Object.keys(MOVES[f.ci]||{})[0],probes=[['win',0],['hit',0],['chargeMana',.1],['chargeMana',.5],['block',0]];for(let t=0;t<3.6;t+=.2)probes.push(['idle',t]);if(mv)probes.push([mv,0],[mv,MOVES[f.ci][mv].hit||.2]);
       for(const [st,t] of probes)try{drawPortraitCached(Object.assign({},f,{st,t,ultimate:null}),right?910:50,50,31,right)}catch(e){}}});
     warmScars();
-    for(const [f,m] of frames){const col=COL[f.ci];for(const [fr,{outlines,states}] of m){const outline=outlines.has(true);warmQueue.push(()=>frameArt(fr));for(const o of outlines)warmQueue.push(()=>{warmImage(skin(fr,1,o));warmImage(skin(fr,-1,o))});warmQueue.push(()=>{warmImage(shadowSkin(fr));warmImage(softSil(fr,'#ffd673'));warmImage(softSil(fr,col))});
+    for(const [f,m] of frames){const col=COL[f.ci];for(const [fr,{outlines,states}] of m){const outline=outlines.has(true);warmQueue.push(()=>frameArt(fr));warmQueue.push(()=>lightAhead(fr));for(const o of outlines)warmQueue.push(()=>{warmImage(skin(fr,1,o));warmImage(skin(fr,-1,o))});warmQueue.push(()=>{warmImage(shadowSkin(fr));warmImage(softSil(fr,'#ffd673'));warmImage(softSil(fr,col));warmImage(softSil(fr,COL[(f===P1?P2:P1).ci]))});
       const atk=[...states].some(st=>ATK[st]||st==='dash'),hurt=[...states].some(st=>st==='hit'||st==='stunned'||st==='down');
       if(outline&&atk)warmQueue.push(()=>{warmImage(traceSkin(fr,col));warmImage(silhouette(fr,col))});   // attack trail + impact-frame attacker
       if(hurt)warmQueue.push(()=>warmImage(silhouette(fr,'#ffffff')));                  // impact-frame victim
@@ -722,8 +769,10 @@ function queueMatchWarmup(){warmQueue.length=0;if(!P1||!P2)return;const token=++
 }
 // leaving the match: stop its warm-up and free the decoded sheets (the cached poses stay for a rematch)
 function releaseMatchArt(){warmToken++;warmQueue.length=0;warmPending=false;for(const b of sheetBits.values())b.close();sheetBits.clear()}
-// run queued warm-up work: always one job, then more while this frame's slice (ms) lasts
-function runWarm(ms){const t0=performance.now();do warmQueue.shift()();while(warmQueue.length&&performance.now()-t0<ms)}
+// run queued warm-up work: always one step, then more while the next one (at the average step time) still fits in
+// this frame's slice (ms)
+let warmAvg=2;
+function runWarm(ms){const t0=performance.now();do{const t=performance.now();warmQueue.shift()();warmAvg=warmAvg*.8+(performance.now()-t)*.2}while(warmQueue.length&&performance.now()-t0+warmAvg<ms)}
 const silCache=new Map();
 function silhouette(fr,color){let m=silCache.get(color);if(!m){m=new WeakMap();silCache.set(color,m)}let c=m.get(fr);if(c)return c;c=artCanvas(fr.w,fr.h);const g=c.getContext('2d');drawFrame(g,fr,0,0);g.globalCompositeOperation='source-in';g.fillStyle=color;g.fillRect(0,0,fr.w,fr.h);m.set(fr,c);cachedFrames.add(fr);return c}
 function drawSprite(fr,x,y,face,alpha=1,outline=false,scaleX=1,scaleY=1,rotation=0,tint=null,g=ctx,k=1){g.save();g.translate(x,y);g.scale(face*scaleX*k,scaleY*k);g.rotate(rotation);g.globalAlpha*=alpha;g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';const s=fr.scale||1,w=fr.w*s,h=fr.h*s,ax=fr.ax*s,ay=(fr.ay??fr.h)*s;if(tint)g.drawImage(silhouette(fr,tint),-ax,-ay,w,h);else if(outline){const oi=outlined(fr);g.drawImage(oi,-ax-3*s,-ay-3*s,w+6*s,h+6*s)}else g.drawImage(fr.im,fr.x,fr.y,fr.w,fr.h,-ax,-ay,w,h);g.restore()}
@@ -771,8 +820,8 @@ function drawF(f){let fr=selectFrame(f);const guarding=f.air===0&&f.back&&['idle
     ctx.drawImage(glow('#9b68e7'),X-128,Y-239,256,250);
     ctx.restore();
   } else if(f.st!=='sp'&&f.st!=='technique')drawManaAura(f,fr,X,Y,sx,sy,angle);
-  if(!impactOn)drawLighting(f,fr,X,Y,sx,sy,angle,ra,'under');
-  drawSkin(fr,X,Y,f.face,opacity,sx,sy,angle,outline);storyDrawFighter(f,fr,X,Y,sx,sy,angle);
+  if(!impactOn){drawLighting(f,fr,X,Y,sx,sy,angle,ra,'under');drawLightShadows(f,fr,X,sx,sy,ra)}
+  drawSkin(fr,X,Y,f.face,opacity,sx,sy,angle,outline);storyDrawFighter(f,fr,X,Y,sx,sy,angle);if(!impactOn)drawFighterLights(f,fr,X,Y,sx,sy,angle);
   if(f.shieldA>.05&&!lowQ()){ctx.save();ctx.globalCompositeOperation='lighter';const ga=.12*f.shieldA+(f.guardFlash>0?.2*clamp(f.guardFlash/.2,0,1):0);for(const o of[-2,2])drawSoft(fr,X+o,Y,f.face,ga,sx,sy,angle,'#7fe6ff');ctx.restore()}
   if(zaitoShade>0)drawSprite(fr,X,Y,f.face,zaitoShade*.83,false,sx,sy,angle,'#080610');
   drawCinematicFighterFX(f,X,Y,fr);
@@ -932,7 +981,7 @@ function draw(){ctx.setTransform(RS,0,0,RS,0,0);ctx.globalAlpha=1;ctx.globalComp
   const bottleTime=backgroundBottleTime();
   const bottleCamera=bottleTime>=BOTTLE_RELEASE&&bottleTime<BOTTLE_IMPACT+WET_LENS_DURATION?ctx.getTransform():null;
   const screenFx=superScreen?readUltimateScreen(ctx.getTransform()):null;
-  drawScene();drawMountainSky();if(P1)drawCompleteStands();drawBfBack();drawEnvironmentFloor();drawReferee();
+  drawScene();drawMountainSky();if(P1)drawCompleteStands();drawBfBack();drawEnvironmentFloor();drawReferee();gatherLights();drawAtmosphereBack();drawLightPools();
   if(P1){
     if(superDim>0){ctx.fillStyle=`rgba(6,5,16,${.62*ease(superDim)})`;ctx.fillRect(-100,-100,W+200,H+200)}
     drawUltimateBackdrop(screenFx);
@@ -964,7 +1013,7 @@ function draw(){ctx.setTransform(RS,0,0,RS,0,0);ctx.globalAlpha=1;ctx.globalComp
       }
       drawFX(e.row,Math.min(5,Math.floor(t*6)),e.x,e.y,e.size*(.9+.15*ease(t)),e.face,1-ease((t-.7)/.3),t)}
   }
-  drawEnvironmentFX();drawParticles();featured.drawFx(ctx,vclock,reduced);drawBolts();if(P1)drawPops();
+  drawEnvironmentFX();drawParticles();drawAtmosphereFront();featured.drawFx(ctx,vclock,reduced);drawBolts();if(P1)drawPops();
   if(P1)for(const t of texts){const k=t.t/t.dur,sc=t.pop&&!reduced?lerp(1.9,1,easeOut(t.t/.13)):1;ctx.save();ctx.globalAlpha=1-ease((k-.65)/.35);ctx.translate(t.x,t.y);ctx.scale(sc,sc);if(t.pop)dtext(t.text,0,0,t.size,t.col);else text(t.text,0,0,t.size,t.col);ctx.restore()}
   storyWorld();drawImpact();
   ctx.restore();
@@ -1038,6 +1087,7 @@ function drawPreview(){
 }
 
 /*__ARENA__*/
+/*__ATMOSPHERE__*/
 /*__EXPANSION__*/
 /*__ULTIMATES__*/
 /*__ULTIMATE_SCREEN__*/
@@ -1187,9 +1237,9 @@ function loop(n){requestAnimationFrame(loop);   // asked for first, so an error 
   if(!paused){slowT=Math.max(0,slowT-real);const el=real*(slowT>0?lerp(1,SLOW,clamp(slowT/.25,0,1)):1);accumulator+=el;let guard=0;
     while(accumulator>=FIXED_DT&&guard++<30){if(P1&&phase!=='menu'&&phase!=='end'){for(const f of[P1,P2]){f.prevX=f.x;f.prevAir=f.air}for(const s of shots){s.px=s.x;s.py=s.y}step(FIXED_DT)}accumulator-=FIXED_DT}
     if(guard>=30)accumulator=0;renderAlpha=accumulator/FIXED_DT;if(phase!=='antic'&&!cameraPrank&&!sockCutaway)fxUpdate(el,real)}else{accumulator=0;renderAlpha=1}
-  // match warm-up between frames: after the VS slam-in (0.45 s) and through the round intro it may use about 45% of a
-  // refresh interval (7.5 ms at 60 Hz, 3 ms at 144 Hz), so those screens keep the display's full frame rate
-  if(warmQueue.length&&!(phase==='versus'&&pt<.45))runWarm(phase==='versus'||phase==='intro'?vsync*450:1);
+  // match warm-up between frames: after the VS slam-in (0.45 s) and through the round intro it may use about 60% of a
+  // refresh interval (10 ms at 60 Hz, 4 ms at 144 Hz); those screens draw in 1-2 ms, so they keep the full frame rate
+  if(warmQueue.length&&!(phase==='versus'&&pt<.45))runWarm(phase==='versus'||phase==='intro'?vsync*600:1);
   if(!paused||drawDirty){draw();drawDirty=false}if(phase==='menu'){try{drawPreview()}catch(e){if(fullReady)console.error(e)}}}
 {const li=document.querySelector('#loader .lbg');if(li)$('menu').style.setProperty('--bgimg','url("'+li.src+'")')}menuArenaBg();orientTick();$('rotTap').onclick=goLandscape;padPrefs();initArenas();initDiff();applyQuality();renderOpts();boot();requestAnimationFrame(loop);
 // Local diagnostics for smoke tests and frame inspection.
